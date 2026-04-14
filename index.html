@@ -2,134 +2,165 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Web Paint</title>
+    <title>Annotate Tool (HTML/PDF)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
     <style>
-        body {
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-            font-family: sans-serif;
-        }
-        /* 툴바 스타일 */
-        .toolbar {
-            background: #333;
-            color: white;
-            padding: 10px;
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        /* 캔버스 스타일 */
-        canvas {
-            flex-grow: 1;
-            cursor: crosshair;
-            background-color: #fff;
-        }
-        button {
-            padding: 5px 10px;
-            cursor: pointer;
-        }
+        body { margin: 0; display: flex; flex-direction: column; height: 100vh; font-family: sans-serif; background: #ddd; }
+        .toolbar { background: #222; color: white; padding: 10px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; z-index: 100; }
+        #viewer-container { flex: 1; position: relative; overflow: auto; display: flex; justify-content: center; align-items: flex-start; padding: 20px; }
+        
+        /* 레이어 구조 */
+        #content-wrapper { position: relative; box-shadow: 0 0 10px rgba(0,0,0,0.3); background: white; }
+        #bg-frame { border: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        #pdf-canvas { position: absolute; top: 0; left: 0; z-index: 1; }
+        #draw-canvas { position: relative; z-index: 2; cursor: crosshair; }
+        
+        .active { background: #007bff; color: white; border: none; border-radius: 4px; padding: 5px 10px; }
+        button { padding: 5px 10px; cursor: pointer; border-radius: 4px; border: 1px solid #ccc; }
     </style>
 </head>
 <body>
 
 <div class="toolbar">
-    <input type="color" id="colorPicker" value="#000000">
-    <input type="range" id="lineWidth" min="1" max="20" value="5">
-    <span id="widthValue">5px</span>
-    <button id="clearBtn">전체 지우기</button>
-    <button id="saveBtn">이미지로 저장</button>
+    <input type="file" id="file-input" accept=".html,.pdf">
+    <div id="pdf-controls" style="display:none;">
+        <button id="prev-page">이전</button>
+        <span id="page-num">1 / 1</span>
+        <button id="next-page">다음</button>
+    </div>
+    |
+    <button id="pen-btn" class="active">펜</button>
+    <button id="eraser-btn">지우개</button>
+    <input type="color" id="colorPicker" value="#ff0000">
+    <input type="range" id="lineWidth" min="1" max="50" value="5">
+    <button id="clearBtn">전체 삭제</button>
 </div>
 
-<canvas id="paintCanvas"></canvas>
+<div id="viewer-container">
+    <div id="content-wrapper">
+        <iframe id="bg-frame" style="display:none;"></iframe>
+        <canvas id="pdf-canvas" style="display:none;"></canvas>
+        <canvas id="draw-canvas"></canvas>
+    </div>
+</div>
 
 <script>
-    const canvas = document.getElementById('paintCanvas');
-    const ctx = canvas.getContext('2d');
-    const colorPicker = document.getElementById('colorPicker');
-    const lineWidthInput = document.getElementById('lineWidth');
-    const widthValue = document.getElementById('widthValue');
-    const clearBtn = document.getElementById('clearBtn');
-    const saveBtn = document.getElementById('saveBtn');
+    const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
+    let pdfDoc = null, pageNum = 1, isEraser = false;
+    const drawCanvas = document.getElementById('draw-canvas');
+    const dCtx = drawCanvas.getContext('2d');
+    const bgFrame = document.getElementById('bg-frame');
+    const pdfCanvas = document.getElementById('pdf-canvas');
+    const pCtx = pdfCanvas.getContext('2d');
+
+    // 파일 로드 핸들러
+    document.getElementById('file-input').onchange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (file.type === "application/pdf") {
+            loadPDF(file);
+        } else if (file.type === "text/html") {
+            loadHTML(file);
+        }
+    };
+
+    // HTML 로드
+    function loadHTML(file) {
+        const url = URL.createObjectURL(file);
+        bgFrame.style.display = "block";
+        pdfCanvas.style.display = "none";
+        document.getElementById('pdf-controls').style.display = "none";
+        
+        bgFrame.src = url;
+        // HTML 사이즈에 맞춰 캔버스 조정 (기본 크기 지정)
+        setCanvasSize(800, 1000); 
+    }
+
+    // PDF 로드
+    async function loadPDF(file) {
+        const reader = new FileReader();
+        reader.onload = async function() {
+            const typedarray = new Uint8Array(this.result);
+            pdfDoc = await pdfjsLib.getDocument(typedarray).promise;
+            pageNum = 1;
+            renderPage(pageNum);
+            document.getElementById('pdf-controls').style.display = "block";
+            bgFrame.style.display = "none";
+            pdfCanvas.style.display = "block";
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    async function renderPage(num) {
+        const page = await pdfDoc.getPage(num);
+        const viewport = page.getViewport({ scale: 1.5 });
+        
+        pdfCanvas.height = viewport.height;
+        pdfCanvas.width = viewport.width;
+        setCanvasSize(viewport.width, viewport.height);
+
+        await page.render({ canvasContext: pCtx, viewport: viewport }).promise;
+        document.getElementById('page-num').textContent = `${num} / ${pdfDoc.numPages}`;
+    }
+
+    function setCanvasSize(w, h) {
+        drawCanvas.width = w;
+        drawCanvas.height = h;
+        document.getElementById('content-wrapper').style.width = w + "px";
+        document.getElementById('content-wrapper').style.height = h + "px";
+        dCtx.clearRect(0, 0, w, h);
+    }
+
+    // 드로잉 로직
     let painting = false;
-
-    // 캔버스 크기 설정 (화면 꽉 차게)
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight - document.querySelector('.toolbar').offsetHeight;
-    }
-
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    // 그리기 시작
-    function startPosition(e) {
-        painting = true;
-        draw(e);
-    }
-
-    // 그리기 종료
-    function finishedPosition() {
-        painting = false;
-        ctx.beginPath(); // 선 경로 초기화 (연결 방지)
-    }
-
-    // 그리기 실행
+    function startDraw(e) { painting = true; draw(e); }
+    function stopDraw() { painting = false; dCtx.beginPath(); }
+    
     function draw(e) {
         if (!painting) return;
+        const rect = drawCanvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-        // 마우스 또는 터치 좌표 보정
-        const x = e.clientX || e.touches[0].clientX;
-        const y = (e.clientY || e.touches[0].clientY) - canvas.offsetTop;
+        dCtx.lineWidth = document.getElementById('lineWidth').value;
+        dCtx.lineCap = 'round';
+        
+        if (isEraser) {
+            dCtx.globalCompositeOperation = 'destination-out'; // 지우개 모드
+        } else {
+            dCtx.globalCompositeOperation = 'source-over'; // 일반 펜 모드
+            dCtx.strokeStyle = document.getElementById('colorPicker').value;
+        }
 
-        ctx.lineWidth = lineWidthInput.value;
-        ctx.lineCap = 'round'; // 선 끝을 둥글게
-        ctx.strokeStyle = colorPicker.value;
-
-        ctx.lineTo(x, y);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(x, y);
+        dCtx.lineTo(x, y);
+        dCtx.stroke();
+        dCtx.beginPath();
+        dCtx.moveTo(x, y);
     }
 
-    // 이벤트 리스너 (마우스)
-    canvas.addEventListener('mousedown', startPosition);
-    canvas.addEventListener('mouseup', finishedPosition);
-    canvas.addEventListener('mousemove', draw);
+    // 모드 전환
+    document.getElementById('pen-btn').onclick = function() {
+        isEraser = false;
+        this.classList.add('active');
+        document.getElementById('eraser-btn').classList.remove('active');
+    };
+    document.getElementById('eraser-btn').onclick = function() {
+        isEraser = true;
+        this.classList.add('active');
+        document.getElementById('pen-btn').classList.remove('active');
+    };
 
-    // 이벤트 리스너 (터치 - 모바일)
-    canvas.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        startPosition(e);
-    }, { passive: false });
-    canvas.addEventListener('touchend', finishedPosition);
-    canvas.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        draw(e);
-    }, { passive: false });
+    drawCanvas.addEventListener('mousedown', startDraw);
+    drawCanvas.addEventListener('mousemove', draw);
+    window.addEventListener('mouseup', stopDraw);
+    document.getElementById('clearBtn').onclick = () => dCtx.clearRect(0, 0, drawCanvas.width, drawCanvas.height);
 
-    // 선 굵기 표시 업데이트
-    lineWidthInput.addEventListener('input', () => {
-        widthValue.innerText = `${lineWidthInput.value}px`;
-    });
-
-    // 화면 초기화
-    clearBtn.addEventListener('click', () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-    });
-
-    // 이미지 저장
-    saveBtn.addEventListener('click', () => {
-        const link = document.createElement('a');
-        link.download = 'my-drawing.png';
-        link.href = canvas.toDataURL();
-        link.click();
-    });
+    // PDF 페이지 이동
+    document.getElementById('prev-page').onclick = () => { if (pageNum > 1) renderPage(--pageNum); };
+    document.getElementById('next-page').onclick = () => { if (pageNum < pdfDoc.numPages) renderPage(++pageNum); };
 </script>
 
 </body>
