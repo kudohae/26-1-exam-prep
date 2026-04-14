@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Web Paint</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+        /* 툴바 스타일 */
+        .toolbar {
+            background: #333;
+            color: white;
+            padding: 10px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        /* 캔버스 스타일 */
+        canvas {
+            flex-grow: 1;
+            cursor: crosshair;
+            background-color: #fff;
+        }
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="toolbar">
+    <input type="color" id="colorPicker" value="#000000">
+    <input type="range" id="lineWidth" min="1" max="20" value="5">
+    <span id="widthValue">5px</span>
+    <button id="clearBtn">전체 지우기</button>
+    <button id="saveBtn">이미지로 저장</button>
+</div>
+
+<canvas id="paintCanvas"></canvas>
+
+<script>
+    const canvas = document.getElementById('paintCanvas');
+    const ctx = canvas.getContext('2d');
+    const colorPicker = document.getElementById('colorPicker');
+    const lineWidthInput = document.getElementById('lineWidth');
+    const widthValue = document.getElementById('widthValue');
+    const clearBtn = document.getElementById('clearBtn');
+    const saveBtn = document.getElementById('saveBtn');
+
+    let painting = false;
+
+    // 캔버스 크기 설정 (화면 꽉 차게)
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight - document.querySelector('.toolbar').offsetHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // 그리기 시작
+    function startPosition(e) {
+        painting = true;
+        draw(e);
+    }
+
+    // 그리기 종료
+    function finishedPosition() {
+        painting = false;
+        ctx.beginPath(); // 선 경로 초기화 (연결 방지)
+    }
+
+    // 그리기 실행
+    function draw(e) {
+        if (!painting) return;
+
+        // 마우스 또는 터치 좌표 보정
+        const x = e.clientX || e.touches[0].clientX;
+        const y = (e.clientY || e.touches[0].clientY) - canvas.offsetTop;
+
+        ctx.lineWidth = lineWidthInput.value;
+        ctx.lineCap = 'round'; // 선 끝을 둥글게
+        ctx.strokeStyle = colorPicker.value;
+
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+    }
+
+    // 이벤트 리스너 (마우스)
+    canvas.addEventListener('mousedown', startPosition);
+    canvas.addEventListener('mouseup', finishedPosition);
+    canvas.addEventListener('mousemove', draw);
+
+    // 이벤트 리스너 (터치 - 모바일)
+    canvas.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        startPosition(e);
+    }, { passive: false });
+    canvas.addEventListener('touchend', finishedPosition);
+    canvas.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        draw(e);
+    }, { passive: false });
+
+    // 선 굵기 표시 업데이트
+    lineWidthInput.addEventListener('input', () => {
+        widthValue.innerText = `${lineWidthInput.value}px`;
+    });
+
+    // 화면 초기화
+    clearBtn.addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+
+    // 이미지 저장
+    saveBtn.addEventListener('click', () => {
+        const link = document.createElement('a');
+        link.download = 'my-drawing.png';
+        link.href = canvas.toDataURL();
+        link.click();
+    });
+</script>
+
+</body>
+</html>
