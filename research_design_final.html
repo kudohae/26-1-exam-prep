@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>연구 설계안 — 경상도 방언과 영어 핵강세 Pitch Distance</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #0c0c0e;
+    --s1:       #141417;
+    --s2:       #1a1a1f;
+    --border:   #272730;
+    --text:     #e6e3dc;
+    --dim:      #70706a;
+    --mid:      #aeaaa0;
+    --gold:     #c9a96e;
+    --teal:     #7eb8a4;
+    --red:      #c46a5a;
+    --mono:     'IBM Plex Mono', monospace;
+    --serif:    'Playfair Display', serif;
+    --sans:     'Noto Sans KR', sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--bg); color:var(--text); font-family:var(--sans); font-weight:300; font-size:15px; line-height:1.8; }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(12,12,14,.94); backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; height:46px; padding:0 2rem;
+  }
+  .nav-brand { font-family:var(--mono); font-size:10px; letter-spacing:.18em; color:var(--gold); text-transform:uppercase; margin-right:auto; }
+  nav ul { list-style:none; display:flex; }
+  nav ul a {
+    font-family:var(--mono); font-size:10px; letter-spacing:.08em;
+    color:var(--dim); text-decoration:none;
+    padding:0 1rem; height:46px; display:flex; align-items:center;
+    border-left:1px solid var(--border); transition:color .2s;
+  }
+  nav ul a:hover { color:var(--gold); }
+
+  /* HERO */
+  .hero { padding:110px 0 72px; border-bottom:1px solid var(--border); position:relative; overflow:hidden; }
+  .hero::after {
+    content:''; position:absolute; top:0; right:0;
+    width:500px; height:500px;
+    background:radial-gradient(circle at 65% 25%, rgba(201,169,110,.05) 0%, transparent 60%);
+    pointer-events:none;
+  }
+  .wrap { max-width:860px; margin:0 auto; padding:0 2.5rem; }
+  .eyebrow {
+    font-family:var(--mono); font-size:9px; letter-spacing:.22em; color:var(--gold);
+    text-transform:uppercase; margin-bottom:1.4rem;
+    display:flex; align-items:center; gap:.8rem;
+  }
+  .eyebrow::before { content:''; width:28px; height:1px; background:var(--gold); }
+  h1 { font-family:var(--serif); font-size:clamp(1.9rem,4vw,3rem); font-weight:700; line-height:1.15; letter-spacing:-.02em; margin-bottom:.9rem; }
+  h1 em { font-style:italic; font-weight:400; color:var(--gold); }
+  .hero-sub { font-size:14px; color:var(--mid); max-width:520px; line-height:1.75; margin-bottom:2.5rem; }
+  .pills { display:flex; flex-wrap:wrap; gap:1.2rem; }
+  .pill { font-family:var(--mono); font-size:10px; letter-spacing:.07em; color:var(--dim); display:flex; align-items:center; gap:.5rem; }
+  .pill .dot { width:5px; height:5px; border-radius:50%; background:var(--gold); flex-shrink:0; }
+  .pill span { color:var(--text); }
+
+  /* SECTION */
+  section { padding:3.8rem 0; border-bottom:1px solid var(--border); }
+  .sec-label {
+    font-family:var(--mono); font-size:9px; letter-spacing:.2em; color:var(--gold);
+    text-transform:uppercase; margin-bottom:1.2rem;
+    display:flex; align-items:center; gap:.7rem;
+  }
+  .sec-label::after { content:''; flex:1; max-width:64px; height:1px; background:var(--border); }
+  h2 { font-family:var(--serif); font-size:1.55rem; font-weight:700; margin-bottom:1.5rem; letter-spacing:-.01em; }
+  h3 { font-family:var(--mono); font-size:9px; letter-spacing:.16em; color:var(--teal); text-transform:uppercase; margin-bottom:.7rem; margin-top:1.8rem; }
+  p { color:var(--mid); margin-bottom:1rem; }
+  p:last-child { margin-bottom:0; }
+  strong { color:var(--text); font-weight:500; }
+
+  /* CHAIN */
+  .chain { margin:2rem 0; }
+  .chain-item {
+    background:var(--s1); border:1px solid var(--border); border-bottom:none;
+    padding:1.1rem 1.5rem; display:flex; gap:1rem; align-items:flex-start;
+  }
+  .chain-item:last-child { border-bottom:1px solid var(--border); }
+  .chain-num { font-family:var(--mono); font-size:9px; color:var(--gold); flex-shrink:0; padding-top:.25em; width:22px; }
+  .chain-text { font-size:13.5px; color:var(--mid); line-height:1.65; }
+  .chain-text strong { color:var(--text); }
+  .val { font-family:var(--mono); font-size:11px; color:var(--gold); background:rgba(201,169,110,.08); border:1px solid rgba(201,169,110,.2); padding:.1em .55em; border-radius:2px; margin-left:.3rem; white-space:nowrap; }
+  .arrow { text-align:center; color:var(--border); font-size:16px; margin:.1rem 0; }
+
+  /* RQ */
+  .rq { background:var(--s2); border-left:2px solid var(--gold); padding:1.2rem 1.5rem; margin:1rem 0; }
+  .rq-tag { font-family:var(--mono); font-size:9px; letter-spacing:.14em; color:var(--gold); text-transform:uppercase; display:block; margin-bottom:.4rem; }
+  .rq p { font-size:13.5px; color:var(--mid); margin-bottom:0; line-height:1.7; }
+
+  /* GAP BOX */
+  .gap-box {
+    border:1px solid rgba(126,184,164,.3); background:rgba(126,184,164,.04);
+    padding:1.2rem 1.5rem; margin:1.5rem 0;
+  }
+  .gap-box h4 { font-family:var(--mono); font-size:9px; letter-spacing:.15em; color:var(--teal); text-transform:uppercase; margin-bottom:.7rem; }
+  .gap-box p { font-size:13px; color:var(--mid); margin-bottom:0; line-height:1.7; }
+
+  /* SPEAKER GRID */
+  .speaker-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); margin:1.5rem 0; }
+  @media(max-width:620px){ .speaker-grid{ grid-template-columns:1fr; } }
+  .sc { background:var(--s1); padding:1.5rem; transition:background .2s; }
+  .sc:hover { background:var(--s2); }
+  .sc-role { font-family:var(--mono); font-size:8px; letter-spacing:.14em; text-transform:uppercase; display:inline-block; padding:.18em .6em; border-radius:2px; margin-bottom:.8rem; }
+  .role-ctrl { color:var(--teal); background:rgba(126,184,164,.1); border:1px solid rgba(126,184,164,.25); }
+  .role-exp  { color:var(--gold); background:rgba(201,169,110,.1); border:1px solid rgba(201,169,110,.22); }
+  .sc-name { font-family:var(--serif); font-size:1.2rem; font-weight:700; line-height:1.2; margin-bottom:.15rem; }
+  .sc-sub { font-family:var(--mono); font-size:9px; color:var(--dim); letter-spacing:.05em; margin-bottom:1.1rem; }
+  .dr { display:flex; gap:.5rem; margin-bottom:.4rem; align-items:baseline; }
+  .dk { font-family:var(--mono); font-size:9px; color:var(--dim); text-transform:uppercase; letter-spacing:.07em; flex-shrink:0; width:70px; }
+  .dv { font-size:12.5px; color:var(--mid); line-height:1.45; }
+  .badge { font-family:var(--mono); font-size:8.5px; padding:.1em .5em; border-radius:2px; }
+  .b-hi  { color:var(--teal); background:rgba(126,184,164,.1); border:1px solid rgba(126,184,164,.22); }
+  .b-lo  { color:var(--red);  background:rgba(196,106,90,.1);  border:1px solid rgba(196,106,90,.2);  }
+  .sc-pred { margin-top:1.1rem; padding-top:.9rem; border-top:1px solid var(--border); font-family:var(--mono); font-size:10px; color:var(--dim); line-height:1.65; letter-spacing:.02em; }
+
+  /* VAR TABLE */
+  .vt { width:100%; border-collapse:collapse; margin:1.2rem 0; font-size:13px; }
+  .vt th { font-family:var(--mono); font-size:8.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); padding:.75rem 1rem; text-align:left; font-weight:400; border-bottom:1px solid var(--border); background:var(--s2); }
+  .vt td { padding:.8rem 1rem; border-bottom:1px solid var(--border); vertical-align:top; color:var(--mid); line-height:1.6; }
+  .vt tr:last-child td { border-bottom:none; }
+  .vt tr:hover td { background:rgba(255,255,255,.012); }
+  .t-iv { font-family:var(--mono); font-size:9px; color:var(--gold); }
+  .t-dv { font-family:var(--mono); font-size:9px; color:var(--teal); }
+
+  /* FORMULA */
+  .formula-box { background:var(--s2); border:1px solid var(--border); padding:1.5rem 2rem; margin:1.2rem 0; text-align:center; }
+  .formula { font-family:var(--mono); font-size:15px; color:var(--text); letter-spacing:.04em; margin-bottom:.55rem; }
+  .formula-note { font-family:var(--mono); font-size:10px; color:var(--dim); letter-spacing:.04em; line-height:1.6; }
+
+  /* CRITERIA */
+  .crit { background:var(--s1); border:1px solid var(--border); padding:1.4rem 1.5rem; margin:1rem 0; }
+  .crit h4 { font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--teal); margin-bottom:.9rem; }
+  .crit ul { list-style:none; display:flex; flex-direction:column; gap:.55rem; }
+  .crit ul li { display:flex; gap:.8rem; font-size:13px; color:var(--mid); align-items:flex-start; line-height:1.6; }
+  .crit ul li::before { content:'→'; font-family:var(--mono); color:var(--teal); flex-shrink:0; margin-top:.05em; }
+
+  /* STEPS */
+  .steps { counter-reset:s; margin:1.5rem 0; }
+  .step { counter-increment:s; display:grid; grid-template-columns:36px 1fr; gap:.9rem; padding:1.2rem 0; border-bottom:1px solid var(--border); }
+  .step:last-child { border-bottom:none; }
+  .step-n { font-family:var(--mono); font-size:11px; color:var(--gold); padding-top:.1em; }
+  .step-n::before { content:counter(s,decimal-leading-zero); }
+  .step-b h4 { font-size:13.5px; font-weight:500; color:var(--text); margin-bottom:.3rem; }
+  .step-b p  { font-size:12.5px; color:var(--dim); margin-bottom:0; line-height:1.65; }
+  .ci { font-family:var(--mono); font-size:10.5px; background:rgba(201,169,110,.08); border:1px solid rgba(201,169,110,.18); padding:.05em .45em; border-radius:2px; color:var(--gold); }
+
+  /* LIMIT */
+  .limit { border:1px solid rgba(196,106,90,.28); background:rgba(196,106,90,.04); padding:1.2rem 1.5rem; margin:1.5rem 0; }
+  .limit h4 { font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--red); margin-bottom:.8rem; }
+  .limit li { display:flex; gap:.8rem; font-size:12.5px; color:var(--dim); margin-bottom:.55rem; line-height:1.65; list-style:none; }
+  .limit li:last-child { margin-bottom:0; }
+  .limit li::before { content:'!'; font-family:var(--mono); font-size:10px; color:var(--red); flex-shrink:0; padding-top:.1em; }
+
+  /* REF */
+  .refs { list-style:none; margin:1rem 0; }
+  .refs li { font-size:12.5px; color:var(--dim); padding:.75rem 0 .75rem 1.1rem; text-indent:-1.1rem; border-bottom:1px solid var(--border); line-height:1.65; }
+  .refs li:last-child { border-bottom:none; }
+  .refs em { color:var(--mid); font-style:italic; }
+  .refs .unavail { font-family:var(--mono); font-size:9px; color:var(--red); letter-spacing:.06em; margin-left:.4rem; }
+
+  /* FOOTER */
+  footer { padding:2.5rem; text-align:center; font-family:var(--mono); font-size:9px; letter-spacing:.12em; color:var(--dim); }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">Research Design — Final</span>
+  <ul>
+    <li><a href="#bg">배경</a></li>
+    <li><a href="#speakers">표본</a></li>
+    <li><a href="#vars">변수</a></li>
+    <li><a href="#proc">절차</a></li>
+    <li><a href="#limits">한계</a></li>
+    <li><a href="#refs">선행연구</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">영어의 사회언어학 — 연구 설계안 (최종)</div>
+    <h1>경상도 방언 화자의 영어 발화에서<br>나타나는 <em>핵강세 Pitch Distance</em></h1>
+    <p class="hero-sub">문장 내 초점 단어의 pitch 도약량(semitone)을 측정해, 경상도 방언의 고저 액센트 체계가 영어 발화의 억양 패턴에 전이되는지를 탐색적으로 검토한다. 이 현상을 생산(production) 측면에서 직접 실측한 선행연구가 없다는 공백에서 출발한다.</p>
+    <div class="pills">
+      <div class="pill"><span class="dot"></span>도구 <span>PRAAT 6.x</span></div>
+      <div class="pill"><span class="dot"></span>단위 <span>Semitone (st)</span></div>
+      <div class="pill"><span class="dot"></span>표본 <span>3인 (통제 1 + 실험 2)</span></div>
+      <div class="pill"><span class="dot"></span>인당 문장 <span>15–20문장</span></div>
+      <div class="pill"><span class="dot"></span>연구 성격 <span>탐색적 사례 연구</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 1. 배경 & 가설 -->
+<section id="bg">
+  <div class="wrap">
+    <div class="sec-label">§ 01 — Background & Hypothesis</div>
+    <h2>연구 배경 및 가설</h2>
+
+    <p>영어 원어민은 문장 내 정보 초점(focal accent)을 실현할 때 주변 단어 대비 뚜렷한 pitch 도약을 보인다. <strong>Liu, Xu & Lee (2019)</strong>는 영어 원어민의 초점 단어 pitch 차이가 한국어 일반 화자(서울 방언)보다 두 배 이상 크고, 한국어 화자의 초점 pitch 도약은 약 <strong>1.2 semitone</strong>, 영어 원어민은 약 <strong>2.5 semitone</strong>이라고 보고했다. 한국어 EFL 화자들은 초점 prosody를 원어민 수준으로 재현하기 어려우며 이를 처음부터 다시 습득해야 한다는 결론도 제시되었다.</p>
+
+    <p>한편 <strong>Kim & Tremblay (2021)</strong>는 경상도 방언(Gyeongsang Korean, GK)이 서울 방언(Seoul Korean, SK)과 달리 어휘 고저 액센트(lexical pitch accent)를 보유하며, GK 화자가 영어 어휘 강세 지각에서 SK 화자보다 F0 단서를 더 강하게 활용한다는 것을 확인했다. GK 화자는 방언의 pitch accent 처리 방식을 영어 L2로 전이(transfer)시킨다는 것이다. 그러나 이 연구는 <strong>지각(perception) 실험</strong>에 한정되었으며, 실제 발화(production)에서 경상도 화자가 영어 초점 단어를 얼마나 더 큰 pitch로 실현하는지를 실측한 연구는 아직 존재하지 않는다.</p>
+
+    <div class="chain">
+      <div class="chain-item">
+        <span class="chain-num">01</span>
+        <span class="chain-text">Liu, Xu & Lee (2019): 영어 원어민 초점 pitch 도약 ≈ <span class="val">2.5 st</span>, 한국어(서울) 화자 ≈ <span class="val">1.2 st</span></span>
+      </div>
+      <div class="arrow">↓</div>
+      <div class="chain-item">
+        <span class="chain-num">02</span>
+        <span class="chain-text">Kim & Tremblay (2021): 경상도 방언 화자는 pitch F0 단서를 영어 L2로 전이 — <strong>지각 실험에서 확인</strong></span>
+      </div>
+      <div class="arrow">↓</div>
+      <div class="chain-item">
+        <span class="chain-num">03</span>
+        <span class="chain-text"><strong>미탐색 공백:</strong> 경상도 화자의 영어 발화에서 pitch distance가 실제로 서울 화자보다 확장되는가? — <strong>발화 실험 데이터 없음</strong></span>
+      </div>
+    </div>
+
+    <div class="gap-box">
+      <h4>연구 공백 (Research Gap)</h4>
+      <p>경상도 방언 화자가 영어를 발화할 때 핵강세 pitch distance가 서울 방언 화자보다 크게 나타나는지를 직접 측정한 연구는 현재까지 확인되지 않는다. 본 연구는 이 공백을 탐색적으로 검토하는 것을 목적으로 한다.</p>
+    </div>
+
+    <div class="rq">
+      <span class="rq-tag">RQ 1 — 주 연구 질문</span>
+      <p>경상도 방언 화자(추신수, 김민수)의 영어 발화에서 측정한 핵강세 pitch distance는 서울 방언 화자(장기하)보다 큰가?</p>
+    </div>
+    <div class="rq">
+      <span class="rq-tag">RQ 2 — 부 연구 질문</span>
+      <p>경상도 방언 화자 내부에서, 영어권 장기 거주 경험(추신수)이 pitch distance를 서울 화자 수준에 가깝게 수렴시키는가? 아니면 방언 효과가 장기 노출 이후에도 잔존하는가?</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. 표본 -->
+<section id="speakers">
+  <div class="wrap">
+    <div class="sec-label">§ 02 — Speakers</div>
+    <h2>표본 선정</h2>
+    <p>세 화자는 출신 방언과 영어 노출 수준에서 체계적으로 대비된다. <strong>장기하는 서울 출신 통제군</strong>으로, 선행연구 수치에만 의존하지 않고 서울 방언 화자 baseline을 직접 실측하기 위해 포함한다. 이로써 경상도 vs. 서울 비교, 그리고 경상도 화자 내 노출량 차이 비교가 동시에 가능해진다.</p>
+
+    <div class="speaker-grid">
+      <div class="sc">
+        <span class="sc-role role-ctrl">통제군 · Control</span>
+        <div class="sc-name">장기하</div>
+        <div class="sc-sub">서울 출생·성장 · 1982년생</div>
+        <div class="dr"><span class="dk">출신</span><span class="dv">서울 (경상도 방언 미노출)</span></div>
+        <div class="dr"><span class="dk">영어 노출</span><span class="dv">국내 학습 중심 <span class="badge b-lo">낮음</span></span></div>
+        <div class="dr"><span class="dk">서울 거주</span><span class="dv">전 생애</span></div>
+        <div class="dr"><span class="dk">직업</span><span class="dv">싱어송라이터 (서울대 사회학과)</span></div>
+        <div class="sc-pred">역할: 서울 EFL 화자 pitch distance 직접 실측. 선행연구 수치(~1.2–2.5 st)와 비교 가능.</div>
+      </div>
+
+      <div class="sc">
+        <span class="sc-role role-exp">실험군 A · Exp-A</span>
+        <div class="sc-name">추신수</div>
+        <div class="sc-sub">경남 통영 출생 · 1982년생</div>
+        <div class="dr"><span class="dk">출신</span><span class="dv">경남 통영 (경상도 방언)</span></div>
+        <div class="dr"><span class="dk">영어 노출</span><span class="dv">미국 거주 약 20년 <span class="badge b-hi">높음</span></span></div>
+        <div class="dr"><span class="dk">MLB 활동</span><span class="dv">2006–2021 (시애틀·클리블랜드·신시내티·텍사스)</span></div>
+        <div class="dr"><span class="dk">숙련도</span><span class="dv">고급 (통역 없이 인터뷰)</span></div>
+        <div class="sc-pred">예측: 방언 전이 희석 가능성 또는 잔존 — 미결. RQ 2의 핵심 사례.</div>
+      </div>
+
+      <div class="sc">
+        <span class="sc-role role-exp">실험군 B · Exp-B</span>
+        <div class="sc-name">김민수</div>
+        <div class="sc-sub">경남 울산 출생 · 1991년생</div>
+        <div class="dr"><span class="dk">출신</span><span class="dv">경남 울산 (경상도 방언)</span></div>
+        <div class="dr"><span class="dk">영어 노출</span><span class="dv">국내 학습 중심 <span class="badge b-lo">낮음</span></span></div>
+        <div class="dr"><span class="dk">서울 거주</span><span class="dv">데뷔 이후 약 10년+</span></div>
+        <div class="dr"><span class="dk">직업</span><span class="dv">개그맨·유튜버 (피식대학)</span></div>
+        <div class="sc-pred">예측: 방언 전이 효과 가장 뚜렷하게 나타날 가능성. 장기하와의 직접 비교 핵심 대상.</div>
+      </div>
+    </div>
+    <p style="font-size:11.5px;color:var(--dim);margin-top:.5rem;">* 세 화자 모두 남성. 성별 효과 분리 불가 — 한계로 명시.</p>
+  </div>
+</section>
+
+<!-- 3. 변수 -->
+<section id="vars">
+  <div class="wrap">
+    <div class="sec-label">§ 03 — Variables & Measurement</div>
+    <h2>변수 설계 및 측정</h2>
+
+    <table class="vt">
+      <thead>
+        <tr><th>구분</th><th>변수</th><th>조작적 정의 / 측정</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="t-iv">독립</span></td>
+          <td>출신 방언</td>
+          <td>경상도 방언 화자 vs. 서울 방언 화자 (집단 변수)</td>
+        </tr>
+        <tr>
+          <td><span class="t-iv">독립</span></td>
+          <td>영어 노출 기간</td>
+          <td>영어권 국가 거주 연수. 경상도 화자 내부 비교 변수 (추신수 vs. 김민수)</td>
+        </tr>
+        <tr>
+          <td><span class="t-dv">종속</span></td>
+          <td>Pitch Distance (st)</td>
+          <td>초점 단어 F0 peak − 동일 문장 내 비초점 내용어 F0 peak 평균 (semitone). 인당 15–20 토큰 평균·표준편차 산출</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Pitch Distance 계산식</h3>
+    <div class="formula-box">
+      <div class="formula">PD (st) = 12 × log₂ ( F0_focus / F0_nonfocus_mean )</div>
+      <div class="formula-note">
+        F0_focus: 초점 단어 안정 구간 F0 peak (Hz)<br>
+        F0_nonfocus_mean: 동일 문장 내 비초점 내용어 F0 peak 평균 (Hz)<br>
+        PRAAT 출력(Hz) → semitone 변환은 R 또는 Python에서 후처리
+      </div>
+    </div>
+
+    <h3>비초점 Baseline 산정 원칙</h3>
+    <div class="crit">
+      <h4>내용어(Content Word) 한정</h4>
+      <ul>
+        <li>명사·동사·형용사·부사만 포함. 관사·전치사·조동사·접속사 제외 (F0 낮아 distance 과대추정 방지)</li>
+        <li>초점 단어 자체는 평균 계산에서 제외</li>
+        <li>비초점 내용어가 1개 이하인 문장은 분석 제외</li>
+      </ul>
+    </div>
+
+    <h3>초점 단어 판정 기준</h3>
+    <div class="crit">
+      <h4>이중 기준 (청취 + PRAAT 시각 검토)</h4>
+      <ul>
+        <li><strong>기준 1 (청취):</strong> 연구자가 청취 시 pitch 상승이 주변 단어 대비 두드러지게 지각되는 경우</li>
+        <li><strong>기준 2 (시각):</strong> PRAAT Pitch tier에서 해당 단어의 F0 peak가 동일 문장 내 다른 내용어 평균보다 높게 나타나는 경우</li>
+        <li>두 기준 모두 충족하지 않으면 해당 문장은 분석에서 제외</li>
+        <li>편향 감소: 제2 판정자 독립 레이블링 후 Cohen's kappa 산출 권장. 논문에 판정 기준 명문화 필수</li>
+      </ul>
+    </div>
+
+    <h3>문장 수 및 선별 기준</h3>
+    <div class="crit">
+      <h4>인당 15–20문장 목표</h4>
+      <ul>
+        <li>가장 적게 확보 가능한 화자(장기하·김민수) 기준으로 문장 수 통일 — 화자 간 비교 조건 균등화</li>
+        <li>선별 조건: ① 자발적 구어 발화 (낭독·노래·랩 제외) ② 배경 소음·음악 최소 클립 ③ 초점이 자연스럽게 형성되는 대화형 맥락 ④ 비초점 내용어가 2개 이상 포함된 문장</li>
+        <li>음질 불량 클립 제외. 여러 클립을 합산해 문장 수 확보 가능</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 4. 분석 절차 -->
+<section id="proc">
+  <div class="wrap">
+    <div class="sec-label">§ 04 — Procedure</div>
+    <h2>분석 절차</h2>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step-n"></span>
+        <div class="step-b">
+          <h4>오디오 수집 및 전처리</h4>
+          <p>YouTube 인터뷰 클립에서 오디오 추출 (WAV, 44.1kHz 이상). 배경 소음이 심한 경우 PRAAT bandpass filter 또는 외부 노이즈 리덕션 적용 후 재저장. 음질 기준 미달 클립 제외. 클립 여러 개를 합산해 문장 수 확보.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-n"></span>
+        <div class="step-b">
+          <h4>문장 선별 및 TextGrid 레이블링</h4>
+          <p>인당 15–20문장 선별. PRAAT TextGrid 생성: Tier 1 문장 경계 / Tier 2 내용어 세그먼트 / Tier 3 초점 레이블(F = 초점, NF = 비초점). 모든 레이블링은 이중 기준(청취 + Pitch tier 시각) 적용. 제2 판정자 독립 레이블링으로 kappa 산출.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-n"></span>
+        <div class="step-b">
+          <h4>F0 추출</h4>
+          <p><span class="ci">To Pitch (ac)...</span> 설정: Floor 75 Hz / Ceiling 300 Hz (성인 남성 기준). 각 내용어의 F0 peak를 안정 구간(25–75% 범위) 내 최댓값으로 추출. Pitch tier 수동 검수로 octave jump·doubling 오류 제거.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-n"></span>
+        <div class="step-b">
+          <h4>Semitone 변환 및 Pitch Distance 계산</h4>
+          <p>추출한 Hz 값을 R 또는 Python에서 <span class="ci">12 × log₂(F0/ref)</span> 공식으로 semitone 변환. 문장별 PD = 초점 F0(st) − 비초점 F0 평균(st). 화자별 PD 15–20개의 평균·표준편차 산출.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-n"></span>
+        <div class="step-b">
+          <h4>비교 분석 및 보고</h4>
+          <p>세 화자의 PD 평균·표준편차를 표로 정리. Liu, Xu & Lee (2019) 한국어/영어 원어민 수치와 대조. 탐색 연구 특성상 집단 간 통계 검정은 표본 크기상 서술적 방향성 논의에 한정. 결과는 선행연구 공백을 채우는 예비 증거로 기술.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. 한계 -->
+<section id="limits">
+  <div class="wrap">
+    <div class="sec-label">§ 05 — Limitations</div>
+    <h2>연구 한계</h2>
+    <p>이 연구는 탐색적 사례 연구로 성격을 명확히 한다. 아래 한계를 논문에 명시적으로 기술해야 한다.</p>
+
+    <div class="limit">
+      <h4>방법론적 한계</h4>
+      <ul>
+        <li>표본 3인은 통계적 일반화에 불충분하다. 방향성 관찰과 선행연구 비교에 한정.</li>
+        <li>자연 발화는 어휘·발화 속도·피로도가 통제되지 않는다. 동일 초점 구조의 반복 측정이 불가하다.</li>
+        <li>초점 판정이 연구자 재량을 완전히 배제할 수 없다. 이중 기준과 kappa 보고로 완화하나 한계는 남는다.</li>
+        <li>세 화자 모두 남성 — 성별 효과 분리 불가.</li>
+        <li>공인 인터뷰 발화는 수행적 맥락으로 일상 발화와 다를 수 있다. 언어 자의식(monitoring)이 방언 특성을 억제할 가능성.</li>
+        <li>경상도 방언 화자 자격 사전 검증(한국어 방언 발화 과제)을 실시하지 못한다. 한국어 발화에서 경상도 억양이 관찰되는지를 보조 근거로 기술하는 것으로 대체.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 6. 선행연구 -->
+<section id="refs">
+  <div class="wrap">
+    <div class="sec-label">§ 06 — Literature</div>
+    <h2>선행연구</h2>
+    <p style="margin-bottom:1.2rem;">아래는 본 연구에서 실제 인용하는 논문만 수록한다. 존재 여부가 확인되지 않은 수치(경상도 화자 4–6 st 등)는 선행연구로 제시하지 않는다.</p>
+
+    <ul class="refs">
+      <li>
+        Liu, J., Xu, Y., & Lee, Y. (2019). Post-focus compression is not automatically transferred from Korean to L2 English. <em>Phonetics and Speech Sciences</em>, 11(2), 15–21. https://doi.org/10.13064/KSSS.2019.11.2.015
+        <br><span style="font-size:12px;color:var(--mid);">→ 영어 원어민 초점 pitch 도약(≈2.5 st)이 한국어 서울 화자(≈1.2 st)보다 두 배 이상 큼. 한국인 EFL 화자는 초점 prosody를 원어민 수준으로 전이하기 어렵다고 보고. 본 연구의 서울 화자 baseline 비교 근거.</span>
+      </li>
+      <li>
+        Kim, H., & Tremblay, A. (2021). Korean listeners' processing of suprasegmental lexical contrasts in Korean and English: A cue-based transfer approach. <em>Journal of Phonetics</em>, 87, 101059. https://doi.org/10.1016/j.wocn.2021.101059
+        <br><span style="font-size:12px;color:var(--mid);">→ 경상도 방언(GK) 화자가 서울 방언(SK) 화자보다 영어 lexical stress 지각에서 F0 단서를 더 강하게 활용함. GK의 pitch accent → 영어 L2 전이 가능성 확인. 지각 실험으로 한정; 발화(production) 측면은 미탐색.</span>
+      </li>
+      <li>
+        Liu, J., Xu, Y., & Lee, Y. (2022). Focus prosody by Korean learners of English. <em>Laboratory Phonology</em>, 12(1). https://doi.org/10.1075/lab.20031.liu
+        <br><span style="font-size:12px;color:var(--mid);">→ 한국인 EFL 학습자(서울 방언 중심)의 영어 초점 prosody 발화 실험. 숙련도에 따라 차이가 있으나 고숙련자도 원어민 수준의 post-focus compression을 재현하지 못함.</span>
+      </li>
+      <li>
+        정서린·정현성 (2020). 동부 경남 방언이 영어 억양에 미치는 영향: 학습가능성을 중심으로. <em>외국어교육연구</em>, 34(1), 191–214.
+        <br><span style="font-size:12px;color:var(--mid);">→ 경남 방언 화자의 영어 억양(문두 pitch contour, 단어 강세)에 방언 특성 전이 확인. 학년 간 차이는 미미. 경상도 방언이 영어 발화에 미치는 영향을 실증한 국내 연구.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<footer>영어의 사회언어학 · 연구 설계안 최종본 · PRAAT 기반 Pitch Distance 분석</footer>
+
+</body>
+</html>
