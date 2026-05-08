@@ -361,114 +361,139 @@
         <span class="code-lang">PRAAT Script</span>
         <button class="copy-btn" onclick="copyCode('block-main')">Copy</button>
       </div>
-      <pre id="code-main"><span class="cm"># ── 설정 ────────────────────────────────────────────</span>
-<span class="cn">sound_file$</span> = <span class="cs">"파일명.wav"</span>
-<span class="cn">tg_file$</span>    = <span class="cs">"파일명.TextGrid"</span>
-<span class="cn">pitch_floor</span>   = <span class="cs">75</span>
-<span class="cn">pitch_ceiling</span> = <span class="cs">300</span>
-<span class="cm"># ────────────────────────────────────────────────────</span>
+      <pre id="code-main"># ── 설정 ────────────────────────────────────────────
+sound_file$ = "파일명.wav"
+tg_file$    = "파일명.TextGrid"
+pitch_floor   = 75
+pitch_ceiling = 300
+# ────────────────────────────────────────────────────
 
-<span class="cm"># 파일 불러오기</span>
-<span class="cn">sound</span> = <span class="cf">Read from file</span>: <span class="cn">sound_file$</span>
-<span class="cn">tg</span>    = <span class="cf">Read from file</span>: <span class="cn">tg_file$</span>
+clearinfo
 
-<span class="cm"># Pitch 생성</span>
-<span class="cf">selectObject</span>: <span class="cn">sound</span>
-<span class="cn">pitch</span> = <span class="cf">To Pitch</span>: 0.0, <span class="cn">pitch_floor</span>, <span class="cn">pitch_ceiling</span>
+# 파일 불러오기
+sound = Read from file: sound_file$
+tg    = Read from file: tg_file$
 
-<span class="cm"># tier 번호 찾기</span>
-<span class="cf">selectObject</span>: <span class="cn">tg</span>
-<span class="cn">n_tiers</span> = <span class="cf">Get number of tiers</span>
-<span class="cn">sent_tier</span>  = 0
-<span class="cn">word_tier</span>  = 0
-<span class="cn">focus_tier</span> = 0
-<span class="ck">for</span> i <span class="ck">to</span> <span class="cn">n_tiers</span>
-    <span class="cn">name$</span> = <span class="cf">Get tier name</span>: i
-    <span class="ck">if</span> <span class="cn">name$</span> = <span class="cs">"sent"</span>
-        <span class="cn">sent_tier</span> = i
-    <span class="ck">endif</span>
-    <span class="ck">if</span> <span class="cn">name$</span> = <span class="cs">"word"</span>
-        <span class="cn">word_tier</span> = i
-    <span class="ck">endif</span>
-    <span class="ck">if</span> <span class="cn">name$</span> = <span class="cs">"focus"</span>
-        <span class="cn">focus_tier</span> = i
-    <span class="ck">endif</span>
-<span class="ck">endfor</span>
+# Pitch 생성
+selectObject: sound
+pitch = To Pitch: 0.0, pitch_floor, pitch_ceiling
 
-<span class="cm"># 단어별 출력 헤더</span>
-<span class="cf">appendInfoLine</span>: <span class="cs">"sent"</span>, tab$, <span class="cs">"word"</span>, tab$, <span class="cs">"focus"</span>, tab$, <span class="cs">"f0_peak_hz"</span>, tab$, <span class="cs">"f0_peak_st"</span>
+# tier 번호 찾기
+selectObject: tg
+n_tiers = Get number of tiers
+sent_tier  = 0
+word_tier  = 0
+focus_tier = 0
 
-<span class="cm"># sent tier 순회</span>
-<span class="cf">selectObject</span>: <span class="cn">tg</span>
-<span class="cn">n_sent</span> = <span class="cf">Get number of intervals</span>: <span class="cn">sent_tier</span>
+for i to n_tiers
+    name$ = Get tier name: i
+    if name$ = "sent"
+        sent_tier = i
+    endif
+    if name$ = "word"
+        word_tier = i
+    endif
+    if name$ = "focus"
+        focus_tier = i
+    endif
+endfor
 
-<span class="ck">for</span> s <span class="ck">to</span> <span class="cn">n_sent</span>
-    <span class="cf">selectObject</span>: <span class="cn">tg</span>
-    <span class="cn">sent$</span> = <span class="cf">Get label of interval</span>: <span class="cn">sent_tier</span>, s
+# 출력 헤더
+appendInfoLine: "sent", tab$, "word", tab$, "focus", tab$, "f0_peak_hz", tab$, "f0_peak_st"
 
-    <span class="ck">if</span> <span class="cf">left$</span>(<span class="cn">sent$</span>, 1) = <span class="cs">"s"</span> <span class="ck">and</span> <span class="cf">number</span>(<span class="cf">mid$</span>(<span class="cn">sent$</span>, 2, 10)) <> <span class="cs">undefined</span>
+# sent tier 순회
+selectObject: tg
+n_sent = Get number of intervals: sent_tier
+n_words = Get number of intervals: word_tier
 
-        <span class="cn">sent_start</span> = <span class="cf">Get start time of interval</span>: <span class="cn">sent_tier</span>, s
-        <span class="cn">sent_end</span>   = <span class="cf">Get end time of interval</span>: <span class="cn">sent_tier</span>, s
+for s to n_sent
+    selectObject: tg
+    sent$ = Get label of interval: sent_tier, s
 
-        <span class="cn">f_peak</span>   = <span class="cs">undefined</span>
-        <span class="cn">nf_sum</span>   = 0
-        <span class="cn">nf_count</span> = 0
+    first_char$ = lowerCase$(left$(sent$, 1))
+    sent_num = number(mid$(sent$, 2, 100))
 
-        <span class="cn">n_words</span> = <span class="cf">Get number of intervals</span>: <span class="cn">word_tier</span>
+    if first_char$ = "s" and sent_num <> undefined
+        sent_start = Get start time of interval: sent_tier, s
+        sent_end   = Get end time of interval: sent_tier, s
 
-        <span class="ck">for</span> i <span class="ck">to</span> <span class="cn">n_words</span>
-            <span class="cf">selectObject</span>: <span class="cn">tg</span>
-            <span class="cn">word$</span> = <span class="cf">Get label of interval</span>: <span class="cn">word_tier</span>, i
+        f_peak   = undefined
+        nf_sum   = 0
+        nf_count = 0
 
-            <span class="ck">if</span> <span class="cn">word$</span> <> <span class="cs">""</span>
-                <span class="cn">t_start</span> = <span class="cf">Get start time of interval</span>: <span class="cn">word_tier</span>, i
-                <span class="cn">t_end</span>   = <span class="cf">Get end time of interval</span>: <span class="cn">word_tier</span>, i
-                <span class="cn">t_mid</span>   = (<span class="cn">t_start</span> + <span class="cn">t_end</span>) / 2
+        for i to n_words
+            selectObject: tg
+            word$ = Get label of interval: word_tier, i
 
-                <span class="ck">if</span> <span class="cn">t_mid</span> >= <span class="cn">sent_start</span> <span class="ck">and</span> <span class="cn">t_mid</span> <= <span class="cn">sent_end</span>
+            if word$ <> ""
+                t_start = Get start time of interval: word_tier, i
+                t_end   = Get end time of interval: word_tier, i
+                t_mid   = (t_start + t_end) / 2
 
-                    <span class="cn">focus_i</span> = <span class="cf">Get interval at time</span>: <span class="cn">focus_tier</span>, <span class="cn">t_mid</span>
-                    <span class="cn">focus$</span>  = <span class="cf">Get label of interval</span>: <span class="cn">focus_tier</span>, <span class="cn">focus_i</span>
+                if t_mid >= sent_start and t_mid <= sent_end
+                    focus_i = Get interval at time: focus_tier, t_mid
+                    focus$  = Get label of interval: focus_tier, focus_i
 
-                    <span class="cf">selectObject</span>: <span class="cn">pitch</span>
-                    <span class="cn">f0_hz</span> = <span class="cf">Get maximum</span>: <span class="cn">t_start</span>, <span class="cn">t_end</span>, <span class="cs">"Hertz"</span>, <span class="cs">"Parabolic"</span>
+                    selectObject: pitch
 
-                    <span class="ck">if</span> <span class="cn">f0_hz</span> <> <span class="cs">undefined</span>
-                        <span class="cn">f0_st</span> = 12 * <span class="cf">log2</span>(<span class="cn">f0_hz</span> / 100)
+                    if focus$ = "f"
+                        selectObject: tg
+                        focus_start = Get start time of interval: focus_tier, focus_i
+                        focus_end   = Get end time of interval: focus_tier, focus_i
 
-                        <span class="cm"># 단어별 출력</span>
-                        <span class="cf">appendInfoLine</span>: <span class="cn">sent$</span>, tab$, <span class="cn">word$</span>, tab$, <span class="cn">focus$</span>, tab$, <span class="cf">fixed$</span>(<span class="cn">f0_hz</span>, 2), tab$, <span class="cf">fixed$</span>(<span class="cn">f0_st</span>, 3)
+                        overlap_start = t_start
+                        if focus_start > overlap_start
+                            overlap_start = focus_start
+                        endif
 
-                        <span class="ck">if</span> <span class="cn">focus$</span> = <span class="cs">"f"</span>
-                            <span class="cn">f_peak</span> = <span class="cn">f0_st</span>
-                        <span class="ck">elsif</span> <span class="cn">focus$</span> = <span class="cs">""</span> <span class="ck">or</span> <span class="cn">focus$</span> = <span class="cs">"nf"</span>
-                            <span class="cn">nf_sum</span>   = <span class="cn">nf_sum</span> + <span class="cn">f0_st</span>
-                            <span class="cn">nf_count</span> = <span class="cn">nf_count</span> + 1
-                        <span class="ck">endif</span>
-                    <span class="ck">endif</span>
+                        overlap_end = t_end
+                        if focus_end < overlap_end
+                            overlap_end = focus_end
+                        endif
 
-                <span class="ck">endif</span>
-            <span class="ck">endif</span>
-        <span class="ck">endfor</span>
+                        if overlap_end > overlap_start
+                            selectObject: pitch
+                            f0_hz = Get maximum: overlap_start, overlap_end, "Hertz", "Parabolic"
+                        else
+                            f0_hz = undefined
+                        endif
+                    else
+                        f0_hz = Get maximum: t_start, t_end, "Hertz", "Parabolic"
+                    endif
 
-        <span class="cm"># 문장별 PD 요약 출력</span>
-        <span class="ck">if</span> <span class="cn">nf_count</span> > 0 <span class="ck">and</span> <span class="cn">f_peak</span> <> <span class="cs">undefined</span>
-            <span class="cn">nf_mean</span> = <span class="cn">nf_sum</span> / <span class="cn">nf_count</span>
-            <span class="cn">pd</span> = <span class="cn">f_peak</span> - <span class="cn">nf_mean</span>
-            <span class="cf">appendInfoLine</span>: <span class="cs">"  → PD("</span>, <span class="cn">sent$</span>, <span class="cs">"): f="</span>, <span class="cf">fixed$</span>(<span class="cn">f_peak</span>, 3), <span class="cs">" nf_mean="</span>, <span class="cf">fixed$</span>(<span class="cn">nf_mean</span>, 3), <span class="cs">" PD="</span>, <span class="cf">fixed$</span>(<span class="cn">pd</span>, 3), <span class="cs">" st (nf="</span>, <span class="cn">nf_count</span>, <span class="cs">")"</span>
-        <span class="ck">else</span>
-            <span class="cf">appendInfoLine</span>: <span class="cs">"  → PD("</span>, <span class="cn">sent$</span>, <span class="cs">"): f 또는 nf 없음"</span>
-        <span class="ck">endif</span>
+                    if f0_hz <> undefined
+                        f0_st = 12 * log2(f0_hz / 100)
 
-        <span class="cf">appendInfoLine</span>: <span class="cs">""</span>
+                        appendInfoLine: sent$, tab$, word$, tab$, focus$, tab$, fixed$(f0_hz, 2), tab$, fixed$(f0_st, 3)
 
-    <span class="ck">endif</span>
-<span class="ck">endfor</span>
+                        if focus$ = "f"
+                            if f_peak = undefined or f0_st > f_peak
+                                f_peak = f0_st
+                            endif
+                        elsif focus$ = "" or focus$ = "nf"
+                            nf_sum   = nf_sum + f0_st
+                            nf_count = nf_count + 1
+                        endif
+                    endif
+                endif
+            endif
+        endfor
 
-<span class="cm"># 객체 정리</span>
-<span class="cf">selectObject</span>: <span class="cn">sound</span>, <span class="cn">tg</span>, <span class="cn">pitch</span>
-<span class="cf">Remove</span></pre>
+        if nf_count > 0 and f_peak <> undefined
+            nf_mean = nf_sum / nf_count
+            pd = f_peak - nf_mean
+            appendInfoLine: "  -&gt; PD(", sent$, "): f=", fixed$(f_peak, 3), " nf_mean=", fixed$(nf_mean, 3), " PD=", fixed$(pd, 3), " st (nf=", nf_count, ")"
+        else
+            appendInfoLine: "  -&gt; PD(", sent$, "): f 또는 nf 없음"
+        endif
+
+        appendInfoLine: ""
+    endif
+endfor
+
+# 객체 정리
+selectObject: sound, tg, pitch
+Remove</pre>
     </div>
 
     <h3>실행 방법</h3>
@@ -565,3 +590,4 @@ function copyCode(blockId) {
 </script>
 </body>
 </html>
+
