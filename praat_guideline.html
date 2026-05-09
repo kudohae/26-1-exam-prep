@@ -398,17 +398,22 @@ for i to n_tiers
     endif
 endfor
 
+# 전체 평균용 누적 변수 (nf >= 2 문장만)
+pd_sum_stable   = 0
+pd_count_stable = 0
+
 # 출력 헤더
 appendInfoLine: "sent", tab$, "word", tab$, "focus", tab$, "f0_peak_hz", tab$, "f0_peak_st"
 
 # sent tier 순회
 selectObject: tg
-n_sent = Get number of intervals: sent_tier
+n_sent  = Get number of intervals: sent_tier
 n_words = Get number of intervals: word_tier
 
 for s to n_sent
     selectObject: tg
-    sent$ = Get label of interval: sent_tier, s
+    sent_raw$ = Get label of interval: sent_tier, s
+    sent$ = replace_regex$(sent_raw$, "^\s+|\s+$", "", 0)
 
     first_char$ = lowerCase$(left$(sent$, 1))
     sent_num = number(mid$(sent$, 2, 100))
@@ -417,13 +422,15 @@ for s to n_sent
         sent_start = Get start time of interval: sent_tier, s
         sent_end   = Get end time of interval: sent_tier, s
 
-        f_peak   = undefined
+        f_sum    = 0
+        f_count  = 0
         nf_sum   = 0
         nf_count = 0
 
         for i to n_words
             selectObject: tg
-            word$ = Get label of interval: word_tier, i
+            word_raw$ = Get label of interval: word_tier, i
+            word$ = replace_regex$(word_raw$, "^\s+|\s+$", "", 0)
 
             if word$ <> ""
                 t_start = Get start time of interval: word_tier, i
@@ -431,10 +438,9 @@ for s to n_sent
                 t_mid   = (t_start + t_end) / 2
 
                 if t_mid >= sent_start and t_mid <= sent_end
-                    focus_i = Get interval at time: focus_tier, t_mid
-                    focus$  = Get label of interval: focus_tier, focus_i
-
-                    selectObject: pitch
+                    focus_i    = Get interval at time: focus_tier, t_mid
+                    focus_raw$ = Get label of interval: focus_tier, focus_i
+                    focus$ = replace_regex$(focus_raw$, "^\s+|\s+$", "", 0)
 
                     if focus$ = "f"
                         selectObject: tg
@@ -458,6 +464,7 @@ for s to n_sent
                             f0_hz = undefined
                         endif
                     else
+                        selectObject: pitch
                         f0_hz = Get maximum: t_start, t_end, "Hertz", "Parabolic"
                     endif
 
@@ -467,9 +474,8 @@ for s to n_sent
                         appendInfoLine: sent$, tab$, word$, tab$, focus$, tab$, fixed$(f0_hz, 2), tab$, fixed$(f0_st, 3)
 
                         if focus$ = "f"
-                            if f_peak = undefined or f0_st > f_peak
-                                f_peak = f0_st
-                            endif
+                            f_sum   = f_sum + f0_st
+                            f_count = f_count + 1
                         elsif focus$ = "" or focus$ = "nf"
                             nf_sum   = nf_sum + f0_st
                             nf_count = nf_count + 1
@@ -479,21 +485,38 @@ for s to n_sent
             endif
         endfor
 
-        if nf_count > 0 and f_peak <> undefined
+        if f_count > 0 and nf_count > 0
+            f_mean  = f_sum / f_count
             nf_mean = nf_sum / nf_count
-            pd = f_peak - nf_mean
-            appendInfoLine: "  -&gt; PD(", sent$, "): f=", fixed$(f_peak, 3), " nf_mean=", fixed$(nf_mean, 3), " PD=", fixed$(pd, 3), " st (nf=", nf_count, ")"
+            pd = f_mean - nf_mean
+
+            appendInfoLine: "  → PD(", sent$, "): f_mean=", fixed$(f_mean, 3), " nf_mean=", fixed$(nf_mean, 3), " PD=", fixed$(pd, 3), " st (f=", f_count, ", nf=", nf_count, ")"
+
+            if nf_count >= 2
+                pd_sum_stable   = pd_sum_stable + pd
+                pd_count_stable = pd_count_stable + 1
+            endif
         else
-            appendInfoLine: "  -&gt; PD(", sent$, "): f 또는 nf 없음"
+            appendInfoLine: "  → PD(", sent$, "): f 또는 nf 없음"
         endif
 
         appendInfoLine: ""
     endif
 endfor
 
+# nf >= 2 문장 평균 PD 출력
+appendInfoLine: "=============================="
+if pd_count_stable > 0
+    mean_pd_stable = pd_sum_stable / pd_count_stable
+    appendInfoLine: "Mean PD (nf>=2) = ", fixed$(mean_pd_stable, 3), " st  (n=", pd_count_stable, ")"
+else
+    appendInfoLine: "Mean PD (nf>=2) = 계산 불가"
+endif
+
 # 객체 정리
 selectObject: sound, tg, pitch
-Remove</pre>
+Remove
+</pre>
     </div>
 
     <h3>실행 방법</h3>
