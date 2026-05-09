@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>경상도 방언 화자의 영어 발화에서 나타나는 강세 Pitch Distance</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Noto+Serif+KR:wght@300;400;600;700&display=swap');
+
+  :root {
+    --ink: #1a1410;
+    --paper: #f7f4ef;
+    --warm-mid: #c8b89a;
+    --accent: #8b3a2a;
+    --accent-light: #c0533e;
+    --muted: #7a6f64;
+    --rule: #d4c8b8;
+    --highlight: #f0e8d8;
+    --gyeongsang: #4a6741;
+    --seoul: #2d4a6e;
+    --inner: #6b4a8a;
+    --chart-bg: #fdfaf5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Serif KR', serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 10vw;
+    border-bottom: 2px solid var(--ink);
+    position: relative;
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 39px,
+      rgba(255,255,255,0.04) 39px,
+      rgba(255,255,255,0.04) 40px
+    );
+    pointer-events: none;
+  }
+
+  .cover-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--warm-mid);
+    margin-bottom: 2.5rem;
+  }
+
+  .cover-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    color: var(--paper);
+  }
+
+  .cover-subtitle {
+    font-size: 1rem;
+    color: var(--warm-mid);
+    margin-bottom: 3rem;
+    max-width: 60ch;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  .cover-meta {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--warm-mid);
+  }
+
+  .meta-item strong {
+    display: block;
+    color: var(--paper);
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  /* ── SECTION WRAPPER ── */
+  .section {
+    padding: 70px 10vw;
+    border-bottom: 1px solid var(--rule);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  hr.thin {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 2rem 0;
+  }
+
+  /* ── BODY TEXT ── */
+  p {
+    max-width: 72ch;
+    margin-bottom: 1.2rem;
+    color: var(--ink);
+  }
+
+  /* ── SPEAKER TABLE ── */
+  .speaker-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin: 2rem 0;
+  }
+
+  .speaker-card {
+    background: var(--paper);
+    padding: 1.5rem;
+  }
+
+  .speaker-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    padding: 3px 8px;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    border-radius: 2px;
+  }
+
+  .badge-seoul { background: var(--seoul); color: #fff; }
+  .badge-gyeongsang { background: var(--gyeongsang); color: #fff; }
+  .badge-inner { background: var(--inner); color: #fff; }
+
+  .speaker-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .speaker-detail {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.7;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .speaker-detail strong {
+    color: var(--ink);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── DATA TABLE ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'DM Mono', monospace;
+    font-size: 12.5px;
+    margin: 1.5rem 0;
+    background: var(--chart-bg);
+    border: 1px solid var(--rule);
+  }
+
+  .data-table th {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .data-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .data-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .data-table tbody tr:hover {
+    background: var(--highlight);
+  }
+
+  .data-table .highlight-row {
+    background: var(--highlight);
+    font-weight: 500;
+  }
+
+  .data-table .total-row {
+    background: var(--ink);
+    color: var(--paper);
+    font-weight: 500;
+  }
+
+  .num { text-align: right; }
+  .pos { color: var(--gyeongsang); }
+  .neg { color: var(--accent); }
+
+  /* ── BAR CHART ── */
+  .chart-container {
+    background: var(--chart-bg);
+    border: 1px solid var(--rule);
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+
+  .chart-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .bar-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .bar-row {
+    display: grid;
+    grid-template-columns: 130px 1fr 70px;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .bar-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-align: right;
+    color: var(--muted);
+  }
+
+  .bar-track {
+    background: var(--rule);
+    height: 22px;
+    position: relative;
+    border-radius: 2px;
+    overflow: visible;
+  }
+
+  .bar-fill {
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 2px;
+    transition: width 0s;
+  }
+
+  .bar-sd {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 2px;
+    background: rgba(0,0,0,0.35);
+    border-radius: 1px;
+  }
+
+  .bar-sd::before, .bar-sd::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    width: 1.5px;
+    height: 10px;
+    background: rgba(0,0,0,0.35);
+  }
+  .bar-sd::before { left: 0; }
+  .bar-sd::after { right: 0; }
+
+  .bar-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* reference lines */
+  .chart-ref-line {
+    position: relative;
+    margin: 0.5rem 0;
+    height: 1px;
+  }
+
+  .ref-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── SCATTER PLOT SVG ── */
+  .scatter-svg-wrap {
+    background: var(--chart-bg);
+    border: 1px solid var(--rule);
+    padding: 1.5rem 2rem;
+    margin: 2rem 0;
+    overflow-x: auto;
+  }
+
+  /* ── FINDING BOXES ── */
+  .finding-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin: 2rem 0;
+  }
+
+  .finding-box {
+    background: var(--paper);
+    padding: 1.5rem;
+  }
+
+  .finding-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.5rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .finding-label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .finding-body {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* ── REFERENCE BOX ── */
+  .lit-item {
+    border-left: 3px solid var(--accent);
+    padding: 0.8rem 1.2rem;
+    margin-bottom: 1rem;
+    background: var(--highlight);
+  }
+
+  .lit-cite {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    margin-bottom: 0.35rem;
+    font-weight: 500;
+  }
+
+  .lit-body {
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.7;
+    max-width: 70ch;
+  }
+
+  .lit-quote-where {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 0.35rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── DEFINITION BOX ── */
+  .def-box {
+    border: 1px solid var(--rule);
+    background: var(--chart-bg);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+  }
+
+  .def-box .formula {
+    font-size: 1.1rem;
+    color: var(--accent);
+    margin: 0.5rem 0;
+    letter-spacing: 0.05em;
+  }
+
+  .def-box .sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 0.5rem;
+    line-height: 1.8;
+  }
+
+  /* ── SENTENCE DATA ── */
+  .sent-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin: 1.5rem 0;
+  }
+
+  .sent-block {
+    background: var(--paper);
+    padding: 1rem 1.2rem;
+  }
+
+  .sent-speaker {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .pd-list {
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    line-height: 2;
+  }
+
+  .pd-list .pd-pos { color: var(--gyeongsang); }
+  .pd-list .pd-neg { color: var(--accent); }
+
+  /* ── NOTES / LIMITATIONS ── */
+  .limit-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .limit-list li {
+    padding: 0.8rem 0 0.8rem 1.5rem;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    font-size: 13.5px;
+    max-width: 70ch;
+  }
+
+  .limit-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .limit-list li:last-child {
+    border-bottom: none;
+  }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border-top: 2px solid var(--accent);
+    border-bottom: 1px solid var(--rule);
+    padding: 1.5rem 0;
+    margin: 2rem 0;
+  }
+
+  .callout p {
+    font-size: 1.05rem;
+    color: var(--accent);
+    font-weight: 600;
+    line-height: 1.6;
+    max-width: 60ch;
+  }
+
+  /* ── DIVIDER ── */
+  .page-divider {
+    height: 4px;
+    background: var(--ink);
+    margin: 0;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 40px 10vw;
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    color: var(--muted);
+    border-top: 1px solid var(--rule);
+    line-height: 2;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── SENTENCE-LEVEL TABLE (raw PD) ── */
+  .raw-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'DM Mono', monospace;
+    font-size: 11.5px;
+    margin: 1rem 0 2rem;
+  }
+
+  .raw-table th {
+    background: var(--highlight);
+    color: var(--muted);
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 7px 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .raw-table td {
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .raw-table tr:last-child td { border-bottom: none; }
+
+  .pd-cell-pos { color: var(--gyeongsang); font-weight: 500; }
+  .pd-cell-neg { color: var(--accent); font-weight: 500; }
+  .pd-cell-na  { color: var(--rule); }
+
+  /* ── INLINE TAG ── */
+  .tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    padding: 1px 6px;
+    border-radius: 2px;
+    letter-spacing: 0.1em;
+    vertical-align: middle;
+  }
+
+  .tag-s { background: var(--seoul); color: #fff; }
+  .tag-g { background: var(--gyeongsang); color: #fff; }
+  .tag-i { background: var(--inner); color: #fff; }
+  .tag-e { background: #a07030; color: #fff; }
+
+  /* ── CAPTION ── */
+  .caption {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    color: var(--muted);
+    margin-top: -1rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── RQ BOX ── */
+  .rq-box {
+    border: 1px solid var(--accent);
+    padding: 1.2rem 1.5rem;
+    margin: 1.2rem 0;
+    background: var(--highlight);
+  }
+
+  .rq-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+  }
+
+  .rq-body {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.6;
+    max-width: 65ch;
+  }
+
+  .color-dot {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     COVER
+═══════════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-label">Group 2 · 영어의 사회언어학 · 2025</div>
+  <h1 class="cover-title">경상도 방언 화자의 영어 발화에서<br>나타나는 강세 Pitch Distance</h1>
+  <p class="cover-subtitle">문장 내 초점 단어의 F0 도약량(semitone)을 직접 실측해, 경상도 방언의 lexical pitch accent 체계가 영어 EFL 발화의 억양 패턴에 전이되는지를 탐색적으로 검토한다.</p>
+  <div class="cover-meta">
+    <div class="meta-item"><strong>도구</strong>PRAAT 6.4.65</div>
+    <div class="meta-item"><strong>단위</strong>Semitone (st)</div>
+    <div class="meta-item"><strong>표본</strong>4인 (통제 1 + 실험 3)</div>
+    <div class="meta-item"><strong>분석 문장</strong>인당 9–16문장 (nf ≥ 2 기준)</div>
+    <div class="meta-item"><strong>연구 성격</strong>탐색적 사례 연구</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     §01 — BACKGROUND & HYPOTHESIS
+═══════════════════════════════════════════════════════════ -->
+<div style="max-width:1100px; margin:0 auto;">
+<section class="section">
+  <div class="section-label">§ 01</div>
+  <h2 class="section-title">연구 배경 및 가설</h2>
+
+  <p>영어 원어민은 문장 내 정보 초점(focal accent)을 실현할 때 주변 단어 대비 뚜렷한 F0 도약을 보인다. 이때 초점 단어의 pitch가 얼마나 높이 올라가는지는 언어마다 다르고, EFL 화자의 L1 운율 체계가 이 도약량에 영향을 미친다는 것은 여러 연구가 제시해 온 방향이다. 본 연구는 경상도 방언이라는 특정 L1 변수가 영어 초점 prosody의 production에 어떤 흔적을 남기는지를 직접 실측으로 묻는다.</p>
+
+  <hr class="thin">
+
+  <h3 style="font-size:1rem; font-weight:600; margin-bottom:1rem;">Kachru의 World Englishes와 표본 분류</h3>
+  <p>본 연구의 화자 분류에는 Kachru(1985)의 동심원 모델을 참조한다. Kachru는 영어 사용 국가를 inner circle(영어 모어권), outer circle(구 식민지 기반 제2언어권), expanding circle(EFL권)으로 나누었다. 한국은 expanding circle에, 미국은 inner circle에 속한다. 본 연구의 표본 4인 중 추신수는 약 20년간 미국 MLB에서 활동하며 영어 사용 환경에 장기 노출된 화자로, inner circle 환경을 경험한 유일한 사례다. 나머지 3인은 국내 학습 중심의 expanding circle 화자다. 이 분류는 단순히 '노출 많음/적음'이라는 이분법을 넘어, 언어 사용 맥락의 구조적 차이를 포착하기 위한 분석 기준으로 활용한다.</p>
+
+  <hr class="thin">
+
+  <h3 style="font-size:1rem; font-weight:600; margin-bottom:1rem;">선행연구가 제시한 수치와 공백</h3>
+
+  <p>Liu, Xu &amp; Lee(2019)는 영어 원어민과 한국인(서울 방언) EFL 화자의 초점 prosody를 직접 비교했다. 원어민의 초점 pitch 도약은 평균 약 2.5 semitone, 서울 방언 EFL 화자는 약 1.2 semitone으로, 두 배 이상의 차이가 확인됐다. 같은 연구는 한국인 EFL 화자가 초점 prosody를 원어민 수준으로 재현하기 어려우며 이를 처음부터 습득해야 한다는 결론을 내린다. 이 수치는 본 연구에서 서울 방언 화자(장기하) 실측값의 비교 기준점으로 기능한다.</p>
+
+  <p>Liu, Xu &amp; Lee(2022)는 한국인 EFL 학습자를 숙련도별로 분류해 영어 초점 prosody의 발화 능력을 추가로 검토했다. 숙련도가 높아질수록 on-focus F0 상승은 원어민에 가까워지나, post-focus compression 측면에서는 고숙련자도 원어민과 유의미한 차이가 남았다. 이 연구는 서울 방언 화자 집단을 대상으로 했으며, 경상도 방언 화자의 발화 데이터는 포함하지 않는다.</p>
+
+  <p>한국인 영어 학습자의 억양 전이를 단어 단위에서 살펴본 Kim(2008)은, 강세를 받는 단어에서 영어 원어민이 H* pitch accent를 사용하는 것과 달리 한국어 화자들은 LH 성조 패턴을 전이시켜 마지막 음절에 high pitch를 배치하는 경향을 보고했다. 이 연구는 '강세 있는 단어' 단위의 측정에 초점을 맞추며, 본 연구처럼 문장 내 초점 단어 전체를 비초점 내용어와 비교하는 방식과는 측정 단위가 다르다. 그러나 한국어 억양 패턴이 영어 발화에 전이된다는 전제를 실증적으로 뒷받침한다는 점에서 직접적으로 관련된다.</p>
+
+  <p>Kim &amp; Tremblay(2021)는 지각(perception) 실험을 통해 경상도 방언(GK) 화자가 서울 방언(SK) 화자보다 영어 lexical stress 지각에서 F0 단서를 훨씬 강하게 활용한다는 것을 보였다. GK의 lexical pitch accent 처리 방식이 영어 L2 지각으로 전이(cue-weighting transfer)된다는 것이다. 그러나 이 연구는 어디까지나 지각 실험이며, 발화(production) 측면에서 경상도 화자가 초점 단어를 실제로 얼마나 더 큰 pitch로 산출하는지는 측정하지 않는다.</p>
+
+  <p>Jun(1998)은 서울 한국어의 운율 체계를 기술하며 서울 방언이 lexical pitch accent나 lexical stress를 가지지 않는, Accentual Phrase(AP) 중심의 edge-prominence 언어임을 논증했다. 이 틀 안에서 경상도 방언은 현저한 예외다. 경상도 방언은 고저 액센트(lexical pitch accent)를 보유하며, 이 음운 체계의 차이가 EFL 발화에서 어떤 흔적을 남기는지가 본 연구의 핵심 질문이다.</p>
+
+  <p>한국인 EFL 화자의 초점 prosody 발화를 측정한 선행 연구들(Liu et al. 2019; Liu et al. 2022)은 공통적으로 서울 방언 화자 또는 '한국어 화자' 일반을 대상으로 했다. 경상도 방언 화자만을 따로 추출해 영어 초점 prosody production을 실측한 연구는 현재까지 없다. 본 연구는 이 공백에서 출발한다.</p>
+
+  <div class="rq-box">
+    <div class="rq-label">RQ 1 — 주 연구 질문</div>
+    <div class="rq-body">경상도 방언 화자(추신수·김영철·김민수)의 영어 발화에서 측정한 강세 Pitch Distance는 서울 방언 화자(장기하)보다 큰가?</div>
+  </div>
+
+  <div class="rq-box">
+    <div class="rq-label">RQ 2 — 부 연구 질문</div>
+    <div class="rq-body">경상도 방언 화자 내부에서, inner circle 환경의 장기 노출(추신수)이 Pitch Distance를 서울 화자 수준에 수렴시키는가? 방언 효과는 장기 노출 이후에도 잔존하는가?</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     §02 — SPEAKERS
+═══════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-label">§ 02</div>
+  <h2 class="section-title">표본 선정</h2>
+
+  <p>표본은 출신 방언, 영어 노출 환경, World Englishes circle 분류에서 체계적으로 대비되도록 구성했다. 경상도 방언 화자 내부의 이질성을 포착하기 위해 inner circle 장기 노출자(추신수)와 expanding circle 화자(김영철·김민수)를 함께 포함한다. 장기하는 서울 방언 baseline을 직접 실측하기 위한 통제군이다.</p>
+
+  <div class="speaker-grid">
+    <!-- 장기하 -->
+    <div class="speaker-card">
+      <span class="speaker-badge badge-seoul">통제군 · Seoul</span>
+      <div class="speaker-name">장기하</div>
+      <div class="speaker-detail">
+        <strong>방언</strong> 서울 (경상도 미노출)<br>
+        <strong>World Englishes</strong> Expanding circle<br>
+        <strong>영어 노출</strong> 국내 학습 중심 · 낮음<br>
+        <strong>출생·성장</strong> 서울 · 1982년생<br>
+        <strong>직업</strong> 싱어송라이터 (서울대 사회학과)<br>
+        <strong>역할</strong> 서울 EFL 화자 baseline
+      </div>
+    </div>
+    <!-- 추신수 -->
+    <div class="speaker-card">
+      <span class="speaker-badge badge-inner">실험군 A · Inner</span>
+      <div class="speaker-name">추신수</div>
+      <div class="speaker-detail">
+        <strong>방언</strong> 경남 통영 (경상도)<br>
+        <strong>World Englishes</strong> Inner circle 장기 노출<br>
+        <strong>영어 노출</strong> 미국 거주 약 20년 · 높음<br>
+        <strong>MLB</strong> 2006–2021 (시애틀·클리블랜드 등)<br>
+        <strong>숙련도</strong> 고급 (통역 없이 인터뷰)<br>
+        <strong>역할</strong> RQ 2 핵심 · 장기 노출 후 방언 효과 잔존 여부
+      </div>
+    </div>
+    <!-- 김영철 -->
+    <div class="speaker-card">
+      <span class="speaker-badge badge-gyeongsang">실험군 B · Gyeongsang</span>
+      <div class="speaker-name">김영철</div>
+      <div class="speaker-detail">
+        <strong>방언</strong> 경남 (경상도)<br>
+        <strong>World Englishes</strong> Expanding circle<br>
+        <strong>영어 노출</strong> 국내 학습 중심 · 낮음<br>
+        <strong>직업</strong> 개그맨·방송인<br>
+        <strong>역할</strong> 경상도 EFL 화자 · 낮은 영어 노출
+      </div>
+    </div>
+    <!-- 김민수 -->
+    <div class="speaker-card">
+      <span class="speaker-badge badge-gyeongsang">실험군 C · Gyeongsang</span>
+      <div class="speaker-name">김민수</div>
+      <div class="speaker-detail">
+        <strong>방언</strong> 경남 울산 (경상도)<br>
+        <strong>World Englishes</strong> Expanding circle<br>
+        <strong>영어 노출</strong> 국내 학습 중심 · 낮음<br>
+        <strong>직업</strong> 개그맨·유튜버 (피식대학)<br>
+        <strong>역할</strong> 장기하와의 직접 비교 핵심
+      </div>
+    </div>
+  </div>
+  <p class="caption">* 4인 모두 남성. 성별 효과 분리 불가 — 한계로 명시.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     §03 — METHODOLOGY
+═══════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-label">§ 03</div>
+  <h2 class="section-title">연구방법 및 측정 설계</h2>
+
+  <h3 style="font-size:1rem; font-weight:600; margin:1.5rem 0 0.7rem;">Pitch Distance (PD) 정의</h3>
+  <div class="def-box">
+    <div class="formula">PD (st) = F0_focus (st) − mean( F0_nonfocus ) (st)</div>
+    <div>where &nbsp;&nbsp; F0 (st) = 12 × log₂ ( F0_hz / 100 )</div>
+    <div class="sub">
+      F0_focus : 초점 단어 안정 구간의 F0 peak (Hz)<br>
+      F0_nonfocus : 동일 문장 내 비초점 내용어(명사·동사·형용사·부사)의 F0 peak 집합<br>
+      비초점 내용어가 2개 미만인 문장은 분석에서 제외 (PD 평균의 안정성 확보)
+    </div>
+  </div>
+
+  <h3 style="font-size:1rem; font-weight:600; margin:1.5rem 0 0.7rem;">TextGrid 및 PRAAT 스크립트</h3>
+  <p>PRAAT에서 3-tier TextGrid(sent / word / focus)를 구성해 초점 단어와 비초점 내용어를 레이블링했다. 초점 단어 판정은 이중 기준(청취 시 pitch 상승이 두드러지게 지각됨 + PRAAT Pitch tier에서 F0 peak가 동일 문장 내 다른 내용어 평균보다 높게 나타남)을 동시에 충족하는 경우로 한정했다. Pitch 추출 설정은 Floor 75 Hz / Ceiling 300 Hz (성인 남성 기준)이며, F0 최댓값을 Parabolic interpolation으로 추출했다. 문장별 PD는 PRAAT 스크립트로 자동 계산했고, nf ≥ 2인 문장의 PD 평균(Mean PD)을 화자별 대표값으로 사용했다.</p>
+
+  <h3 style="font-size:1rem; font-weight:600; margin:1.5rem 0 0.7rem;">발화 자료 수집</h3>
+  <p>YouTube 인터뷰 클립에서 오디오를 추출했다. 배경 소음·음악이 심한 클립은 제외했고, 자발적 구어 발화(낭독·노래 제외), 대화형 맥락, 비초점 내용어가 2개 이상 포함된 문장을 선별 기준으로 삼았다.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     §04 — RESULTS
+═══════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-label">§ 04</div>
+  <h2 class="section-title">분석 결과</h2>
+
+  <!-- 4-1. Summary stats -->
+  <h3 style="font-size:1rem; font-weight:600; margin-bottom:1rem;">4.1 화자별 Mean PD 요약</h3>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>화자</th>
+        <th>방언</th>
+        <th>World Englishes</th>
+        <th>유효 문장 수 (n)</th>
+        <th class="num">Mean PD (st)</th>
+        <th class="num">SD (st)</th>
+        <th class="num">Min (st)</th>
+        <th class="num">Max (st)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>장기하</td>
+        <td><span class="tag tag-s">Seoul</span></td>
+        <td>Expanding</td>
+        <td class="num">10</td>
+        <td class="num">2.377</td>
+        <td class="num">3.360</td>
+        <td class="num">−2.687</td>
+        <td class="num">8.353</td>
+      </tr>
+      <tr>
+        <td>추신수</td>
+        <td><span class="tag tag-g">Gyeongsang</span></td>
+        <td>Inner (장기 노출)</td>
+        <td class="num">9</td>
+        <td class="num">2.583</td>
+        <td class="num">1.624</td>
+        <td class="num">−1.401</td>
+        <td class="num">3.841</td>
+      </tr>
+      <tr>
+        <td>김영철</td>
+        <td><span class="tag tag-g">Gyeongsang</span></td>
+        <td>Expanding</td>
+        <td class="num">9</td>
+        <td class="num">4.552</td>
+        <td class="num">2.692</td>
+        <td class="num">1.512</td>
+        <td class="num">9.315</td>
+      </tr>
+      <tr>
+        <td>김민수</td>
+        <td><span class="tag tag-g">Gyeongsang</span></td>
+        <td>Expanding</td>
+        <td class="num">10</td>
+        <td class="num">4.494</td>
+        <td class="num">4.782</td>
+        <td class="num">−2.362</td>
+        <td class="num">13.729</td>
+      </tr>
+      <tr class="total-row">
+        <td colspan="4">경상도 3인 평균 (가중 없음)</td>
+        <td class="num">3.876</td>
+        <td class="num">—</td>
+        <td colspan="2"></td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="caption">PRAAT 스크립트 출력 기준. nf ≥ 2인 문장의 PD만 산입. 장기하의 경우 PRAAT 파일의 최종 Mean PD(nf≥2) = 2.377 (n=10)을 따른다.</p>
+
+  <!-- BAR CHART -->
+  <div class="chart-container">
+    <div class="chart-title">MEAN PD (ST) BY SPEAKER — WITH SD ERROR BARS</div>
+
+    <!-- Scale: max ~14 st. Bar track width = ~100%. 1 st = 7% of track width roughly -->
+    <!-- total scale: 0 to 10 st (generous) -->
+
+    <div class="bar-group">
+
+      <!-- 장기하 2.377 ± 3.360 -->
+      <div class="bar-row">
+        <div class="bar-label">장기하<br><span style="font-size:9px; color:var(--muted)">Seoul / Expanding</span></div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:23.77%; background:var(--seoul);"></div>
+          <!-- SD bar: from max(0, mean-sd) to min(10, mean+sd) -->
+          <!-- mean=2.377, sd=3.360 → lo=0, hi=5.737 → bar from 0% to 57.37% -->
+          <div class="bar-sd" style="left:0%; width:57.37%;"></div>
+        </div>
+        <div class="bar-value">2.38 st</div>
+      </div>
+
+      <!-- 추신수 2.583 ± 1.624 -->
+      <div class="bar-row">
+        <div class="bar-label">추신수<br><span style="font-size:9px; color:var(--muted)">Gyeongsang / Inner</span></div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:25.83%; background:var(--inner);"></div>
+          <!-- lo=0.959, hi=4.207 → 9.59% to 42.07% -->
+          <div class="bar-sd" style="left:9.59%; width:32.48%;"></div>
+        </div>
+        <div class="bar-value">2.58 st</div>
+      </div>
+
+      <!-- 김영철 4.552 ± 2.692 -->
+      <div class="bar-row">
+        <div class="bar-label">김영철<br><span style="font-size:9px; color:var(--muted)">Gyeongsang / Expanding</span></div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:45.52%; background:var(--gyeongsang);"></div>
+          <!-- lo=1.86, hi=7.244 → 18.6% to 72.44% -->
+          <div class="bar-sd" style="left:18.6%; width:53.84%;"></div>
+        </div>
+        <div class="bar-value">4.55 st</div>
+      </div>
+
+      <!-- 김민수 4.494 ± 4.782 -->
+      <div class="bar-row">
+        <div class="bar-label">김민수<br><span style="font-size:9px; color:var(--muted)">Gyeongsang / Expanding</span></div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:44.94%; background:var(--gyeongsang); opacity:0.8;"></div>
+          <!-- lo=0, hi=9.276 → 0% to 92.76% -->
+          <div class="bar-sd" style="left:0%; width:92.76%;"></div>
+        </div>
+        <div class="bar-value">4.49 st</div>
+      </div>
+
+    </div>
+
+    <!-- 참조선 -->
+    <div style="margin-top:1rem; padding-top:1rem; border-top:1px solid var(--rule);">
+      <div style="font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); display:flex; gap:2rem; flex-wrap:wrap;">
+        <span>선행연구 참조값</span>
+        <span style="color:var(--accent);">■ 서울 EFL 화자 ≈ 1.2 st (Liu et al., 2019)</span>
+        <span style="color:var(--ink);">■ 영어 원어민 ≈ 2.5 st (Liu et al., 2019)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4-2. Sentence-level PD table -->
+  <h3 style="font-size:1rem; font-weight:600; margin:2rem 0 1rem;">4.2 문장별 PD 원데이터 (nf ≥ 2 포함 전체)</h3>
+
+  <table class="raw-table">
+    <thead>
+      <tr>
+        <th>문장</th>
+        <th>장기하<br>Seoul / Exp.</th>
+        <th>추신수<br>Gyeongsang / Inner</th>
+        <th>김영철<br>Gyeongsang / Exp.</th>
+        <th>김민수<br>Gyeongsang / Exp.</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>s01</td><td class="pd-cell-na">–</td><td class="pd-cell-pos">+2.207</td><td class="pd-cell-pos">+1.512</td><td class="pd-cell-pos">+2.607</td></tr>
+      <tr><td>s02</td><td class="pd-cell-pos">+4.765</td><td class="pd-cell-pos">+3.231</td><td class="pd-cell-na">–</td><td class="pd-cell-pos">+6.091</td></tr>
+      <tr><td>s03</td><td class="pd-cell-pos">+5.084</td><td class="pd-cell-pos">+3.627</td><td class="pd-cell-pos">+5.232</td><td class="pd-cell-pos">+1.058</td></tr>
+      <tr><td>s04</td><td class="pd-cell-neg">−0.107</td><td class="pd-cell-pos">+2.456</td><td class="pd-cell-pos">+4.846</td><td class="pd-cell-neg">−2.362</td></tr>
+      <tr><td>s05</td><td class="pd-cell-pos">+8.353</td><td class="pd-cell-na">–</td><td class="pd-cell-na">–</td><td class="pd-cell-pos">+0.551</td></tr>
+      <tr><td>s06</td><td class="pd-cell-neg">−1.680</td><td class="pd-cell-pos">+3.841</td><td class="pd-cell-na">–</td><td class="pd-cell-pos">+2.369</td></tr>
+      <tr><td>s07</td><td class="pd-cell-pos">+0.239</td><td class="pd-cell-pos">+0.130</td><td class="pd-cell-pos">+3.043</td><td class="pd-cell-pos">+8.526</td></tr>
+      <tr><td>s08</td><td class="pd-cell-na">–</td><td class="pd-cell-na">–</td><td class="pd-cell-pos">+8.288</td><td class="pd-cell-pos">+4.637</td></tr>
+      <tr><td>s09</td><td class="pd-cell-na">–</td><td class="pd-cell-pos">+3.205</td><td class="pd-cell-pos">+3.155</td><td class="pd-cell-neg">−0.605</td></tr>
+      <tr><td>s10</td><td class="pd-cell-neg">−2.687</td><td class="pd-cell-na">–</td><td class="pd-cell-pos">+2.051</td><td class="pd-cell-pos">+11.161</td></tr>
+      <tr><td>s11</td><td class="pd-cell-na">–</td><td class="pd-cell-pos">+2.228</td><td class="pd-cell-pos">+9.315</td><td class="pd-cell-neg">−0.839</td></tr>
+      <tr><td>s12</td><td class="pd-cell-neg">−1.049</td><td class="pd-cell-pos">+2.323</td><td class="pd-cell-pos">+3.528</td><td class="pd-cell-pos">+13.729</td></tr>
+      <tr><td>s13</td><td class="pd-cell-pos">+1.897</td><td class="pd-cell-pos">+0.620</td><td>—</td><td class="pd-cell-pos">+1.211</td></tr>
+      <tr><td>s14</td><td class="pd-cell-pos">+3.083</td><td class="pd-cell-neg">−1.401</td><td>—</td><td class="pd-cell-na">–</td></tr>
+      <tr><td>s15</td><td class="pd-cell-pos">+3.180</td><td class="pd-cell-na">–</td><td>—</td><td class="pd-cell-pos">+6.851</td></tr>
+      <tr><td>s16</td><td class="pd-cell-neg">−1.674</td><td class="pd-cell-na">–</td><td>—</td><td>—</td></tr>
+      <tr style="background:var(--highlight);">
+        <td style="font-weight:600; font-family:'DM Mono',monospace; font-size:11px;">Mean PD<br>(nf≥2)</td>
+        <td style="font-weight:600;">2.377 st<br><span style="font-size:10px;color:var(--muted);">n=10</span></td>
+        <td style="font-weight:600;">2.583 st<br><span style="font-size:10px;color:var(--muted);">n=9</span></td>
+        <td style="font-weight:600;">4.552 st<br><span style="font-size:10px;color:var(--muted);">n=9</span></td>
+        <td style="font-weight:600;">4.494 st<br><span style="font-size:10px;color:var(--muted);">n=10</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="caption">– : 해당 문장이 존재하지 않거나 nf 조건(비초점 내용어 1개 이하) 미충족으로 분석 제외. 값이 없는 칸은 해당 화자의 문장 번호 자체가 없음(화자별 총 문장 수 상이).</p>
+
+  <!-- 4-3. INTERPRETATION -->
+  <h3 style="font-size:1rem; font-weight:600; margin:2rem 0 1rem;">4.3 결과 해석</h3>
+
+  <div class="finding-grid">
+    <div class="finding-box">
+      <div class="finding-num">F1</div>
+      <div class="finding-label">경상도 expanding > 서울 expanding</div>
+      <div class="finding-body">김영철(4.55 st), 김민수(4.49 st) 두 화자 모두 장기하(2.38 st)의 두 배 수준의 Mean PD를 보였다. 영어 노출이 낮은 expanding circle 경상도 화자에서 서울 화자 대비 뚜렷한 초점 pitch 도약이 관찰된다. RQ 1에 대한 긍정적 방향의 예비 증거다.</div>
+    </div>
+    <div class="finding-box">
+      <div class="finding-num">F2</div>
+      <div class="finding-label">Inner circle 장기 노출 → 수렴</div>
+      <div class="finding-body">추신수(2.58 st)의 Mean PD는 서울 화자 장기하(2.38 st)와 거의 동일한 수준이다. 약 20년간 inner circle 환경에서 영어를 사용한 결과, expanding circle 경상도 화자(김영철·김민수)와의 격차가 2 st 이상으로 벌어졌다. RQ 2에 대해, 장기 노출이 방언 전이 효과를 실질적으로 억제하거나 서울 화자 수준으로 수렴시킨다는 방향성이 관찰된다.</div>
+    </div>
+    <div class="finding-box">
+      <div class="finding-num">F3</div>
+      <div class="finding-label">분산의 이질성</div>
+      <div class="finding-body">추신수의 SD(1.62 st)는 4인 중 가장 낮아 문장 간 PD 편차가 안정적이다. 반면 김민수의 SD(4.78 st)는 매우 크며, 최솟값 −2.36 st에서 최댓값 13.73 st까지 극단적 범위를 보인다. 이는 김민수의 초점 전략이 문장에 따라 현저히 다르거나, 어휘·맥락 요인에 민감하게 반응함을 시사한다.</div>
+    </div>
+    <div class="finding-box">
+      <div class="finding-num">F4</div>
+      <div class="finding-label">음수 PD 발생 패턴</div>
+      <div class="finding-body">장기하(5/12문장), 김민수(3/14문장)에서 PD < 0이 다수 발생했다. 이는 표시된 초점 단어의 F0가 비초점 내용어 평균보다 낮았음을 의미한다. 초점 판정 이중 기준에도 불구하고 이런 사례가 나타났다는 것은, 자연 발화에서 초점이 pitch 이외의 단서(강도·지속시간)에 의존하거나 pitch 단서가 불안정하게 실현됐을 가능성을 시사한다. 또한 EFL 화자의 초점 prosody가 원어민과 다른 방식으로 실현된다는 Liu et al.(2019)의 관찰과 일치한다.</div>
+    </div>
+    <div class="finding-box">
+      <div class="finding-num">F5</div>
+      <div class="finding-label">선행연구 수치와 대조</div>
+      <div class="finding-body">Liu, Xu &amp; Lee(2019)는 서울 방언 EFL 화자의 초점 PD를 ≈ 1.2 st로 보고했다. 본 연구에서 장기하의 Mean PD는 2.38 st로 이를 상회한다. 발화 자료의 성격(digit string 낭독 vs. 자연 발화 인터뷰) 차이와 화자 개인차가 주된 요인으로 추정된다. 영어 원어민 기준값(≈ 2.5 st)과 비교하면 장기하와 추신수는 그 범위 내에 있고, 경상도 expanding 화자 2인은 명확히 상회한다.</div>
+    </div>
+    <div class="finding-box">
+      <div class="finding-num">F6</div>
+      <div class="finding-label">김영철의 안정적 양(+) PD</div>
+      <div class="finding-body">김영철은 9개 분석 문장 전원에서 PD &gt; 0이었다. 즉 초점 단어가 모든 분석 문장에서 비초점 내용어보다 높은 pitch를 기록했다. 이는 4인 중 유일하며, 경상도 방언의 lexical pitch accent 체계가 영어 초점 prosody와 방향적으로 일치하는 전이를 일으킬 가능성을 가장 일관되게 보여주는 사례다.</td>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p>전반적으로, expanding circle 경상도 화자(김영철·김민수)의 초점 PD는 서울 화자(장기하)보다 크고, inner circle 장기 노출자(추신수)는 서울 화자 수준에 수렴한다. 이 방향성은 경상도 방언의 pitch accent 체계가 영어 초점 prosody production에 전이될 수 있다는 가설과 일치하지만, 4인이라는 표본 규모상 일반화는 불가하다.</p>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     §05 — LITERATURE
+═══════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-label">§ 05</div>
+  <h2 class="section-title">선행연구 인용 및 인용 위치 안내</h2>
+
+  <p style="margin-bottom:1.5rem;">아래 각 항목에 인용된 부분(캡처 대상)과 본 연구에서의 인용 기능을 명시한다.</p>
+
+  <div class="lit-item">
+    <div class="lit-cite">[1] Liu, J., Xu, Y., &amp; Lee, Y. (2019). Post-focus compression is not automatically transferred from Korean to L2 English. <em>Phonetics and Speech Sciences</em>, 11(2), 15–21.</div>
+    <div class="lit-body">한국인 EFL 화자와 영어 원어민의 초점 prosody를 비교한 발화 실험. 원어민의 초점 pitch 도약은 약 2.5 st, 서울 방언 EFL 화자는 약 1.2 st로 보고됨. 한국인 EFL 화자는 초점 prosody를 원어민 수준으로 전이시키지 못하며, 숙련도가 낮을수록 초점·비초점 위치 간 음향 단서 차이가 거의 없음. 본 연구의 baseline 수치 출처이자 가설의 출발점.</div>
+    <div class="lit-quote-where">캡처 위치 → 논문 본문 §Results: "1.2 extra pitch in semitones" / "2.5 semitones" 수치가 포함된 결과 서술 부분 또는 Figure (원어민 vs. 한국어 화자 PD 비교 그래프).</div>
+  </div>
+
+  <div class="lit-item">
+    <div class="lit-cite">[2] Kim, H., &amp; Tremblay, A. (2021). Korean listeners' processing of suprasegmental lexical contrasts in Korean and English: A cue-based transfer approach. <em>Journal of Phonetics</em>, 87, 101059.</div>
+    <div class="lit-body">경상도 방언(GK) 화자와 서울 방언(SK) 화자의 영어 lexical stress 지각을 비교한 지각 실험. GK 화자가 SK 화자보다 F0 단서를 더 강하게 활용함(cue-weighting transfer). 지각에서 GK의 pitch accent 처리 방식이 영어 L2로 전이된다는 것을 실증. 발화(production) 측면은 미탐색 — 본 연구가 채우고자 하는 공백의 근거.</div>
+    <div class="lit-quote-where">캡처 위치 → Abstract 또는 Introduction의 "GK listeners outperformed SK listeners in the processing of English lexical stress" / "transferred their use of pitch cues from the L1 to the L2" 문장.</div>
+  </div>
+
+  <div class="lit-item">
+    <div class="lit-cite">[3] Liu, J., Xu, Y., &amp; Lee, Y. (2022). Focus prosody by Korean learners of English. <em>Laboratory Phonology</em>, 13(1).</div>
+    <div class="lit-body">한국인 EFL 학습자를 숙련도 별로 분류해 영어 초점 prosody 발화를 실험한 연구. 고숙련자는 on-focus F0 상승이 원어민에 가까워지나, post-focus compression은 여전히 원어민에 미치지 못함. 서울 방언 화자 집단 대상 연구로, 경상도 방언 화자를 포함하지 않는다 — 본 연구의 방언별 분화 분석이 기여하는 지점.</div>
+    <div class="lit-quote-where">캡처 위치 → Abstract의 "advanced-level speakers produced acoustic cues quite similar to those of native speakers, their post-focus production did not resemble that of native speakers" 문장.</div>
+  </div>
+
+  <div class="lit-item">
+    <div class="lit-cite">[4] Jun, S.-A. (1998). The Accentual Phrase in the Korean Prosodic Hierarchy. <em>Phonology</em>, 15(2), 189–226.</div>
+    <div class="lit-body">서울 한국어의 운율 체계를 기술한 핵심 논문. 서울 방언은 lexical pitch accent 및 lexical stress를 갖지 않으며, Accentual Phrase(AP) 기반 edge-prominence 언어임을 논증. 경상도 방언이 lexical pitch accent를 보유한다는 대비적 언급 포함. 본 연구에서 서울 방언과 경상도 방언의 운율 체계 차이를 기술하는 이론적 근거.</div>
+    <div class="lit-quote-where">캡처 위치 → 논문 §Introduction 또는 §Korean Prosody 부분에서 "Seoul Korean does not have lexical pitch accent" 또는 이에 상당하는 서술. 경상도 방언과의 대비가 나타나는 본문 표현.</div>
+  </div>
+
+  <div class="lit-item">
+    <div class="lit-cite">[5] Kim, O.-Y. (2008). Native influence on the production of English intonation. <em>Speech Sciences</em>, 15(1).</div>
+    <div class="lit-body">한국인 화자의 영어 억양 발화를 분석한 연구. 강세를 받는 단어에서 영어 원어민은 H* pitch accent를 사용하지만, 한국어 화자는 LH 성조 패턴을 전이시켜 마지막 음절에 high pitch를 배치하는 경향이 있음. 단어 단위의 강세 측정을 사용하는 반면, 본 연구는 문장 내 초점 단어 전체를 비초점 내용어와 비교하는 방식으로 측정 단위가 다르다. 그러나 한국어 억양 패턴이 영어 발화에 전이된다는 전제를 실증한 선행 연구로서 인용.</div>
+    <div class="lit-quote-where">캡처 위치 → 논문 본문의 "Korean speakers do not assign H* accent on the stressed syllable of the accented word properly. Instead, they mostly produce the accented word with LH tonal pattern" 서술 부분.</div>
+  </div>
+
+  <div class="lit-item">
+    <div class="lit-cite">[6] Kachru, B. B. (1985). Standards, codification and sociolinguistic realism: English language in the outer circle. In R. Quirk &amp; H. Widdowson (Eds.), <em>English in the world: Teaching and learning the language and literatures</em> (pp. 11–30). Cambridge University Press.</div>
+    <div class="lit-body">영어 사용 국가를 inner circle, outer circle, expanding circle로 분류한 World Englishes 동심원 모델의 원전. 본 연구에서 표본 4인의 영어 사용 맥락을 구조적으로 분류하는 기준 틀로 활용. 추신수의 inner circle 장기 노출이 장기하(expanding)와의 비교에서 갖는 의미를 이론화하는 데 사용.</div>
+    <div class="lit-quote-where">캡처 위치 → "the type of spread, the patterns of acquisition and the functional domains in which English is used across cultures and languages" 등 세 동심원의 정의가 기술된 본문 부분.</div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     §06 — LIMITATIONS
+═══════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-label">§ 06</div>
+  <h2 class="section-title">연구 한계</h2>
+
+  <ul class="limit-list">
+    <li><strong>표본 크기.</strong> 4인은 통계적 일반화에 불충분하다. 방향성 관찰과 선행연구 비교에 한정되며, 집단 간 유의성 검정(t-test 등)은 적용하지 않는다.</li>
+    <li><strong>자연 발화의 통제 불가.</strong> 어휘, 발화 속도, 정서적 맥락이 화자별·문장별로 상이하다. 동일 초점 구조를 여러 번 반복 측정하는 통제 실험 설계와 달리 편차가 불가피하다. 김민수의 높은 SD(4.78 st)는 이 문제가 실제로 발현된 결과로 볼 수 있다.</li>
+    <li><strong>초점 판정의 재량.</strong> 이중 기준(청취 + PRAAT 시각)을 적용했으나 초점 판정이 연구자 재량을 완전히 배제할 수 없다. 평정자 간 신뢰도(inter-rater reliability) 검증은 실시하지 못했다.</li>
+    <li><strong>성별 효과 분리 불가.</strong> 4인 모두 남성으로, 성별 변수의 영향을 검토할 수 없다.</li>
+    <li><strong>수행적 발화 맥락.</strong> YouTube 인터뷰는 일상 발화와 다른 언어 자의식(monitoring)이 작용할 수 있으며, 방언 특성을 억제하는 방향으로 영향을 미칠 가능성이 있다. 이는 경상도 화자의 방언 전이 효과를 과소 측정하는 방향으로 편향될 수 있다.</li>
+    <li><strong>경상도 방언 자격 사전 검증 미실시.</strong> 한국어 발화 과제를 통해 경상도 억양 사용 여부를 사전 검증하지 못했다. 추신수의 경우 20년 이상의 미국 거주로 한국어 경상도 억양이 약화됐을 가능성이 있으며, 이는 RQ 2 해석에 내재한 불확실성이다.</li>
+    <li><strong>측정 단위의 차이.</strong> 본 연구는 문장 내 초점 단어를 비초점 내용어 전체 평균과 비교하는 방식을 사용한다. Kim(2008) 등 단어 내 강세 syllable 단위 측정 연구와의 직접 비교는 방법론적 차이로 인해 제한적이다.</li>
+  </ul>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     §07 — CONCLUSION
+═══════════════════════════════════════════════════════════ -->
+<section class="section">
+  <div class="section-label">§ 07</div>
+  <h2 class="section-title">결론 및 후속 연구 방향</h2>
+
+  <p>네 화자의 PRAAT 데이터는 일관된 방향성을 보여준다. expanding circle 경상도 화자(김영철 4.55 st, 김민수 4.49 st)의 초점 PD는 서울 방언 화자(장기하 2.38 st)를 명확히 상회하고, inner circle 장기 노출 경상도 화자(추신수 2.58 st)는 서울 화자와 사실상 동일한 수준으로 수렴한다. Liu, Xu &amp; Lee(2019)가 보고한 선행 수치—서울 방언 EFL ≈ 1.2 st, 영어 원어민 ≈ 2.5 st—와 대조하면, 이번 결과에서 장기하와 추신수는 원어민 기준치 근방에, expanding circle 경상도 화자 2인은 그것을 상회하는 위치에 자리한다.</p>
+
+  <p>이 패턴이 경상도 방언의 lexical pitch accent에서 비롯한 전이인지, 개인차나 화자별 발화 스타일의 반영인지는 표본 크기와 통제의 한계로 현재로서는 결론 내리기 어렵다. 다만 Kim &amp; Tremblay(2021)가 지각 실험에서 확인한 방향—GK 화자의 F0 단서 활용 우위—이 이번 생산(production) 데이터에서도 잠정적으로 관찰된다는 점은 의미가 있다. 두 연구를 합치면, GK 화자는 지각과 발화 양 측면에서 pitch 단서를 더 적극적으로 운용할 가능성이 있다는 예비적 가설을 구성할 수 있다.</p>
+
+  <p>후속 연구는 경상도·서울 방언 화자 각각 15인 이상을 대상으로 동일 초점 구조를 반복 측정하는 통제 실험 설계로 나아가야 한다. 영어 숙련도(TOEIC·OPIc 등 공인 점수)를 공변량으로 포함하고, 경상도 방언 사용 정도를 한국어 발화 사전 과제로 정량화할 필요가 있다. 이와 함께 F0 외에 지속시간(duration)과 강도(intensity)를 함께 측정해 초점 prosody의 다차원 구조를 분석하는 방향도 검토할 수 있다. Liu, Xu &amp; Lee(2022)가 서울 방언 화자 집단으로 수행한 것을 경상도 화자 집단에 동일하게 적용하는 것이 가장 직접적인 후속 연구 형태일 것이다.</p>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     REFERENCES
+═══════════════════════════════════════════════════════════ -->
+<section class="section" style="border-bottom:none;">
+  <div class="section-label">참고문헌</div>
+  <h2 class="section-title">References</h2>
+
+  <div style="font-family:'DM Mono',monospace; font-size:12px; line-height:2.2; color:var(--ink);">
+    <p>Jun, S.-A. (1998). The Accentual Phrase in the Korean Prosodic Hierarchy. <em>Phonology</em>, 15(2), 189–226.</p>
+    <p>Kachru, B. B. (1985). Standards, codification and sociolinguistic realism: English language in the outer circle. In R. Quirk &amp; H. Widdowson (Eds.), <em>English in the world: Teaching and learning the language and literatures</em> (pp. 11–30). Cambridge University Press.</p>
+    <p>Kim, H., &amp; Tremblay, A. (2021). Korean listeners' processing of suprasegmental lexical contrasts in Korean and English: A cue-based transfer approach. <em>Journal of Phonetics</em>, 87, 101059. https://doi.org/10.1016/j.wocn.2021.101059</p>
+    <p>Kim, O.-Y. (2008). Native influence on the production of English intonation. <em>Speech Sciences</em>, 15(1), 25–43.</p>
+    <p>Liu, J., Xu, Y., &amp; Lee, Y. (2019). Post-focus compression is not automatically transferred from Korean to L2 English. <em>Phonetics and Speech Sciences</em>, 11(2), 15–21. https://doi.org/10.13064/KSSS.2019.11.2.015</p>
+    <p>Liu, J., Xu, Y., &amp; Lee, Y. (2022). Focus prosody by Korean learners of English. <em>Laboratory Phonology</em>, 13(1). https://doi.org/10.1075/lab.20031.liu</p>
+  </div>
+</section>
+</div>
+
+<footer>
+  경상도 방언 화자의 영어 발화 강세 Pitch Distance 연구 · Group 2 · 영어의 사회언어학 · 2025<br>
+  PRAAT 6.4.65 · 분석 단위 semitone (st) · nf ≥ 2 문장 기준 Mean PD
+</footer>
+
+</body>
+</html>
