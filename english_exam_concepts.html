@@ -250,9 +250,127 @@ footer {
   font-family: 'DM Mono', monospace;
 }
 
+.toc-group {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  padding: 0.15rem 0.45rem;
+  border-left: 2px solid var(--rule);
+}
+.toc-label {
+  font-size: 0.62rem;
+  color: var(--ink2);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: 'DM Mono', monospace;
+}
+
+.concept-map {
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-top: 4px solid var(--ink);
+  padding: 1.1rem 1.2rem 1.25rem;
+  margin-bottom: 2.2rem;
+}
+.map-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+.map-note {
+  font-size: 0.8rem;
+  color: var(--ink3);
+  margin-bottom: 0.9rem;
+  word-break: keep-all;
+}
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+.map-family {
+  border: 1px solid var(--rule);
+  background: var(--paper2);
+  padding: 0.85rem;
+}
+.map-family h2 {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: 'DM Mono', monospace;
+  color: var(--ink3);
+  margin-bottom: 0.6rem;
+}
+.map-node {
+  display: block;
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.88rem;
+  margin: 0.25rem 0;
+  word-break: keep-all;
+}
+.map-node:hover { color: var(--red); }
+.map-node.child {
+  margin-left: 1rem;
+  padding-left: 0.8rem;
+  border-left: 2px solid var(--rule);
+  font-weight: 500;
+  color: var(--ink2);
+}
+.map-link {
+  display: inline-block;
+  margin-left: 0.3rem;
+  color: var(--ink3);
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+.concept-cluster {
+  position: relative;
+  margin: 0 0 3.5rem;
+  padding: 1rem 1rem 0;
+  border: 1px solid var(--rule);
+  border-left: 5px solid var(--blue);
+  background: rgba(255,255,255,0.35);
+}
+.cluster-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--blue);
+  font-weight: 700;
+  margin-bottom: 0.9rem;
+}
+.concept-cluster .entry {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+.concept-cluster .entry:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+.concept-cluster .entry:not(#stripping) {
+  padding-left: 1rem;
+  border-left: 2px solid var(--rule);
+}
+.concept-cluster .entry:not(#stripping) .entry-term::before {
+  content: '↳ ';
+  color: var(--blue);
+}
+
 @media (max-width: 680px) {
   .entry { grid-template-columns: 1fr; }
   .entry-meta { position: static; margin-bottom: 1rem; }
+  .map-grid { grid-template-columns: 1fr; }
+  .toc { justify-content: flex-start; }
+  .toc-group { display: flex; width: 100%; }
+  .concept-cluster { padding: 0.8rem 0.8rem 0; }
+  .concept-cluster .entry:not(#stripping) { padding-left: 0.7rem; }
 }
 </style>
 </head>
@@ -264,61 +382,354 @@ footer {
 </header>
 
 <nav class="toc">
-  <a href="#anti-pun">Anti-Pun Ordinance</a>
-  <a href="#deep">심층대용화</a>
-  <a href="#default-case">Default Case</a>
-  <a href="#gapping">공백화</a>
-  <a href="#idiom">관용어 전파</a>
-  <a href="#lex-decomp">어휘분해</a>
-  <a href="#lf-par">LF 해석 병행성</a>
-  <a href="#loc-inv">처소 도치</a>
-  <a href="#not-strip">Not-최소공백화</a>
-  <a href="#nca">영보어 대용화</a>
-  <a href="#pivot">축</a>
-  <a href="#proximity">인접성 효과</a>
-  <a href="#pseudo">유사공백화</a>
-  <a href="#rnr">우절점공유</a>
-  <a href="#rd">우전위</a>
-  <a href="#sloppy">이완지시 해석</a>
-  <a href="#sluicing">수문</a>
-  <a href="#strict">엄밀지시 해석</a>
-  <a href="#stripping">최소공백화</a>
-  <a href="#surface">표층대용화</a>
-  <a href="#syn-par">통사적 병행성</a>
-  <a href="#vpe">VP 생략</a>
-  <a href="#why-strip">Why-최소공백화</a>
+  <span class="toc-group"><span class="toc-label">생략 기본</span><a href="#gapping">공백화</a><a href="#pseudo">유사공백화</a><a href="#vpe">VP 생략</a><a href="#sluicing">수문</a></span>
+  <span class="toc-group"><span class="toc-label">최소공백화 계열</span><a href="#stripping">최소공백화</a><a href="#not-strip">Not-최소공백화</a><a href="#why-strip">Why-최소공백화</a></span>
+  <span class="toc-group"><span class="toc-label">대용화</span><a href="#deep">심층대용화</a><a href="#surface">표층대용화</a><a href="#nca">영보어 대용화</a><a href="#lex-decomp">어휘분해</a></span>
+  <span class="toc-group"><span class="toc-label">해석 진단</span><a href="#strict">엄밀지시 해석</a><a href="#sloppy">이완지시 해석</a><a href="#idiom">관용어 전파</a><a href="#lf-par">LF 해석 병행성</a><a href="#syn-par">통사적 병행성</a></span>
+  <span class="toc-group"><span class="toc-label">공유/전위</span><a href="#rnr">우절점공유</a><a href="#pivot">축</a><a href="#anti-pun">Anti-Pun Ordinance</a><a href="#proximity">인접성 효과</a><a href="#default-case">Default Case</a><a href="#rd">우전위</a><a href="#loc-inv">처소 도치</a></span>
 </nav>
 
 <div class="page">
+<section class="concept-map" aria-labelledby="concept-map-title">
+  <div class="map-title" id="concept-map-title">개념 관계 지도</div>
+  <div class="map-note">각 묶음은 시험에서 같이 물릴 가능성이 높은 관계다. 위 항목이 상위 개념이고, 들여쓴 항목은 하위 유형·진단 기준·증거로 읽으면 된다.</div>
+  <div class="map-grid">
+    <div class="map-family">
+      <h2>Stripping Family</h2>
+      <a class="map-node" href="#stripping">최소공백화 <span class="map-link">상위 개념</span></a>
+      <a class="map-node child" href="#not-strip">Not-최소공백화 <span class="map-link">대조 부정 / 섬제약 구제 불가</span></a>
+      <a class="map-node child" href="#why-strip">Why-최소공백화 <span class="map-link">이유 질문 / 섬제약 구제 가능</span></a>
+    </div>
+    <div class="map-family">
+      <h2>Anaphora Tests</h2>
+      <a class="map-node" href="#deep">심층대용화</a>
+      <a class="map-node" href="#surface">표층대용화</a>
+      <a class="map-node child" href="#nca">영보어 대용화 <span class="map-link">중간적/저층대용화 문제</span></a>
+      <a class="map-node child" href="#syn-par">통사적 병행성</a>
+      <a class="map-node child" href="#strict">엄밀지시</a>
+      <a class="map-node child" href="#sloppy">이완지시</a>
+    </div>
+    <div class="map-family">
+      <h2>Ellipsis Types</h2>
+      <a class="map-node" href="#gapping">공백화 <span class="map-link">동사/VP 삭제 + 잔여성분</span></a>
+      <a class="map-node child" href="#pseudo">유사공백화 <span class="map-link">VP 생략 + 잔여성분</span></a>
+      <a class="map-node child" href="#vpe">VP 생략 <span class="map-link">표층대용화 진단</span></a>
+      <a class="map-node child" href="#sluicing">수문 <span class="map-link">wh-이동 + TP 삭제</span></a>
+    </div>
+    <div class="map-family">
+      <h2>Sharing / LF Copy</h2>
+      <a class="map-node" href="#rnr">우절점공유</a>
+      <a class="map-node child" href="#pivot">축</a>
+      <a class="map-node child" href="#anti-pun">Anti-Pun Ordinance</a>
+      <a class="map-node child" href="#proximity">인접성 효과</a>
+      <a class="map-node child" href="#lf-par">LF 해석 병행성</a>
+      <a class="map-node child" href="#default-case">Default Case</a>
+    </div>
+  </div>
+</section>
 
-<!-- ANTI-PUN ORDINANCE -->
-<div class="entry" id="anti-pun">
+<!-- GAPPING -->
+<div class="entry" id="gapping">
   <div class="entry-meta">
-    <div class="entry-tag constraint">Constraint</div>
-    <div class="entry-term">Anti-Pun Ordinance</div>
-    <div class="entry-term-en">Anti-Pun Ordinance</div>
-    <div class="entry-chapter">Ch. 11 · 우절점공유</div>
+    <div class="entry-tag ellipsis">Ellipsis</div>
+    <div class="entry-term">공백화</div>
+    <div class="entry-term-en">Gapping</div>
+    <div class="entry-chapter">Ch. 7 · Ross 1970</div>
   </div>
   <div class="entry-body">
     <div class="def-box">
-      우절점공유(RNR)에서 <strong>동음이의어(homonym)</strong> — 즉 동일한 음성 형태를 가지지만 서로 무관한 두 가지 의미를 갖는 어휘 — 가 축(pivot)으로 나타나는 것을 금지하는 제약.
+      등위 구조에서 <strong>비선행 연접소의 동사(또는 동사구)가 삭제</strong>되고 <strong>잔여성분(remnant)</strong>만 남는 생략 현상. Ross(1970)가 명명. 선행절과 후행절 사이에 대응 관계(correlate)가 반드시 존재해야 하며, 잔여성분은 삭제지점의 좌·우측에 남는다.
     </div>
-    <p>Anti-Pun Ordinance는 RNR이 단순한 음성적 동일성이 아니라 <strong>의미적(LF) 동일성</strong>을 요구한다는 직관을 포착한다. LF 복사 분석(LF Copy Analysis)에 따르면 RNR은 발음되는 연접소의 LF 내용을 발음되지 않는 연접소에 복사하는 방식으로 도출된다. 동음이의어 축의 경우 복사할 단일한 LF 내용이 존재하지 않으므로 구제 불가능한 비문이 된다.</p>
-    <div class="sub-head">예문</div>
+    <div class="sub-head">핵심 특성</div>
     <div class="ex">
-      <div class="ex-label">동음이의어 축 → 비문</div>
-      <span class="ungram">*John saw, and Mary sketched, the bank.</span><br>
-      <span class="t">→ "bank" = 금융기관 OR 강둑 — 두 개의 별개 LF</span><br>
-      <span class="t">→ 두 연접소가 서로 다른 의미의 "bank"를 지시할 경우 비문</span>
+      <div class="ex-label">기본 공백화 — 영어</div>
+      <span class="gram">John eats apples, and Mary Ø bananas.</span><br>
+      <span class="t">→ 후행절에서 "eats" 삭제; "Mary"와 "bananas"가 잔여성분</span>
     </div>
-    <div class="ex">
-      <div class="ex-label">단의어 축 → 정문</div>
-      <span class="gram">John bought, and Mary read, the book.</span><br>
-      <span class="t">→ "the book"은 단일한 LF → 복사 가능 → 정문</span>
-    </div>
-    <div class="kp"><strong>이론적 함의:</strong> Anti-Pun Ordinance는 RNR이 음운부(PF)가 아니라 논리형태(LF) 수준의 동일성을 요구한다는 핵심 증거로, LF 복사 분석을 지지하고 순수 음운 삭제 분석에 반하는 논거가 된다.</div>
+    <div class="sub-head">공백화 / VP 생략 / 유사공백화 3자 대조</div>
+    <table class="contrast">
+      <thead><tr><th>현상</th><th>조동사 잔존</th><th>후행 잔여성분</th><th>예</th></tr></thead>
+      <tbody>
+        <tr><td>공백화</td><td>✗</td><td>✓</td><td><em>John ate apples and Mary Ø pears.</em></td></tr>
+        <tr><td>VP 생략</td><td>✓</td><td>✗</td><td><em>John ate apples and Mary did Ø too.</em></td></tr>
+        <tr><td>유사공백화</td><td>✓</td><td>✓</td><td><em>John ate apples and Mary did Ø pears.</em></td></tr>
+      </tbody>
+    </table>
+    <div class="sub-head">한국어 초점문에서의 공백화</div>
+    <p>Ch. 7에서 한국어 초점문의 공백화 유사 구문은 [+focus] 자질을 가진 잔여성분이 <strong>Spec-FocP로 외현이동</strong>한 후, 음성형태에서 VP 또는 더 큰 범주(NegP, AgrSP, TP)가 삭제되는 것으로 분석된다. 이때 남은 잔여성분에 계사 '이'(초점조동사)가 최후수단으로 삽입되어 TP를 구제한다.</p>
+    <div class="kp"><strong>생략 범위 선호도 (초점문 최대화 원리):</strong> TP 삭제(최소공백화) &gt; NegP 삭제 &gt; AgrSP 삭제 &gt; VP 삭제(유사공백화) 순으로 선호됨.</div>
   </div>
 </div>
+
+<!-- PSEUDOGAPPING -->
+<div class="entry" id="pseudo">
+  <div class="entry-meta">
+    <div class="entry-tag ellipsis">Ellipsis</div>
+    <div class="entry-term">유사공백화</div>
+    <div class="entry-term-en">Pseudogapping</div>
+    <div class="entry-chapter">Ch. 7 · Levin 1978</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      VP 생략과 공백화의 특성을 모두 지니는 생략 구문. <strong>조동사가 잔존</strong>하고(VP 생략처럼), 조동사 뒤에 <strong>잔여성분</strong>이 남는다(공백화처럼). Levin(1978)이 명명.
+    </div>
+    <div class="ex">
+      <div class="ex-label">유사공백화 — 영어</div>
+      A: John eats apples.<br>
+      <span class="gram">B: Mary does Ø bananas.</span><br>
+      <span class="t">→ "does" = 조동사 잔존; "bananas" = 잔여성분; VP 삭제</span>
+    </div>
+    <div class="sub-head">3자 대조</div>
+    <table class="contrast">
+      <thead><tr><th>현상</th><th>조동사</th><th>잔여성분</th><th>예</th></tr></thead>
+      <tbody>
+        <tr><td>공백화</td><td>✗</td><td>✓</td><td><em>John ate apples and Mary Ø pears.</em></td></tr>
+        <tr><td>VP 생략</td><td>✓</td><td>✗</td><td><em>John ate apples and Mary did Ø too.</em></td></tr>
+        <tr><td>유사공백화</td><td>✓</td><td>✓</td><td><em>John ate apples and Mary did Ø pears.</em></td></tr>
+      </tbody>
+    </table>
+    <div class="sub-head">Lasnik(1995)의 분석</div>
+    <p>Lasnik은 유사공백화를 <strong>외현적 목적어 전이(Overt Object Shift)</strong>로 분석한다: 잔여성분 목적어가 VP 밖으로 이동한 후, VP(목적어의 흔적 포함)가 삭제된다. 조동사는 삭제 영역 밖에 있으므로 잔존한다.</p>
+    <div class="ex">
+      <div class="ex-label">Lasnik의 도출 (간략)</div>
+      <span class="t">Step 1: 목적어 "bananas" → Object Shift (VP 위로 이동)</span><br>
+      <span class="t">Step 2: VP (흔적 포함) 삭제</span><br>
+      <span class="t">결과: [TP Mary [does [bananas<sub>i</sub> [VP Ø]]]]</span>
+    </div>
+    <div class="kp"><strong>Lasnik 분석의 문제:</strong> 처소 PP 잔여성분(예: <em>Mary did Ø on the table</em>)이 실제로 등장하는데, PP는 Object Shift를 겪지 않는다 → 순수 이동 분석의 한계. 처소 도치(Locative Inversion)와의 연관성에서도 문제 발생.</div>
+    <div class="sub-head">한국어 유사공백화</div>
+    <p>한국어에서는 영어의 조동사에 해당하는 형태소가 없으므로, 유사공백화 유사 구문에서 계사 '이'가 <strong>최후수단(last resort)</strong>으로 삽입되어 잔여성분을 지지한다. 잔여성분의 [+focus] 자질이 Spec-FocP로의 외현이동을 촉발하고, 이후 VP(또는 더 큰 범주)가 음성형태에서 삭제된다.</p>
+  </div>
+</div>
+
+<!-- VP ELLIPSIS -->
+<div class="entry" id="vpe">
+  <div class="entry-meta">
+    <div class="entry-tag ellipsis">Ellipsis</div>
+    <div class="entry-term">VP 생략</div>
+    <div class="entry-term-en">VP Ellipsis (VPE)</div>
+    <div class="entry-chapter">Ch. 7</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      <strong>조동사(auxiliary)가 잔존</strong>하고 VP 전체가 삭제되는 생략 구문. 삭제된 VP는 담화에서 통사적으로 적절한 언어적 선행어를 반드시 가져야 한다 (표층대용어).
+    </div>
+    <div class="ex">
+      <div class="ex-label">기본 VP 생략 — 영어</div>
+      A: John eats apples.<br>
+      <span class="gram">B: Mary does Ø too.</span><br>
+      <span class="t">→ "does" = 조동사 잔존; VP "eats apples" 삭제</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">엄밀지시 / 이완지시 해석 모두 가능</div>
+      John washed his car. Bill did Ø too.<br>
+      <span class="gram">엄밀지시: Bill washed John's car.</span><br>
+      <span class="gram">이완지시: Bill washed Bill's car.</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">사라진 선행어 허용 (표층대용어)</div>
+      <span class="gram">I've never ridden a camel, but Ivan has Ø and he says it stank horribly.</span><br>
+      <span class="t">→ "it" = "a camel" (삭제된 VP 내부의 선행어) → 사라진 선행어 허용</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">화용적 선행어 불허 (표층대용어)</div>
+      [화자가 상자를 가리킴]<br>
+      <span class="ungram">*A: "Lift this?" B: "I already did Ø."</span><br>
+      <span class="t">→ 언어적 선행어 VP 없음 → VPE 불허</span>
+    </div>
+    <div class="sub-head">한국어 VP 생략</div>
+    <p>한국어에는 영어식 형태론적 조동사가 없다. 한국어 초점문에서 VP 생략 유사 구문은 계사 <em>'이'</em>가 최후수단으로 삽입되어 잔여성분을 지지한다. [+focus] 자질이 잔여성분을 Spec-FocP로 외현이동시키고, 이후 VP(또는 더 큰 범주)가 음성형태에서 삭제된다.</p>
+    <div class="kp"><strong>표층대용화 지위:</strong> VP 생략은 언어적 선행어 필요, 통사적 병행성 필요, 사라진 선행어 허용, wh-적출 가능 — 모두 표층대용화의 특성에 해당 (Ch. 8).</div>
+  </div>
+</div>
+
+<!-- SLUICING -->
+<div class="entry" id="sluicing">
+  <div class="entry-meta">
+    <div class="entry-tag ellipsis">Ellipsis</div>
+    <div class="entry-term">수문</div>
+    <div class="entry-term-en">Sluicing</div>
+    <div class="entry-chapter">Ch. 9 · Ross 1969</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      내포절에서 <em>wh</em>-표현이 왼쪽 주변부로 이동하고 <strong>나머지 TP 전체가 삭제</strong>되어, 결과적으로 bare <em>wh</em>-잔여성분만 남는 생략 구문. Ross(1969)가 명명.
+    </div>
+    <div class="ex">
+      <div class="ex-label">기본 수문</div>
+      A: Someone left early.<br>
+      <span class="gram">B: I wonder who Ø.</span><br>
+      <span class="t">→ "who" = wh-잔여성분; 삭제된 TP = "who left early"</span>
+    </div>
+    <div class="sub-head">병합수문과 섬제약 구제</div>
+    <div class="ex">
+      <div class="ex-label">병합수문(Merger Sluicing) — 섬제약 위반 구제</div>
+      <span class="gram">She's dating someone, but I don't know who Ø.</span><br>
+      <span class="t">→ 선행어 "someone"이 섬 안에 있어도 수문에서 구제됨</span><br>
+      <span class="t">→ Fox(1999), Merchant(2001): *-표시 흔적이 TP 삭제로 제거되어 구제</span>
+    </div>
+    <div class="sub-head">전치사-좌초 일반화 (P-Stranding Generalization, Merchant 2001)</div>
+    <div class="ex">
+      <div class="ex-label">영어 — P-좌초 허용 언어 → 수문에서도 P 없이 가능</div>
+      <span class="gram">She's talking to someone, but I don't know who Ø.</span> <span class="t">(P 좌초)</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">독일어 — P-좌초 불허 → 수문에도 P 동반 필요</div>
+      <span class="gram">Sie spricht mit jemandem, aber ich weiß nicht mit wem Ø.</span><br>
+      <span class="t">"She's talking with someone, but I don't know with whom Ø."</span>
+    </div>
+    <div class="sub-head">관용어 전파와 수문</div>
+    <div class="ex">
+      <div class="ex-label">수문에서 관용 해석 유지 (Rottman &amp; Yoshida 2013)</div>
+      <span class="gram">Someone kicked the bucket, but I don't know who Ø.</span><br>
+      <span class="t">→ 관용 해석("죽다") 유지 → 삭제된 TP에 LF 구조 존재 증명</span>
+    </div>
+    <div class="kp"><strong>Why-최소공백화와의 관계:</strong> 수문은 wh-이동 + TP 삭제. Why-최소공백화는 why가 C에 기저생성되고 잔여성분이 화제이동(저자 분석)을 하는 비의문문적 대응물.</div>
+  </div>
+</div>
+
+<section class="concept-cluster" id="stripping-family">
+  <div class="cluster-label">상위 개념 → 하위 유형</div>
+<!-- STRIPPING -->
+<div class="entry" id="stripping">
+  <div class="entry-meta">
+    <div class="entry-tag ellipsis">Ellipsis</div>
+    <div class="entry-term">최소공백화</div>
+    <div class="entry-term-en">Stripping</div>
+    <div class="entry-chapter">Ch. 7, 9, 10 · Hankamer &amp; Sag 1976</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      비선행 연접소에서 <strong>단 하나의 잔여성분을 제외하고 TP 전체가 삭제</strong>되는 생략 현상. 잔여성분은 삭제 이전에 왼쪽 주변부로 이동한 것으로 분석된다. Hankamer &amp; Sag(1976)이 명명.
+    </div>
+    <div class="ex">
+      <div class="ex-label">기본 최소공백화 — 영어</div>
+      A: John left early.<br>
+      <span class="gram">B: Mary too Ø.</span> / <span class="gram">B: Not John Ø.</span><br>
+      <span class="t">→ 잔여성분 하나 + TP 삭제</span>
+    </div>
+    <div class="sub-head">하위 유형</div>
+    <table class="contrast">
+      <thead><tr><th>하위 유형</th><th>잔여성분</th><th>잔여성분 이동</th></tr></thead>
+      <tbody>
+        <tr><td>일반 최소공백화</td><td>초점 XP (+ too / either)</td><td>초점이동 (Spec-FocP)</td></tr>
+        <tr><td>Not-최소공백화</td><td>초점 XP + not</td><td>초점이동</td></tr>
+        <tr><td>Why-최소공백화</td><td>XP + why</td><td>화제이동 (Spec-TopP) — 저자 주장</td></tr>
+      </tbody>
+    </table>
+    <div class="sub-head">한국어 초점문과 생략 범위 선호도</div>
+    <div class="ex">
+      <div class="ex-label">한국어 최소공백화 — TP 삭제, 가장 선호</div>
+      A: Chulsoo ate apples.<br>
+      <span class="gram">B: Younghee too Ø.</span> <span class="t">[z = 1.15] ← 수용성 최고</span>
+    </div>
+    <div class="kp"><strong>초점문 생략 최대화 원리:</strong> 생략은 클수록 선호된다. TP 삭제(최소공백화) &gt; NegP 삭제 &gt; AgrSP 삭제 &gt; VP 삭제(유사공백화). 이 원리는 문법성에 직접 영향을 주지 않고 선호 원리로 기능한다.</div>
+    <div class="kp"><strong>구조 분석:</strong> 잔여성분이 Spec-FocP(또는 Why-최소공백화의 경우 Spec-TopP)로 이동한 후, 나머지 TP가 PF에서 삭제된다. 회복성조건(Pesetsky 1997)에 의해 의미 내용을 가진 요소는 반드시 발음되어야 하므로, 잔여성분의 외현이동이 강제된다.</div>
+  </div>
+</div>
+
+<!-- NOT-STRIPPING -->
+<div class="entry" id="not-strip">
+  <div class="entry-meta">
+    <div class="entry-tag ellipsis">Ellipsis</div>
+    <div class="entry-term">Not-최소공백화</div>
+    <div class="entry-term-en">Not-Stripping</div>
+    <div class="entry-chapter">Ch. 9–10</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      최소공백화의 하위 유형. 잔여성분이 <em>not</em>(또는 부정 입자)과 함께 나타나 <strong>대조적 부정</strong>을 표현한다 — 잔여성분이 선행 명제의 어느 요소와 대비되어 부정됨.
+    </div>
+    <p>Not-최소공백화와 Why-최소공백화는 나란히 존재하는 최소공백화의 하위 유형이다. Why-최소공백화가 선행 명제가 성립하는 '이유'를 묻는다면, Not-최소공백화는 선행 명제의 어느 요소를 부정하거나 대조한다. 결정적인 차이는 <strong>섬제약 위반 구제 여부</strong>에 있다.</p>
+    <div class="sub-head">기본 예문</div>
+    <div class="ex">
+      <div class="ex-label">Not-최소공백화 — 대조 부정</div>
+      A: John ate natto.<br>
+      <span class="gram">B: Not NATTO (but sushi).</span><br>
+      <span class="t">→ "먹은 것이 낫토가 아니라 다른 것(스시)"임을 대조적으로 부정</span>
+    </div>
+    <div class="sub-head">섬제약 위반 구제 불가 — Why-최소공백화와의 핵심 차이</div>
+    <div class="ex">
+      <div class="ex-label">동일 섬 환경 — Why-최소공백화는 구제, Not-최소공백화는 비문</div>
+      A: No linguist recommended a book that contains one of his own articles.<br>
+      <span class="gram">B: Why his own articles?</span> <span class="t">← 섬제약 위반 구제 ✓</span><br>
+      <span class="ungram">B: *Not HIS OWN ARTICLES.</span> <span class="t">← 섬제약 위반 구제 ✗</span>
+    </div>
+    <div class="sub-head">왜 Not-최소공백화는 섬제약을 구제하지 못하는가</div>
+    <p>저자의 분석에 따르면, Not-최소공백화의 잔여성분은 <strong>초점이동(focus movement)</strong>을 수행하여 Spec-FocP에 위치한다. 초점이동은 D-연결(D-linking)이 아니므로 — 즉 담화에서 이미 언급된 구정보가 아닌 대조적 신정보이므로 — 재생대명사(resumptive pronoun)를 허용하지 않는다. 재생대명사 없이는 섬제약 위반이 구제될 수 없다.</p>
+    <table class="contrast">
+      <thead><tr><th></th><th>Why-최소공백화</th><th>Not-최소공백화</th></tr></thead>
+      <tbody>
+        <tr><td>잔여성분 이동 유형</td><td>화제이동 (Spec-TopP)</td><td>초점이동 (Spec-FocP)</td></tr>
+        <tr><td>정보 지위</td><td>구정보 (D-연결)</td><td>신정보 (대조초점)</td></tr>
+        <tr><td>재생대명사 허용</td><td>✓</td><td>✗</td></tr>
+        <tr><td>섬제약 구제</td><td>✓</td><td>✗</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- WHY-STRIPPING -->
+<div class="entry" id="why-strip">
+  <div class="entry-meta">
+    <div class="entry-tag ellipsis">Ellipsis</div>
+    <div class="entry-term">Why-최소공백화</div>
+    <div class="entry-term-en">Why-Stripping</div>
+    <div class="entry-chapter">Ch. 9–10 · Yoshida et al. 2015</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      왼쪽 주변부에 <em>why</em>가 나타나고 단 하나의 XP 잔여성분이 발음되며, 나머지 절(TP)이 삭제되는 구문. 잔여성분은 선행 명제에서 화자가 이유를 묻는 요소다. Yoshida et al.(2015)이 기술하고 명명.
+    </div>
+    <div class="ex">
+      <div class="ex-label">기본 Why-최소공백화</div>
+      A: John was eating natto.<br>
+      <span class="gram">B: Why natto (and not sushi)?</span><br>
+      <span class="t">→ "why"는 C에 기저생성; "natto" = 잔여성분; TP "[John was eating t]" 삭제</span>
+    </div>
+    <div class="sub-head">세 가지 핵심 특성 (Yoshida et al. 2015)</div>
+    <div class="ex">
+      <div class="ex-label">① 연계성(Connectivity) 효과</div>
+      A: He is selling pictures of John.<br>
+      <span class="ungram">*B: Why pictures of John?</span><br>
+      <span class="t">→ Condition C 위반: 선행절의 "he"와 잔여성분의 "John"이 충돌</span><br>
+      <span class="t">→ 잔여성분이 선행 통사 구조와 연결되어 있다는 증거</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">② 전치사-좌초 일반화 (P-Stranding Generalization)</div>
+      A: John was talking to Mary.<br>
+      <span class="gram">B: Why (to) Mary?</span> <span class="t">[영어: P-좌초 허용 → P 선택적]</span><br>
+      <span class="t">독일어: *Warum Abel? → Warum mit Abel? [P-좌초 불허 → P 필수]</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">③ 섬제약 위반 구제</div>
+      A: No linguist recommended a book that contains one of his own articles.<br>
+      <span class="gram">B: Why his own articles?</span> <span class="t">← 섬제약 위반 구제 ✓</span><br>
+      <span class="ungram">B: *Not HIS OWN ARTICLES.</span> <span class="t">← Not-최소공백화 구제 ✗</span>
+    </div>
+    <div class="sub-head">Yoshida et al. vs. 저자 분석 비교</div>
+    <table class="contrast">
+      <thead><tr><th></th><th>Yoshida et al. (2015)</th><th>저자 (Ch. 9)</th></tr></thead>
+      <tbody>
+        <tr><td>잔여성분 이동</td><td>초점이동 → Spec-FocP</td><td>화제이동 → Spec-TopP</td></tr>
+        <tr><td>섬제약 구제 이유</td><td>*-표시 + PF 삭제 (Fox 1999, Merchant 2001)</td><td>D-연결 → 재생대명사 허용</td></tr>
+        <tr><td>잔여성분의 정보 지위</td><td>신정보 / 초점</td><td>구정보 (이미 언급된 화제)</td></tr>
+        <tr><td>문제점</td><td>두 종류 초점이동 필요</td><td>화제이동의 섬 비민감성 설명 필요</td></tr>
+      </tbody>
+    </table>
+    <div class="kp"><strong>저자의 핵심 논거:</strong> Why-최소공백화의 잔여성분은 선행 발화에서 이미 언급된 <em>구정보</em>(예: "natto"는 A가 먹고 있던 것으로 이미 언급됨)다. 새로운 정보가 아니므로 초점이동보다 화제이동이 더 적절하다. 화제이동은 D-연결을 허용하고, D-연결된 요소는 재생대명사를 남길 수 있어 섬제약을 구제할 수 있다.</div>
+    <div class="kp"><strong>유일성 전제:</strong> 잔여성분이 주어인 경우에만 유일성 전제("오직 한 명이 해당 사건에 관여했음을 전제")가 발생. 목적어 잔여성분에는 이 전제 없음.</div>
+    <div class="kp"><strong>한국어 '왜'-최소공백화의 추가 특성 (Ch. 10):</strong><br>
+    ① 후치사/격조사 탈락 허용<br>
+    ② 선행절의 부정 의미 보존됨 (영어 Why-최소공백화와 차이)<br>
+    ③ 장형부정어 '아니'만 허용; 단형 '안' 불허<br>
+    ④ '도대체', '아니', '굳이' 같은 강조 부가어 동반 가능<br>
+    ⑤ 영어와 달리 거의 모든 wh-구(언제, 누가, 어디서 등) 사용 가능
+    </div>
+  </div>
+</div>
+
+</section>
 
 <!-- DEEP ANAPHORA -->
 <div class="entry" id="deep">
@@ -362,241 +773,44 @@ footer {
   </div>
 </div>
 
-<!-- DEFAULT CASE -->
-<div class="entry" id="default-case">
+<!-- SURFACE ANAPHORA -->
+<div class="entry" id="surface">
   <div class="entry-meta">
-    <div class="entry-tag theory">Theory</div>
-    <div class="entry-term">Default Case</div>
-    <div class="entry-term-en">Default Case</div>
-    <div class="entry-chapter">Ch. 11 · 우절점공유</div>
+    <div class="entry-tag anaphora">Anaphora</div>
+    <div class="entry-term">표층대용화</div>
+    <div class="entry-term-en">Surface Anaphora</div>
+    <div class="entry-chapter">Ch. 8 · Hankamer &amp; Sag 1976</div>
   </div>
   <div class="entry-body">
     <div class="def-box">
-      명사구가 구조격(주격·목적격)이나 내재격(여격·속격)을 부여받을 수 있는 환경에 놓이지 못할 때 — 즉 해당 절의 격 인허자(case licensor)로부터 분리된 위치에 놓일 때 — 부여되는 <strong>기본(default) 형태소적 격</strong>.
+      <strong>삭제 변형(deletion transformation)으로 도출</strong>되는 대용화 표현. 삭제된 부분은 통사적으로 적절한 형태의 <strong>언어적 선행어</strong>가 반드시 존재해야 하며, 통사적 병행성을 요구한다. 화용적(비언어적) 선행어만으로는 허가되지 않는다.
     </div>
-    <p>RNR에서 축(pivot)은 양쪽 연접소의 격 인허 영역 밖으로 이동하거나 복사될 수 있다. 이때 축이 어떤 격을 받는지, 또는 격 표지가 탈락하는지 여부는 분석 방향에 따라 달리 예측된다.</p>
-    <div class="sub-head">이론적 함의</div>
+    <div class="sub-head">네 가지 진단 기준</div>
     <table class="contrast">
-      <thead><tr><th>분석</th><th>축의 격 처리</th></tr></thead>
+      <thead><tr><th>기준</th><th>표층대용화</th><th>심층대용화</th></tr></thead>
       <tbody>
-        <tr><td>우절점인상 (이동 분석)</td><td>양쪽 연접소 밖으로 이동 → 구조격 인허 불가 → Default Case 필요</td></tr>
-        <tr><td>LF 복사 분석</td><td>발음되는 연접소에서 정상 격 부여; 발음 안 되는 복사본은 LF 동일성으로 처리 → Default Case 불필요</td></tr>
+        <tr><td>화용적 선행어</td><td>✗ 불허</td><td>✓ 허용</td></tr>
+        <tr><td>통사적 병행성</td><td>필요</td><td>불필요</td></tr>
+        <tr><td>사라진 선행어</td><td>✓ 허용</td><td>✗ 불허</td></tr>
+        <tr><td>적출 가능성</td><td>✓ 가능</td><td>✗ 불가</td></tr>
       </tbody>
     </table>
     <div class="ex">
-      <div class="ex-label">격 불일치 상황 — 이동 분석에서 Default Case가 필요한 이유</div>
-      <span class="t">왼쪽 연접소: 목적격 기대 (직접목적어)</span><br>
-      <span class="t">오른쪽 연접소: 여격 기대 (간접목적어)</span><br>
-      <span class="gram">John gave __ and Mary sent __ [the package] to Bill.</span><br>
-      <span class="t">→ "the package"가 하나의 격 형태로 표면에 나타남</span><br>
-      <span class="t">→ 이동 분석: 구조격 불인허 상태에서 Default Case 부여</span>
-    </div>
-    <div class="kp"><strong>한국어 관련성:</strong> 한국어 우절점공유에서 축의 후치사/격조사가 탈락하는 경우가 있는데, 이는 이동 분석에서 Default Case(격 탈락)로 설명될 수 있다. LF 복사 분석에서는 발음되는 연접소에서 격이 정상 부여되므로 이 현상은 다른 방식으로 처리해야 한다.</div>
-  </div>
-</div>
-
-<!-- GAPPING -->
-<div class="entry" id="gapping">
-  <div class="entry-meta">
-    <div class="entry-tag ellipsis">Ellipsis</div>
-    <div class="entry-term">공백화</div>
-    <div class="entry-term-en">Gapping</div>
-    <div class="entry-chapter">Ch. 7 · Ross 1970</div>
-  </div>
-  <div class="entry-body">
-    <div class="def-box">
-      등위 구조에서 <strong>비선행 연접소의 동사(또는 동사구)가 삭제</strong>되고 <strong>잔여성분(remnant)</strong>만 남는 생략 현상. Ross(1970)가 명명. 선행절과 후행절 사이에 대응 관계(correlate)가 반드시 존재해야 하며, 잔여성분은 삭제지점의 좌·우측에 남는다.
-    </div>
-    <div class="sub-head">핵심 특성</div>
-    <div class="ex">
-      <div class="ex-label">기본 공백화 — 영어</div>
-      <span class="gram">John eats apples, and Mary Ø bananas.</span><br>
-      <span class="t">→ 후행절에서 "eats" 삭제; "Mary"와 "bananas"가 잔여성분</span>
-    </div>
-    <div class="sub-head">공백화 / VP 생략 / 유사공백화 3자 대조</div>
-    <table class="contrast">
-      <thead><tr><th>현상</th><th>조동사 잔존</th><th>후행 잔여성분</th><th>예</th></tr></thead>
-      <tbody>
-        <tr><td>공백화</td><td>✗</td><td>✓</td><td><em>John ate apples and Mary Ø pears.</em></td></tr>
-        <tr><td>VP 생략</td><td>✓</td><td>✗</td><td><em>John ate apples and Mary did Ø too.</em></td></tr>
-        <tr><td>유사공백화</td><td>✓</td><td>✓</td><td><em>John ate apples and Mary did Ø pears.</em></td></tr>
-      </tbody>
-    </table>
-    <div class="sub-head">한국어 초점문에서의 공백화</div>
-    <p>Ch. 7에서 한국어 초점문의 공백화 유사 구문은 [+focus] 자질을 가진 잔여성분이 <strong>Spec-FocP로 외현이동</strong>한 후, 음성형태에서 VP 또는 더 큰 범주(NegP, AgrSP, TP)가 삭제되는 것으로 분석된다. 이때 남은 잔여성분에 계사 '이'(초점조동사)가 최후수단으로 삽입되어 TP를 구제한다.</p>
-    <div class="kp"><strong>생략 범위 선호도 (초점문 최대화 원리):</strong> TP 삭제(최소공백화) &gt; NegP 삭제 &gt; AgrSP 삭제 &gt; VP 삭제(유사공백화) 순으로 선호됨.</div>
-  </div>
-</div>
-
-<!-- IDIOM SPREADING -->
-<div class="entry" id="idiom">
-  <div class="entry-meta">
-    <div class="entry-tag semantics">Semantics</div>
-    <div class="entry-term">관용어 전파<br><span style="font-size:0.85rem;font-weight:400">= 관용어 대치</span></div>
-    <div class="entry-term-en">Idiom Spreading = Idiom Substitution</div>
-    <div class="entry-chapter">Ch. 7–8 · Rottman &amp; Yoshida 2013</div>
-  </div>
-  <div class="entry-body">
-    <div class="def-box">
-      생략(ellipsis) 또는 대용화(anaphora) 구문에서 관용어의 일부가 삭제되거나 대용 표현으로 대체되어도 <strong>관용어 해석이 유지</strong>되는 현상. 관용 의미가 생략 지점 혹은 대용 표현 안으로 "전파"되거나 "대치"됨.
-    </div>
-    <p>관용어는 LF에서 하나의 구성성분을 이루어야만 비구성적(non-compositional) 관용 의미를 받을 수 있다. 생략이 관용어 일부를 삭제하고도 관용 해석이 남는다면, 삭제된 부분이 LF에 구조적으로 여전히 존재함을 의미한다 — 즉 해당 구문이 기저생성이 아닌 <strong>진정한 생략(genuine ellipsis)</strong>임을 입증한다.</p>
-    <div class="sub-head">진단적 활용</div>
-    <div class="ex">
-      <div class="ex-label">수문에서 관용 해석 유지 — Rottman &amp; Yoshida (2013)</div>
-      <span class="gram">Someone kicked the bucket, but I don't know who Ø.</span><br>
-      <span class="t">→ "kick the bucket" = 죽다 (관용 의미). 수문에도 관용 해석 유지.</span><br>
-      <span class="t">→ 삭제된 TP에 [kicked the bucket]이 구조적으로 존재한다는 증거</span>
+      <div class="ex-label">VP 생략 — 화용적 선행어 불허</div>
+      [화자가 무거운 상자를 가리키며]<br>
+      <span class="ungram">*A: "Lift this?" B: "I already did Ø."</span><br>
+      <span class="t">→ 언어적 선행어 VP 없으면 VPE 불허</span>
     </div>
     <div class="ex">
-      <div class="ex-label">NCA에서 관용 해석 유지 — Ch. 8</div>
-      A: Did John kick the bucket?<br>
-      <span class="gram">B: I refused Ø.</span><br>
-      <span class="t">→ null complement = "to kick the bucket" (관용 의미 유지)</span>
+      <div class="ex-label">VP 생략 — 사라진 선행어 허용</div>
+      <span class="gram">I've never ridden a camel, but Ivan has Ø and he says it stank horribly.</span><br>
+      <span class="t">→ "it"의 선행어 "a camel"이 삭제된 VP 안에 존재 → 허용</span>
     </div>
     <div class="ex">
-      <div class="ex-label">외현 대명사 → 관용 해석 차단</div>
-      <span class="ungram">Someone kicked the bucket, but I don't know who did it.</span><br>
-      <span class="t">→ "it"은 구체적 지시를 강제 → 관용 해석 불가 (문자적 의미만)</span>
+      <div class="ex-label">VP 생략 — wh 적출 가능</div>
+      <span class="gram">I know which book Mary read t, and Peter knows which article Sally did Ø.</span>
     </div>
-    <div class="kp"><strong>핵심 논거:</strong> 관용어 전파는 생략 지점이 PF에서 발음되지 않더라도 LF에서 선행어와 동일한 통사 구조를 보유한다는 직접적 증거다. 기저생성된 null 요소라면 관용 해석이 차단되어야 하기 때문이다.</div>
-  </div>
-</div>
-
-<!-- LEXICAL DECOMPOSITION -->
-<div class="entry" id="lex-decomp">
-  <div class="entry-meta">
-    <div class="entry-tag semantics">Semantics</div>
-    <div class="entry-term">어휘분해</div>
-    <div class="entry-term-en">Lexical Decomposition</div>
-    <div class="entry-chapter">Ch. 8 · NCA</div>
-  </div>
-  <div class="entry-body">
-    <div class="def-box">
-      단어의 의미를 더 기본적인 의미 성분이나 하위 사건으로 분해하는 분석 방법. 예: <em>kill</em> = <em>cause to become dead</em>; <em>disapprove</em> = <em>not approve</em>. NCA와 관련하여, 서술어의 어휘 의미 구조 안에 내포된 보어가 NCA의 null complement가 될 수 있는지를 결정하는 데 쓰인다.
-    </div>
-    <div class="sub-head">NCA 허가에서의 역할</div>
-    <p>NCA는 <strong>어휘적으로 결정</strong>된다. 두 서술어가 의미적으로 동치이더라도, NCA를 허가하는 어휘항목인지 여부는 개별 단어별로 독립적으로 결정된다. 어휘분해는 왜 의미 유사 동사들이 NCA 허가 여부에서 갈라지는지를 설명하는 데 활용된다.</p>
-    <div class="ex">
-      <div class="ex-label">approve — NCA 허가</div>
-      A: I eat meat and go to bed late.<br>
-      <span class="gram">B: My brother doesn't approve Ø.</span><br>
-      <span class="t">→ null complement = A의 발화 내용 (명제)</span>
-    </div>
-    <div class="ex">
-      <div class="ex-label">disapprove — 의미 유사하지만 NCA 불허</div>
-      <span class="ungram">*My brother disapproves Ø.</span><br>
-      <span class="t">→ "disapprove"는 어휘분해 시 [not approve]이지만,</span><br>
-      <span class="t">   해당 어휘항목의 통사 틀은 null complement를 독립적으로 허가하지 않음</span>
-    </div>
-    <div class="ex">
-      <div class="ex-label">believe — NCA 불허 (어휘적 비허가 동사)</div>
-      A: Mary believes that Anne is pregnant.<br>
-      <span class="ungram">B: *But I don't believe Ø.</span><br>
-      <span class="gram">B: But I don't believe it.</span> <span class="t">← 외현 대명사 필요</span><br>
-      <span class="gram">B: But I don't believe so.</span> <span class="t">← 명제 대용 표현(propositional pro-form)</span>
-    </div>
-    <div class="kp"><strong>핵심:</strong> NCA는 어휘적으로 결정된다. 의미 동치성이 NCA를 자동 허가하지 않는다. 어휘분해는 유사 동사 쌍(approve vs. disapprove)의 NCA 비대칭을 설명하는 도구다.</div>
-  </div>
-</div>
-
-<!-- LF INTERPRETIVE PARALLELISM -->
-<div class="entry" id="lf-par">
-  <div class="entry-meta">
-    <div class="entry-tag theory">Theory</div>
-    <div class="entry-term">LF 해석 병행성</div>
-    <div class="entry-term-en">LF Interpretive Parallelism</div>
-    <div class="entry-chapter">Ch. 8, 11</div>
-  </div>
-  <div class="entry-body">
-    <div class="def-box">
-      생략(및 일부 대용화)이 적법하려면 <strong>생략 지점의 논리형태(LF)가 선행어의 LF와 동일(또는 충분히 병행)해야 한다</strong>는 조건. 표면 통사 형태의 동일성이 아니라 의미 해석 수준의 동일성이 요구된다.
-    </div>
-    <p>LF 해석 병행성은 RNR의 <strong>LF 복사 분석</strong>(Ch. 11)의 이론적 토대다: 발음되지 않는 연접소의 LF 내용이 발음되는 연접소에서 복사됨으로써 해석 동일성이 보장된다. 또한 VP 생략에서 엄밀지시/이완지시 해석이 모두 가능한 이유이기도 하다 — 결속 관계를 달리 설정해도 LF 동일성이 만족되기 때문.</p>
-    <div class="sub-head">엄밀지시/이완지시와 LF 병행성</div>
-    <div class="ex">
-      <div class="ex-label">VP 생략 — 두 해석 모두 LF 병행성 만족</div>
-      John washed his car, and Bill did Ø too.<br>
-      <span class="t">엄밀지시: Bill washed John's car → LF of gap = [washed John's car]</span><br>
-      <span class="t">이완지시: Bill washed Bill's car → LF of gap = [washed Bill's car]</span><br>
-      <span class="t">→ 결속 관계가 달라도 LF 병행성 성립</span>
-    </div>
-    <div class="ex">
-      <div class="ex-label">Anti-Pun Ordinance는 LF 병행성의 귀결</div>
-      <span class="ungram">*John robbed, and Mary painted, the bank.</span><br>
-      <span class="t">→ 두 연접소에서 "bank"가 서로 다른 LF를 가짐 → 단일 LF 복사 불가</span>
-    </div>
-    <div class="kp"><strong>표면(음성) 동일성과의 대조:</strong> LF 해석 병행성은 표층 형태 교체(예: 대명사 ↔ 재귀사, some ↔ any)와 이완지시 해석을 허용한다. 순수 음성 동일성 조건은 이런 변화를 예측할 수 없다.</div>
-  </div>
-</div>
-
-<!-- LOCATIVE INVERSION -->
-<div class="entry" id="loc-inv">
-  <div class="entry-meta">
-    <div class="entry-tag theory">Theory</div>
-    <div class="entry-term">처소 도치</div>
-    <div class="entry-term-en">Locative Inversion</div>
-    <div class="entry-chapter">Ch. 7 · 유사공백화</div>
-  </div>
-  <div class="entry-body">
-    <div class="def-box">
-      <strong>처소 PP가 주어 위치로 전치(fronting)되고</strong> 정상 주어가 동사 뒤로 이동하는 구문. 유사공백화와의 관련성: 처소 PP가 유사공백화의 잔여성분으로 나타날 수 있다는 사실이 Lasnik(1995)의 목적어 전이(Object Shift) 분석에 문제를 제기한다.
-    </div>
-    <div class="ex">
-      <div class="ex-label">기본 처소 도치 — 영어</div>
-      <span class="gram">Into the room walked a stranger.</span><br>
-      <span class="t">→ PP "into the room"이 주어 위치; "a stranger"가 동사 후위</span>
-    </div>
-    <div class="ex">
-      <div class="ex-label">처소 PP가 유사공백화 잔여성분으로 — Lasnik 분석의 문제</div>
-      A: John put the book on the shelf.<br>
-      <span class="gram">B: Mary did Ø on the table.</span><br>
-      <span class="t">→ PP "on the table"이 잔여성분으로 나타남</span><br>
-      <span class="t">→ Lasnik의 목적어 전이 분석: DP 목적어만 이동 가능하다고 예측</span><br>
-      <span class="t">   그런데 PP 잔여성분이 실제로 등장 → 이동 분석 반례</span>
-    </div>
-    <div class="kp"><strong>이론적 함의:</strong> 처소 PP 잔여성분의 존재는 유사공백화의 잔여성분이 반드시 외현 DP 이동(Object Shift)의 결과일 필요는 없음을 시사한다. VP-내부 삭제 또는 대안적 접근이 필요하다.</div>
-  </div>
-</div>
-
-<!-- NOT-STRIPPING -->
-<div class="entry" id="not-strip">
-  <div class="entry-meta">
-    <div class="entry-tag ellipsis">Ellipsis</div>
-    <div class="entry-term">Not-최소공백화</div>
-    <div class="entry-term-en">Not-Stripping</div>
-    <div class="entry-chapter">Ch. 9–10</div>
-  </div>
-  <div class="entry-body">
-    <div class="def-box">
-      최소공백화의 하위 유형. 잔여성분이 <em>not</em>(또는 부정 입자)과 함께 나타나 <strong>대조적 부정</strong>을 표현한다 — 잔여성분이 선행 명제의 어느 요소와 대비되어 부정됨.
-    </div>
-    <p>Not-최소공백화와 Why-최소공백화는 나란히 존재하는 최소공백화의 하위 유형이다. Why-최소공백화가 선행 명제가 성립하는 '이유'를 묻는다면, Not-최소공백화는 선행 명제의 어느 요소를 부정하거나 대조한다. 결정적인 차이는 <strong>섬제약 위반 구제 여부</strong>에 있다.</p>
-    <div class="sub-head">기본 예문</div>
-    <div class="ex">
-      <div class="ex-label">Not-최소공백화 — 대조 부정</div>
-      A: John ate natto.<br>
-      <span class="gram">B: Not NATTO (but sushi).</span><br>
-      <span class="t">→ "먹은 것이 낫토가 아니라 다른 것(스시)"임을 대조적으로 부정</span>
-    </div>
-    <div class="sub-head">섬제약 위반 구제 불가 — Why-최소공백화와의 핵심 차이</div>
-    <div class="ex">
-      <div class="ex-label">동일 섬 환경 — Why-최소공백화는 구제, Not-최소공백화는 비문</div>
-      A: No linguist recommended a book that contains one of his own articles.<br>
-      <span class="gram">B: Why his own articles?</span> <span class="t">← 섬제약 위반 구제 ✓</span><br>
-      <span class="ungram">B: *Not HIS OWN ARTICLES.</span> <span class="t">← 섬제약 위반 구제 ✗</span>
-    </div>
-    <div class="sub-head">왜 Not-최소공백화는 섬제약을 구제하지 못하는가</div>
-    <p>저자의 분석에 따르면, Not-최소공백화의 잔여성분은 <strong>초점이동(focus movement)</strong>을 수행하여 Spec-FocP에 위치한다. 초점이동은 D-연결(D-linking)이 아니므로 — 즉 담화에서 이미 언급된 구정보가 아닌 대조적 신정보이므로 — 재생대명사(resumptive pronoun)를 허용하지 않는다. 재생대명사 없이는 섬제약 위반이 구제될 수 없다.</p>
-    <table class="contrast">
-      <thead><tr><th></th><th>Why-최소공백화</th><th>Not-최소공백화</th></tr></thead>
-      <tbody>
-        <tr><td>잔여성분 이동 유형</td><td>화제이동 (Spec-TopP)</td><td>초점이동 (Spec-FocP)</td></tr>
-        <tr><td>정보 지위</td><td>구정보 (D-연결)</td><td>신정보 (대조초점)</td></tr>
-        <tr><td>재생대명사 허용</td><td>✓</td><td>✗</td></tr>
-        <tr><td>섬제약 구제</td><td>✓</td><td>✗</td></tr>
-      </tbody>
-    </table>
+    <div class="kp">VP 생략, <em>do so</em> 대용화, 수문이 대표적인 표층대용어다. 영어 NCA는 화용적 선행어 허용 및 병행성 면제(심층대용화 특성)를 보이지만, 사라진 선행어 불허 및 적출 불가(표층대용화 특성)도 보임 → 저층대용화로 재분류됨.</div>
   </div>
 </div>
 
@@ -664,106 +878,216 @@ footer {
   </div>
 </div>
 
-<!-- PIVOT -->
-<div class="entry" id="pivot">
+<!-- LEXICAL DECOMPOSITION -->
+<div class="entry" id="lex-decomp">
   <div class="entry-meta">
-    <div class="entry-tag ellipsis">Ellipsis</div>
-    <div class="entry-term">축 (Pivot)</div>
-    <div class="entry-term-en">Pivot</div>
-    <div class="entry-chapter">Ch. 11–12 · RNR / LNS</div>
+    <div class="entry-tag semantics">Semantics</div>
+    <div class="entry-term">어휘분해</div>
+    <div class="entry-term-en">Lexical Decomposition</div>
+    <div class="entry-chapter">Ch. 8 · NCA</div>
   </div>
   <div class="entry-body">
     <div class="def-box">
-      우절점공유(RNR) 또는 좌절점공유(LNS)에서 <strong>공유된 구성성분</strong>. 연접소들 중 하나에서만 음성적으로 실현되고, 의미적으로는 모든 연접소에서 해석된다.
+      단어의 의미를 더 기본적인 의미 성분이나 하위 사건으로 분해하는 분석 방법. 예: <em>kill</em> = <em>cause to become dead</em>; <em>disapprove</em> = <em>not approve</em>. NCA와 관련하여, 서술어의 어휘 의미 구조 안에 내포된 보어가 NCA의 null complement가 될 수 있는지를 결정하는 데 쓰인다.
+    </div>
+    <div class="sub-head">NCA 허가에서의 역할</div>
+    <p>NCA는 <strong>어휘적으로 결정</strong>된다. 두 서술어가 의미적으로 동치이더라도, NCA를 허가하는 어휘항목인지 여부는 개별 단어별로 독립적으로 결정된다. 어휘분해는 왜 의미 유사 동사들이 NCA 허가 여부에서 갈라지는지를 설명하는 데 활용된다.</p>
+    <div class="ex">
+      <div class="ex-label">approve — NCA 허가</div>
+      A: I eat meat and go to bed late.<br>
+      <span class="gram">B: My brother doesn't approve Ø.</span><br>
+      <span class="t">→ null complement = A의 발화 내용 (명제)</span>
     </div>
     <div class="ex">
-      <div class="ex-label">RNR — 축이 오른쪽 연접소에서 발음</div>
-      <span class="gram">John bought Ø, and Mary read, [<span class="hi">the book</span>].</span><br>
-      <span class="t">→ 축 = "the book"; 왼쪽 연접소에서 묵음, 오른쪽에서 발음</span>
+      <div class="ex-label">disapprove — 의미 유사하지만 NCA 불허</div>
+      <span class="ungram">*My brother disapproves Ø.</span><br>
+      <span class="t">→ "disapprove"는 어휘분해 시 [not approve]이지만,</span><br>
+      <span class="t">   해당 어휘항목의 통사 틀은 null complement를 독립적으로 허가하지 않음</span>
     </div>
     <div class="ex">
-      <div class="ex-label">LNS — 축이 왼쪽 연접소에서 발음</div>
-      <span class="gram">[<span class="hi">the sandwich</span>] John made Ø, and Mary ate Ø.</span><br>
-      <span class="t">→ 축 = "the sandwich"; 왼쪽에서 발음, 오른쪽에서 묵음</span>
+      <div class="ex-label">believe — NCA 불허 (어휘적 비허가 동사)</div>
+      A: Mary believes that Anne is pregnant.<br>
+      <span class="ungram">B: *But I don't believe Ø.</span><br>
+      <span class="gram">B: But I don't believe it.</span> <span class="t">← 외현 대명사 필요</span><br>
+      <span class="gram">B: But I don't believe so.</span> <span class="t">← 명제 대용 표현(propositional pro-form)</span>
     </div>
-    <div class="sub-head">축의 분석별 지위</div>
-    <table class="contrast">
-      <thead><tr><th>분석</th><th>묵음 축의 지위</th></tr></thead>
-      <tbody>
-        <tr><td>우절점인상 (이동)</td><td>ATB 이동 후 남겨진 흔적/복사본</td></tr>
-        <tr><td>다중관할 (Wilder 1999)</td><td>두 개의 모절점에 의해 동시에 관할되는 단일 노드</td></tr>
-        <tr><td>후행삭제</td><td>왼쪽 연접소에서 삭제된 기저생성 복사본</td></tr>
-        <tr><td>LF 복사 분석</td><td>음성형태에서 묵음; LF에서 발음된 연접소의 내용이 복사됨</td></tr>
-      </tbody>
-    </table>
-    <div class="kp"><strong>Anti-Pun Ordinance의 축 제한:</strong> 축이 동음이의어인 경우 복사할 단일 LF가 없으므로 금지됨. 이는 축이 LF 수준의 의미 동일성 조건을 만족해야 함을 시사한다.</div>
+    <div class="kp"><strong>핵심:</strong> NCA는 어휘적으로 결정된다. 의미 동치성이 NCA를 자동 허가하지 않는다. 어휘분해는 유사 동사 쌍(approve vs. disapprove)의 NCA 비대칭을 설명하는 도구다.</div>
   </div>
 </div>
 
-<!-- PROXIMITY EFFECT -->
-<div class="entry" id="proximity">
+<!-- STRICT READING -->
+<div class="entry" id="strict">
+  <div class="entry-meta">
+    <div class="entry-tag semantics">Semantics</div>
+    <div class="entry-term">엄밀지시 해석</div>
+    <div class="entry-term-en">Strict Reading</div>
+    <div class="entry-chapter">Ch. 8 · Fiengo &amp; May 1994</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      VP 생략(및 관련 생략 구문)에서, 생략 지점 내부의 대명사가 <strong>선행절에서와 동일한 지시체</strong>를 유지하여 해석되는 독해. 대명사가 원래의 지시체를 고수한다. Fiengo &amp; May(1994)에서 <strong>α-발생(α-occurrence, 독립적 발생)</strong>에 해당.
+    </div>
+    <div class="ex">
+      <div class="ex-label">엄밀지시 해석 — VP 생략</div>
+      John washed <span class="hi">his</span> car. Bill did Ø too.<br>
+      <span class="gram">엄밀지시: Bill washed John's car.</span> <span class="t">(his = John)</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">엄밀지시만 가능 — 결속자가 이름인 경우</div>
+      John washed <span class="hi">John's</span> car. Bill did Ø too.<br>
+      <span class="gram">엄밀지시만: Bill washed John's car.</span><br>
+      <span class="ungram">이완지시: *Bill washed Bill's car.</span><br>
+      <span class="t">→ "John's" = α-발생 → 이완지시 불가</span>
+    </div>
+    <div class="sub-head">NCA 분류와의 관련성</div>
+    <div class="ex">
+      <div class="ex-label">영어 NCA — 엄밀지시와 이완지시 모두 가능</div>
+      Mary voted for her husband. Susan refused Ø.<br>
+      <span class="gram">엄밀지시: Susan refused to vote for Mary's husband.</span><br>
+      <span class="gram">이완지시: Susan refused to vote for Susan's husband.</span><br>
+      <span class="t">→ 두 해석 모두 가능 → NCA의 심층대용화적 특성</span>
+    </div>
+    <div class="kp"><strong>핵심 구별:</strong> 엄밀지시 해석은 표층대용화와 심층대용화 모두에서 가능하다. 결정적 진단은 결속자가 이름(α-발생)일 때 <em>이완지시</em> 해석이 가능한가 여부다 — 심층대용화만 이를 허용한다.</div>
+  </div>
+</div>
+
+<!-- SLOPPY READING -->
+<div class="entry" id="sloppy">
+  <div class="entry-meta">
+    <div class="entry-tag semantics">Semantics</div>
+    <div class="entry-term">이완지시 해석</div>
+    <div class="entry-term-en">Sloppy Reading</div>
+    <div class="entry-chapter">Ch. 8 · Fiengo &amp; May 1994</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      VP 생략(및 관련 생략 구문)에서, 생략 지점 내부의 대명사가 <strong>생략절의 새로운 주어와 공변(co-vary)</strong>하여 해석되는 독해. 즉 대명사가 원래의 지시체가 아닌 새로운 지시체를 갖는다. Fiengo &amp; May(1994)에서 <strong>β-발생(β-occurrence, 종속적 발생)</strong>에 해당.
+    </div>
+    <div class="ex">
+      <div class="ex-label">VP 생략 — 이완지시 해석</div>
+      George claimed <span class="hi">he</span> won. Al did Ø too.<br>
+      <span class="gram">이완지시: Al claimed Al won.</span> <span class="t">(대명사 = Al)</span><br>
+      <span class="gram">엄밀지시: Al claimed George won.</span> <span class="t">(대명사 = George)</span>
+    </div>
+    <div class="sub-head">α-발생 vs. β-발생 (Fiengo &amp; May 1994)</div>
+    <div class="ex">
+      <div class="ex-label">α-발생 (독립적 발생) → 엄밀지시만</div>
+      John washed <span class="hi">John's</span> car. Bill did Ø too.<br>
+      <span class="gram">엄밀지시: Bill washed John's car.</span><br>
+      <span class="ungram">이완지시: *Bill washed Bill's car.</span><br>
+      <span class="t">→ "John's" = 이름(α-발생); 이완지시 불가</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">β-발생 (종속적 발생) → 이완지시 가능</div>
+      John washed <span class="hi">his</span> car. Bill did Ø too.<br>
+      <span class="gram">엄밀지시: Bill washed John's car.</span><br>
+      <span class="gram">이완지시: Bill washed Bill's car.</span><br>
+      <span class="t">→ "his" = 대명사(β-발생); 이완지시 가능</span>
+    </div>
+    <div class="sub-head">NCA 분류와의 관련성</div>
+    <p>한국어 NCA는 결속자가 이름(α-발생)인 경우에도 이완지시 해석이 허용된다. 이는 표층대용화(VP 생략 등)에서는 허용되지 않는 패턴으로, 한국어 NCA가 <strong>심층대용화</strong>임을 보여주는 핵심 논거다.</p>
+    <div class="kp"><strong>국부적 이접성 검사 (Hoji 2003):</strong> 표층대용화는 결속자가 이름일 때 이완지시 해석에서 국부적 이접성 효과를 보이지만, 심층대용화는 이 효과가 없다. 영어 NCA는 이접성 효과가 없음 → 심층대용화적 특성 → 저자는 이를 저층대용화로 재분류.</div>
+  </div>
+</div>
+
+<!-- IDIOM SPREADING -->
+<div class="entry" id="idiom">
+  <div class="entry-meta">
+    <div class="entry-tag semantics">Semantics</div>
+    <div class="entry-term">관용어 전파<br><span style="font-size:0.85rem;font-weight:400">= 관용어 대치</span></div>
+    <div class="entry-term-en">Idiom Spreading = Idiom Substitution</div>
+    <div class="entry-chapter">Ch. 7–8 · Rottman &amp; Yoshida 2013</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      생략(ellipsis) 또는 대용화(anaphora) 구문에서 관용어의 일부가 삭제되거나 대용 표현으로 대체되어도 <strong>관용어 해석이 유지</strong>되는 현상. 관용 의미가 생략 지점 혹은 대용 표현 안으로 "전파"되거나 "대치"됨.
+    </div>
+    <p>관용어는 LF에서 하나의 구성성분을 이루어야만 비구성적(non-compositional) 관용 의미를 받을 수 있다. 생략이 관용어 일부를 삭제하고도 관용 해석이 남는다면, 삭제된 부분이 LF에 구조적으로 여전히 존재함을 의미한다 — 즉 해당 구문이 기저생성이 아닌 <strong>진정한 생략(genuine ellipsis)</strong>임을 입증한다.</p>
+    <div class="sub-head">진단적 활용</div>
+    <div class="ex">
+      <div class="ex-label">수문에서 관용 해석 유지 — Rottman &amp; Yoshida (2013)</div>
+      <span class="gram">Someone kicked the bucket, but I don't know who Ø.</span><br>
+      <span class="t">→ "kick the bucket" = 죽다 (관용 의미). 수문에도 관용 해석 유지.</span><br>
+      <span class="t">→ 삭제된 TP에 [kicked the bucket]이 구조적으로 존재한다는 증거</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">NCA에서 관용 해석 유지 — Ch. 8</div>
+      A: Did John kick the bucket?<br>
+      <span class="gram">B: I refused Ø.</span><br>
+      <span class="t">→ null complement = "to kick the bucket" (관용 의미 유지)</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">외현 대명사 → 관용 해석 차단</div>
+      <span class="ungram">Someone kicked the bucket, but I don't know who did it.</span><br>
+      <span class="t">→ "it"은 구체적 지시를 강제 → 관용 해석 불가 (문자적 의미만)</span>
+    </div>
+    <div class="kp"><strong>핵심 논거:</strong> 관용어 전파는 생략 지점이 PF에서 발음되지 않더라도 LF에서 선행어와 동일한 통사 구조를 보유한다는 직접적 증거다. 기저생성된 null 요소라면 관용 해석이 차단되어야 하기 때문이다.</div>
+  </div>
+</div>
+
+<!-- LF INTERPRETIVE PARALLELISM -->
+<div class="entry" id="lf-par">
+  <div class="entry-meta">
+    <div class="entry-tag theory">Theory</div>
+    <div class="entry-term">LF 해석 병행성</div>
+    <div class="entry-term-en">LF Interpretive Parallelism</div>
+    <div class="entry-chapter">Ch. 8, 11</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      생략(및 일부 대용화)이 적법하려면 <strong>생략 지점의 논리형태(LF)가 선행어의 LF와 동일(또는 충분히 병행)해야 한다</strong>는 조건. 표면 통사 형태의 동일성이 아니라 의미 해석 수준의 동일성이 요구된다.
+    </div>
+    <p>LF 해석 병행성은 RNR의 <strong>LF 복사 분석</strong>(Ch. 11)의 이론적 토대다: 발음되지 않는 연접소의 LF 내용이 발음되는 연접소에서 복사됨으로써 해석 동일성이 보장된다. 또한 VP 생략에서 엄밀지시/이완지시 해석이 모두 가능한 이유이기도 하다 — 결속 관계를 달리 설정해도 LF 동일성이 만족되기 때문.</p>
+    <div class="sub-head">엄밀지시/이완지시와 LF 병행성</div>
+    <div class="ex">
+      <div class="ex-label">VP 생략 — 두 해석 모두 LF 병행성 만족</div>
+      John washed his car, and Bill did Ø too.<br>
+      <span class="t">엄밀지시: Bill washed John's car → LF of gap = [washed John's car]</span><br>
+      <span class="t">이완지시: Bill washed Bill's car → LF of gap = [washed Bill's car]</span><br>
+      <span class="t">→ 결속 관계가 달라도 LF 병행성 성립</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">Anti-Pun Ordinance는 LF 병행성의 귀결</div>
+      <span class="ungram">*John robbed, and Mary painted, the bank.</span><br>
+      <span class="t">→ 두 연접소에서 "bank"가 서로 다른 LF를 가짐 → 단일 LF 복사 불가</span>
+    </div>
+    <div class="kp"><strong>표면(음성) 동일성과의 대조:</strong> LF 해석 병행성은 표층 형태 교체(예: 대명사 ↔ 재귀사, some ↔ any)와 이완지시 해석을 허용한다. 순수 음성 동일성 조건은 이런 변화를 예측할 수 없다.</div>
+  </div>
+</div>
+
+<!-- SYNTACTIC PARALLELISM -->
+<div class="entry" id="syn-par">
   <div class="entry-meta">
     <div class="entry-tag constraint">Constraint</div>
-    <div class="entry-term">인접성 효과</div>
-    <div class="entry-term-en">Proximity Effect</div>
-    <div class="entry-chapter">Ch. 11 · 우절점공유</div>
+    <div class="entry-term">통사적 병행성</div>
+    <div class="entry-term-en">Syntactic Parallelism</div>
+    <div class="entry-chapter">Ch. 8</div>
   </div>
   <div class="entry-body">
     <div class="def-box">
-      우절점공유에서 축(pivot)의 일치 형태소(특히 한국어의 경칭형태소 <em>-시-</em>)가 <strong>왼쪽(공백) 연접소가 아니라 오른쪽(발음되는) 연접소</strong>에 의해 결정되는 현상. 발음되는 요소에 가장 인접한 연접소가 일치를 지배한다는 뜻에서 '인접성' 효과.
-    </div>
-    <p>한국어 RNR에서 경칭형태소 <em>-시-</em>는 오른쪽 연접소의 주어(높임 대상)를 반영한다. 왼쪽 연접소의 주어가 높임 대상이더라도, 오른쪽 연접소의 주어가 높임 대상이 아니라면 경칭 형태는 나타나지 않거나 수용성이 저하된다.</p>
-    <div class="ex">
-      <div class="ex-label">경칭 일치가 오른쪽 연접소에 의해 결정되는 경우</div>
-      <span class="t">왼쪽 연접소 주어: 높임 대상 아님</span><br>
-      <span class="t">오른쪽 연접소 주어: 높임 대상 (교수님)</span><br>
-      <span class="gram">→ 축 동사에 -시- 등장 (오른쪽 연접소가 결정) ✓</span><br><br>
-      <span class="t">왼쪽 연접소 주어: 높임 대상 (교수님)</span><br>
-      <span class="t">오른쪽 연접소 주어: 높임 대상 아님</span><br>
-      <span class="ungram">→ -시- 없는 축 동사 수용성 저하 ✗</span>
-    </div>
-    <div class="kp"><strong>이론적 함의:</strong> 인접성 효과는 <strong>LF 복사 분석</strong>을 지지한다. 축은 오른쪽 연접소에서 기저생성되어 그 형태소적 자질이 거기서 결정되고, 왼쪽 연접소에는 LF에서 내용이 복사된 음성적 null 복사본이 존재한다.</div>
-  </div>
-</div>
-
-<!-- PSEUDOGAPPING -->
-<div class="entry" id="pseudo">
-  <div class="entry-meta">
-    <div class="entry-tag ellipsis">Ellipsis</div>
-    <div class="entry-term">유사공백화</div>
-    <div class="entry-term-en">Pseudogapping</div>
-    <div class="entry-chapter">Ch. 7 · Levin 1978</div>
-  </div>
-  <div class="entry-body">
-    <div class="def-box">
-      VP 생략과 공백화의 특성을 모두 지니는 생략 구문. <strong>조동사가 잔존</strong>하고(VP 생략처럼), 조동사 뒤에 <strong>잔여성분</strong>이 남는다(공백화처럼). Levin(1978)이 명명.
+      생략 지점과 선행어가 <strong>동일(또는 충분히 유사)한 통사 구조</strong>를 공유해야 한다는 요건. 표층대용어는 의미적 동치만으로는 충분하지 않으며, 통사적 형태의 일치가 필요하다.
     </div>
     <div class="ex">
-      <div class="ex-label">유사공백화 — 영어</div>
-      A: John eats apples.<br>
-      <span class="gram">B: Mary does Ø bananas.</span><br>
-      <span class="t">→ "does" = 조동사 잔존; "bananas" = 잔여성분; VP 삭제</span>
+      <div class="ex-label">VP 생략 — 통사적 병행성 필요</div>
+      A: The oats had to be taken to the bin. <span class="t">(수동태)</span><br>
+      <span class="ungram">*B: Bill did Ø.</span> <span class="t">← 선행어 수동태, VPE 지점은 능동태 → 구조 불일치 → 비문</span><br>
+      <span class="gram">B: Bill volunteered Ø.</span> <span class="t">← NCA — 병행성 불요 → 정문</span>
     </div>
-    <div class="sub-head">3자 대조</div>
-    <table class="contrast">
-      <thead><tr><th>현상</th><th>조동사</th><th>잔여성분</th><th>예</th></tr></thead>
-      <tbody>
-        <tr><td>공백화</td><td>✗</td><td>✓</td><td><em>John ate apples and Mary Ø pears.</em></td></tr>
-        <tr><td>VP 생략</td><td>✓</td><td>✗</td><td><em>John ate apples and Mary did Ø too.</em></td></tr>
-        <tr><td>유사공백화</td><td>✓</td><td>✓</td><td><em>John ate apples and Mary did Ø pears.</em></td></tr>
-      </tbody>
-    </table>
-    <div class="sub-head">Lasnik(1995)의 분석</div>
-    <p>Lasnik은 유사공백화를 <strong>외현적 목적어 전이(Overt Object Shift)</strong>로 분석한다: 잔여성분 목적어가 VP 밖으로 이동한 후, VP(목적어의 흔적 포함)가 삭제된다. 조동사는 삭제 영역 밖에 있으므로 잔존한다.</p>
     <div class="ex">
-      <div class="ex-label">Lasnik의 도출 (간략)</div>
-      <span class="t">Step 1: 목적어 "bananas" → Object Shift (VP 위로 이동)</span><br>
-      <span class="t">Step 2: VP (흔적 포함) 삭제</span><br>
-      <span class="t">결과: [TP Mary [does [bananas<sub>i</sub> [VP Ø]]]]</span>
+      <div class="ex-label">do so — 통사적 병행성 엄격 요구</div>
+      A: John solved the problem carefully.<br>
+      <span class="gram">B: Mary did so too.</span> <span class="t">(동일 VP 구조)</span><br>
+      <span class="ungram">B: *Mary did so the puzzle.</span> <span class="t">(구조 불일치)</span>
     </div>
-    <div class="kp"><strong>Lasnik 분석의 문제:</strong> 처소 PP 잔여성분(예: <em>Mary did Ø on the table</em>)이 실제로 등장하는데, PP는 Object Shift를 겪지 않는다 → 순수 이동 분석의 한계. 처소 도치(Locative Inversion)와의 연관성에서도 문제 발생.</div>
-    <div class="sub-head">한국어 유사공백화</div>
-    <p>한국어에서는 영어의 조동사에 해당하는 형태소가 없으므로, 유사공백화 유사 구문에서 계사 '이'가 <strong>최후수단(last resort)</strong>으로 삽입되어 잔여성분을 지지한다. 잔여성분의 [+focus] 자질이 Spec-FocP로의 외현이동을 촉발하고, 이후 VP(또는 더 큰 범주)가 음성형태에서 삭제된다.</p>
+    <div class="sub-head">NCA는 통사적 병행성에서 면제</div>
+    <div class="ex">
+      <div class="ex-label">NCA — 병행성 불요</div>
+      A: The oats had to be taken to the bin.<br>
+      <span class="gram">B: Bill volunteered Ø.</span><br>
+      <span class="t">→ A의 통사 구조와 무관하게 NCA 허용</span><br>
+      <span class="t">→ 병행성 면제 = NCA가 표층대용어가 아니라는 증거</span>
+    </div>
+    <div class="kp"><strong>진단:</strong> 통사적 병행성 민감성은 표층대용화의 특성. 면제는 심층대용화의 특성. NCA의 병행성 면제가 Hankamer &amp; Sag(1976)가 NCA를 심층대용화로 분류한 원래 근거였으나, 이후 사라진 선행어 및 적출 불가 검사가 이를 복잡하게 만들었다.</div>
   </div>
 </div>
 
@@ -810,6 +1134,130 @@ footer {
   </div>
 </div>
 
+<!-- PIVOT -->
+<div class="entry" id="pivot">
+  <div class="entry-meta">
+    <div class="entry-tag ellipsis">Ellipsis</div>
+    <div class="entry-term">축 (Pivot)</div>
+    <div class="entry-term-en">Pivot</div>
+    <div class="entry-chapter">Ch. 11–12 · RNR / LNS</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      우절점공유(RNR) 또는 좌절점공유(LNS)에서 <strong>공유된 구성성분</strong>. 연접소들 중 하나에서만 음성적으로 실현되고, 의미적으로는 모든 연접소에서 해석된다.
+    </div>
+    <div class="ex">
+      <div class="ex-label">RNR — 축이 오른쪽 연접소에서 발음</div>
+      <span class="gram">John bought Ø, and Mary read, [<span class="hi">the book</span>].</span><br>
+      <span class="t">→ 축 = "the book"; 왼쪽 연접소에서 묵음, 오른쪽에서 발음</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">LNS — 축이 왼쪽 연접소에서 발음</div>
+      <span class="gram">[<span class="hi">the sandwich</span>] John made Ø, and Mary ate Ø.</span><br>
+      <span class="t">→ 축 = "the sandwich"; 왼쪽에서 발음, 오른쪽에서 묵음</span>
+    </div>
+    <div class="sub-head">축의 분석별 지위</div>
+    <table class="contrast">
+      <thead><tr><th>분석</th><th>묵음 축의 지위</th></tr></thead>
+      <tbody>
+        <tr><td>우절점인상 (이동)</td><td>ATB 이동 후 남겨진 흔적/복사본</td></tr>
+        <tr><td>다중관할 (Wilder 1999)</td><td>두 개의 모절점에 의해 동시에 관할되는 단일 노드</td></tr>
+        <tr><td>후행삭제</td><td>왼쪽 연접소에서 삭제된 기저생성 복사본</td></tr>
+        <tr><td>LF 복사 분석</td><td>음성형태에서 묵음; LF에서 발음된 연접소의 내용이 복사됨</td></tr>
+      </tbody>
+    </table>
+    <div class="kp"><strong>Anti-Pun Ordinance의 축 제한:</strong> 축이 동음이의어인 경우 복사할 단일 LF가 없으므로 금지됨. 이는 축이 LF 수준의 의미 동일성 조건을 만족해야 함을 시사한다.</div>
+  </div>
+</div>
+
+<!-- ANTI-PUN ORDINANCE -->
+<div class="entry" id="anti-pun">
+  <div class="entry-meta">
+    <div class="entry-tag constraint">Constraint</div>
+    <div class="entry-term">Anti-Pun Ordinance</div>
+    <div class="entry-term-en">Anti-Pun Ordinance</div>
+    <div class="entry-chapter">Ch. 11 · 우절점공유</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      우절점공유(RNR)에서 <strong>동음이의어(homonym)</strong> — 즉 동일한 음성 형태를 가지지만 서로 무관한 두 가지 의미를 갖는 어휘 — 가 축(pivot)으로 나타나는 것을 금지하는 제약.
+    </div>
+    <p>Anti-Pun Ordinance는 RNR이 단순한 음성적 동일성이 아니라 <strong>의미적(LF) 동일성</strong>을 요구한다는 직관을 포착한다. LF 복사 분석(LF Copy Analysis)에 따르면 RNR은 발음되는 연접소의 LF 내용을 발음되지 않는 연접소에 복사하는 방식으로 도출된다. 동음이의어 축의 경우 복사할 단일한 LF 내용이 존재하지 않으므로 구제 불가능한 비문이 된다.</p>
+    <div class="sub-head">예문</div>
+    <div class="ex">
+      <div class="ex-label">동음이의어 축 → 비문</div>
+      <span class="ungram">*John saw, and Mary sketched, the bank.</span><br>
+      <span class="t">→ "bank" = 금융기관 OR 강둑 — 두 개의 별개 LF</span><br>
+      <span class="t">→ 두 연접소가 서로 다른 의미의 "bank"를 지시할 경우 비문</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">단의어 축 → 정문</div>
+      <span class="gram">John bought, and Mary read, the book.</span><br>
+      <span class="t">→ "the book"은 단일한 LF → 복사 가능 → 정문</span>
+    </div>
+    <div class="kp"><strong>이론적 함의:</strong> Anti-Pun Ordinance는 RNR이 음운부(PF)가 아니라 논리형태(LF) 수준의 동일성을 요구한다는 핵심 증거로, LF 복사 분석을 지지하고 순수 음운 삭제 분석에 반하는 논거가 된다.</div>
+  </div>
+</div>
+
+<!-- PROXIMITY EFFECT -->
+<div class="entry" id="proximity">
+  <div class="entry-meta">
+    <div class="entry-tag constraint">Constraint</div>
+    <div class="entry-term">인접성 효과</div>
+    <div class="entry-term-en">Proximity Effect</div>
+    <div class="entry-chapter">Ch. 11 · 우절점공유</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      우절점공유에서 축(pivot)의 일치 형태소(특히 한국어의 경칭형태소 <em>-시-</em>)가 <strong>왼쪽(공백) 연접소가 아니라 오른쪽(발음되는) 연접소</strong>에 의해 결정되는 현상. 발음되는 요소에 가장 인접한 연접소가 일치를 지배한다는 뜻에서 '인접성' 효과.
+    </div>
+    <p>한국어 RNR에서 경칭형태소 <em>-시-</em>는 오른쪽 연접소의 주어(높임 대상)를 반영한다. 왼쪽 연접소의 주어가 높임 대상이더라도, 오른쪽 연접소의 주어가 높임 대상이 아니라면 경칭 형태는 나타나지 않거나 수용성이 저하된다.</p>
+    <div class="ex">
+      <div class="ex-label">경칭 일치가 오른쪽 연접소에 의해 결정되는 경우</div>
+      <span class="t">왼쪽 연접소 주어: 높임 대상 아님</span><br>
+      <span class="t">오른쪽 연접소 주어: 높임 대상 (교수님)</span><br>
+      <span class="gram">→ 축 동사에 -시- 등장 (오른쪽 연접소가 결정) ✓</span><br><br>
+      <span class="t">왼쪽 연접소 주어: 높임 대상 (교수님)</span><br>
+      <span class="t">오른쪽 연접소 주어: 높임 대상 아님</span><br>
+      <span class="ungram">→ -시- 없는 축 동사 수용성 저하 ✗</span>
+    </div>
+    <div class="kp"><strong>이론적 함의:</strong> 인접성 효과는 <strong>LF 복사 분석</strong>을 지지한다. 축은 오른쪽 연접소에서 기저생성되어 그 형태소적 자질이 거기서 결정되고, 왼쪽 연접소에는 LF에서 내용이 복사된 음성적 null 복사본이 존재한다.</div>
+  </div>
+</div>
+
+<!-- DEFAULT CASE -->
+<div class="entry" id="default-case">
+  <div class="entry-meta">
+    <div class="entry-tag theory">Theory</div>
+    <div class="entry-term">Default Case</div>
+    <div class="entry-term-en">Default Case</div>
+    <div class="entry-chapter">Ch. 11 · 우절점공유</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      명사구가 구조격(주격·목적격)이나 내재격(여격·속격)을 부여받을 수 있는 환경에 놓이지 못할 때 — 즉 해당 절의 격 인허자(case licensor)로부터 분리된 위치에 놓일 때 — 부여되는 <strong>기본(default) 형태소적 격</strong>.
+    </div>
+    <p>RNR에서 축(pivot)은 양쪽 연접소의 격 인허 영역 밖으로 이동하거나 복사될 수 있다. 이때 축이 어떤 격을 받는지, 또는 격 표지가 탈락하는지 여부는 분석 방향에 따라 달리 예측된다.</p>
+    <div class="sub-head">이론적 함의</div>
+    <table class="contrast">
+      <thead><tr><th>분석</th><th>축의 격 처리</th></tr></thead>
+      <tbody>
+        <tr><td>우절점인상 (이동 분석)</td><td>양쪽 연접소 밖으로 이동 → 구조격 인허 불가 → Default Case 필요</td></tr>
+        <tr><td>LF 복사 분석</td><td>발음되는 연접소에서 정상 격 부여; 발음 안 되는 복사본은 LF 동일성으로 처리 → Default Case 불필요</td></tr>
+      </tbody>
+    </table>
+    <div class="ex">
+      <div class="ex-label">격 불일치 상황 — 이동 분석에서 Default Case가 필요한 이유</div>
+      <span class="t">왼쪽 연접소: 목적격 기대 (직접목적어)</span><br>
+      <span class="t">오른쪽 연접소: 여격 기대 (간접목적어)</span><br>
+      <span class="gram">John gave __ and Mary sent __ [the package] to Bill.</span><br>
+      <span class="t">→ "the package"가 하나의 격 형태로 표면에 나타남</span><br>
+      <span class="t">→ 이동 분석: 구조격 불인허 상태에서 Default Case 부여</span>
+    </div>
+    <div class="kp"><strong>한국어 관련성:</strong> 한국어 우절점공유에서 축의 후치사/격조사가 탈락하는 경우가 있는데, 이는 이동 분석에서 Default Case(격 탈락)로 설명될 수 있다. LF 복사 분석에서는 발음되는 연접소에서 격이 정상 부여되므로 이 현상은 다른 방식으로 처리해야 한다.</div>
+  </div>
+</div>
+
 <!-- RIGHT DISLOCATION -->
 <div class="entry" id="rd">
   <div class="entry-meta">
@@ -852,339 +1300,32 @@ footer {
   </div>
 </div>
 
-<!-- SLOPPY READING -->
-<div class="entry" id="sloppy">
+<!-- LOCATIVE INVERSION -->
+<div class="entry" id="loc-inv">
   <div class="entry-meta">
-    <div class="entry-tag semantics">Semantics</div>
-    <div class="entry-term">이완지시 해석</div>
-    <div class="entry-term-en">Sloppy Reading</div>
-    <div class="entry-chapter">Ch. 8 · Fiengo &amp; May 1994</div>
+    <div class="entry-tag theory">Theory</div>
+    <div class="entry-term">처소 도치</div>
+    <div class="entry-term-en">Locative Inversion</div>
+    <div class="entry-chapter">Ch. 7 · 유사공백화</div>
   </div>
   <div class="entry-body">
     <div class="def-box">
-      VP 생략(및 관련 생략 구문)에서, 생략 지점 내부의 대명사가 <strong>생략절의 새로운 주어와 공변(co-vary)</strong>하여 해석되는 독해. 즉 대명사가 원래의 지시체가 아닌 새로운 지시체를 갖는다. Fiengo &amp; May(1994)에서 <strong>β-발생(β-occurrence, 종속적 발생)</strong>에 해당.
+      <strong>처소 PP가 주어 위치로 전치(fronting)되고</strong> 정상 주어가 동사 뒤로 이동하는 구문. 유사공백화와의 관련성: 처소 PP가 유사공백화의 잔여성분으로 나타날 수 있다는 사실이 Lasnik(1995)의 목적어 전이(Object Shift) 분석에 문제를 제기한다.
     </div>
     <div class="ex">
-      <div class="ex-label">VP 생략 — 이완지시 해석</div>
-      George claimed <span class="hi">he</span> won. Al did Ø too.<br>
-      <span class="gram">이완지시: Al claimed Al won.</span> <span class="t">(대명사 = Al)</span><br>
-      <span class="gram">엄밀지시: Al claimed George won.</span> <span class="t">(대명사 = George)</span>
-    </div>
-    <div class="sub-head">α-발생 vs. β-발생 (Fiengo &amp; May 1994)</div>
-    <div class="ex">
-      <div class="ex-label">α-발생 (독립적 발생) → 엄밀지시만</div>
-      John washed <span class="hi">John's</span> car. Bill did Ø too.<br>
-      <span class="gram">엄밀지시: Bill washed John's car.</span><br>
-      <span class="ungram">이완지시: *Bill washed Bill's car.</span><br>
-      <span class="t">→ "John's" = 이름(α-발생); 이완지시 불가</span>
+      <div class="ex-label">기본 처소 도치 — 영어</div>
+      <span class="gram">Into the room walked a stranger.</span><br>
+      <span class="t">→ PP "into the room"이 주어 위치; "a stranger"가 동사 후위</span>
     </div>
     <div class="ex">
-      <div class="ex-label">β-발생 (종속적 발생) → 이완지시 가능</div>
-      John washed <span class="hi">his</span> car. Bill did Ø too.<br>
-      <span class="gram">엄밀지시: Bill washed John's car.</span><br>
-      <span class="gram">이완지시: Bill washed Bill's car.</span><br>
-      <span class="t">→ "his" = 대명사(β-발생); 이완지시 가능</span>
+      <div class="ex-label">처소 PP가 유사공백화 잔여성분으로 — Lasnik 분석의 문제</div>
+      A: John put the book on the shelf.<br>
+      <span class="gram">B: Mary did Ø on the table.</span><br>
+      <span class="t">→ PP "on the table"이 잔여성분으로 나타남</span><br>
+      <span class="t">→ Lasnik의 목적어 전이 분석: DP 목적어만 이동 가능하다고 예측</span><br>
+      <span class="t">   그런데 PP 잔여성분이 실제로 등장 → 이동 분석 반례</span>
     </div>
-    <div class="sub-head">NCA 분류와의 관련성</div>
-    <p>한국어 NCA는 결속자가 이름(α-발생)인 경우에도 이완지시 해석이 허용된다. 이는 표층대용화(VP 생략 등)에서는 허용되지 않는 패턴으로, 한국어 NCA가 <strong>심층대용화</strong>임을 보여주는 핵심 논거다.</p>
-    <div class="kp"><strong>국부적 이접성 검사 (Hoji 2003):</strong> 표층대용화는 결속자가 이름일 때 이완지시 해석에서 국부적 이접성 효과를 보이지만, 심층대용화는 이 효과가 없다. 영어 NCA는 이접성 효과가 없음 → 심층대용화적 특성 → 저자는 이를 저층대용화로 재분류.</div>
-  </div>
-</div>
-
-<!-- SLUICING -->
-<div class="entry" id="sluicing">
-  <div class="entry-meta">
-    <div class="entry-tag ellipsis">Ellipsis</div>
-    <div class="entry-term">수문</div>
-    <div class="entry-term-en">Sluicing</div>
-    <div class="entry-chapter">Ch. 9 · Ross 1969</div>
-  </div>
-  <div class="entry-body">
-    <div class="def-box">
-      내포절에서 <em>wh</em>-표현이 왼쪽 주변부로 이동하고 <strong>나머지 TP 전체가 삭제</strong>되어, 결과적으로 bare <em>wh</em>-잔여성분만 남는 생략 구문. Ross(1969)가 명명.
-    </div>
-    <div class="ex">
-      <div class="ex-label">기본 수문</div>
-      A: Someone left early.<br>
-      <span class="gram">B: I wonder who Ø.</span><br>
-      <span class="t">→ "who" = wh-잔여성분; 삭제된 TP = "who left early"</span>
-    </div>
-    <div class="sub-head">병합수문과 섬제약 구제</div>
-    <div class="ex">
-      <div class="ex-label">병합수문(Merger Sluicing) — 섬제약 위반 구제</div>
-      <span class="gram">She's dating someone, but I don't know who Ø.</span><br>
-      <span class="t">→ 선행어 "someone"이 섬 안에 있어도 수문에서 구제됨</span><br>
-      <span class="t">→ Fox(1999), Merchant(2001): *-표시 흔적이 TP 삭제로 제거되어 구제</span>
-    </div>
-    <div class="sub-head">전치사-좌초 일반화 (P-Stranding Generalization, Merchant 2001)</div>
-    <div class="ex">
-      <div class="ex-label">영어 — P-좌초 허용 언어 → 수문에서도 P 없이 가능</div>
-      <span class="gram">She's talking to someone, but I don't know who Ø.</span> <span class="t">(P 좌초)</span>
-    </div>
-    <div class="ex">
-      <div class="ex-label">독일어 — P-좌초 불허 → 수문에도 P 동반 필요</div>
-      <span class="gram">Sie spricht mit jemandem, aber ich weiß nicht mit wem Ø.</span><br>
-      <span class="t">"She's talking with someone, but I don't know with whom Ø."</span>
-    </div>
-    <div class="sub-head">관용어 전파와 수문</div>
-    <div class="ex">
-      <div class="ex-label">수문에서 관용 해석 유지 (Rottman &amp; Yoshida 2013)</div>
-      <span class="gram">Someone kicked the bucket, but I don't know who Ø.</span><br>
-      <span class="t">→ 관용 해석("죽다") 유지 → 삭제된 TP에 LF 구조 존재 증명</span>
-    </div>
-    <div class="kp"><strong>Why-최소공백화와의 관계:</strong> 수문은 wh-이동 + TP 삭제. Why-최소공백화는 why가 C에 기저생성되고 잔여성분이 화제이동(저자 분석)을 하는 비의문문적 대응물.</div>
-  </div>
-</div>
-
-<!-- STRICT READING -->
-<div class="entry" id="strict">
-  <div class="entry-meta">
-    <div class="entry-tag semantics">Semantics</div>
-    <div class="entry-term">엄밀지시 해석</div>
-    <div class="entry-term-en">Strict Reading</div>
-    <div class="entry-chapter">Ch. 8 · Fiengo &amp; May 1994</div>
-  </div>
-  <div class="entry-body">
-    <div class="def-box">
-      VP 생략(및 관련 생략 구문)에서, 생략 지점 내부의 대명사가 <strong>선행절에서와 동일한 지시체</strong>를 유지하여 해석되는 독해. 대명사가 원래의 지시체를 고수한다. Fiengo &amp; May(1994)에서 <strong>α-발생(α-occurrence, 독립적 발생)</strong>에 해당.
-    </div>
-    <div class="ex">
-      <div class="ex-label">엄밀지시 해석 — VP 생략</div>
-      John washed <span class="hi">his</span> car. Bill did Ø too.<br>
-      <span class="gram">엄밀지시: Bill washed John's car.</span> <span class="t">(his = John)</span>
-    </div>
-    <div class="ex">
-      <div class="ex-label">엄밀지시만 가능 — 결속자가 이름인 경우</div>
-      John washed <span class="hi">John's</span> car. Bill did Ø too.<br>
-      <span class="gram">엄밀지시만: Bill washed John's car.</span><br>
-      <span class="ungram">이완지시: *Bill washed Bill's car.</span><br>
-      <span class="t">→ "John's" = α-발생 → 이완지시 불가</span>
-    </div>
-    <div class="sub-head">NCA 분류와의 관련성</div>
-    <div class="ex">
-      <div class="ex-label">영어 NCA — 엄밀지시와 이완지시 모두 가능</div>
-      Mary voted for her husband. Susan refused Ø.<br>
-      <span class="gram">엄밀지시: Susan refused to vote for Mary's husband.</span><br>
-      <span class="gram">이완지시: Susan refused to vote for Susan's husband.</span><br>
-      <span class="t">→ 두 해석 모두 가능 → NCA의 심층대용화적 특성</span>
-    </div>
-    <div class="kp"><strong>핵심 구별:</strong> 엄밀지시 해석은 표층대용화와 심층대용화 모두에서 가능하다. 결정적 진단은 결속자가 이름(α-발생)일 때 <em>이완지시</em> 해석이 가능한가 여부다 — 심층대용화만 이를 허용한다.</div>
-  </div>
-</div>
-
-<!-- STRIPPING -->
-<div class="entry" id="stripping">
-  <div class="entry-meta">
-    <div class="entry-tag ellipsis">Ellipsis</div>
-    <div class="entry-term">최소공백화</div>
-    <div class="entry-term-en">Stripping</div>
-    <div class="entry-chapter">Ch. 7, 9, 10 · Hankamer &amp; Sag 1976</div>
-  </div>
-  <div class="entry-body">
-    <div class="def-box">
-      비선행 연접소에서 <strong>단 하나의 잔여성분을 제외하고 TP 전체가 삭제</strong>되는 생략 현상. 잔여성분은 삭제 이전에 왼쪽 주변부로 이동한 것으로 분석된다. Hankamer &amp; Sag(1976)이 명명.
-    </div>
-    <div class="ex">
-      <div class="ex-label">기본 최소공백화 — 영어</div>
-      A: John left early.<br>
-      <span class="gram">B: Mary too Ø.</span> / <span class="gram">B: Not John Ø.</span><br>
-      <span class="t">→ 잔여성분 하나 + TP 삭제</span>
-    </div>
-    <div class="sub-head">하위 유형</div>
-    <table class="contrast">
-      <thead><tr><th>하위 유형</th><th>잔여성분</th><th>잔여성분 이동</th></tr></thead>
-      <tbody>
-        <tr><td>일반 최소공백화</td><td>초점 XP (+ too / either)</td><td>초점이동 (Spec-FocP)</td></tr>
-        <tr><td>Not-최소공백화</td><td>초점 XP + not</td><td>초점이동</td></tr>
-        <tr><td>Why-최소공백화</td><td>XP + why</td><td>화제이동 (Spec-TopP) — 저자 주장</td></tr>
-      </tbody>
-    </table>
-    <div class="sub-head">한국어 초점문과 생략 범위 선호도</div>
-    <div class="ex">
-      <div class="ex-label">한국어 최소공백화 — TP 삭제, 가장 선호</div>
-      A: Chulsoo ate apples.<br>
-      <span class="gram">B: Younghee too Ø.</span> <span class="t">[z = 1.15] ← 수용성 최고</span>
-    </div>
-    <div class="kp"><strong>초점문 생략 최대화 원리:</strong> 생략은 클수록 선호된다. TP 삭제(최소공백화) &gt; NegP 삭제 &gt; AgrSP 삭제 &gt; VP 삭제(유사공백화). 이 원리는 문법성에 직접 영향을 주지 않고 선호 원리로 기능한다.</div>
-    <div class="kp"><strong>구조 분석:</strong> 잔여성분이 Spec-FocP(또는 Why-최소공백화의 경우 Spec-TopP)로 이동한 후, 나머지 TP가 PF에서 삭제된다. 회복성조건(Pesetsky 1997)에 의해 의미 내용을 가진 요소는 반드시 발음되어야 하므로, 잔여성분의 외현이동이 강제된다.</div>
-  </div>
-</div>
-
-<!-- SURFACE ANAPHORA -->
-<div class="entry" id="surface">
-  <div class="entry-meta">
-    <div class="entry-tag anaphora">Anaphora</div>
-    <div class="entry-term">표층대용화</div>
-    <div class="entry-term-en">Surface Anaphora</div>
-    <div class="entry-chapter">Ch. 8 · Hankamer &amp; Sag 1976</div>
-  </div>
-  <div class="entry-body">
-    <div class="def-box">
-      <strong>삭제 변형(deletion transformation)으로 도출</strong>되는 대용화 표현. 삭제된 부분은 통사적으로 적절한 형태의 <strong>언어적 선행어</strong>가 반드시 존재해야 하며, 통사적 병행성을 요구한다. 화용적(비언어적) 선행어만으로는 허가되지 않는다.
-    </div>
-    <div class="sub-head">네 가지 진단 기준</div>
-    <table class="contrast">
-      <thead><tr><th>기준</th><th>표층대용화</th><th>심층대용화</th></tr></thead>
-      <tbody>
-        <tr><td>화용적 선행어</td><td>✗ 불허</td><td>✓ 허용</td></tr>
-        <tr><td>통사적 병행성</td><td>필요</td><td>불필요</td></tr>
-        <tr><td>사라진 선행어</td><td>✓ 허용</td><td>✗ 불허</td></tr>
-        <tr><td>적출 가능성</td><td>✓ 가능</td><td>✗ 불가</td></tr>
-      </tbody>
-    </table>
-    <div class="ex">
-      <div class="ex-label">VP 생략 — 화용적 선행어 불허</div>
-      [화자가 무거운 상자를 가리키며]<br>
-      <span class="ungram">*A: "Lift this?" B: "I already did Ø."</span><br>
-      <span class="t">→ 언어적 선행어 VP 없으면 VPE 불허</span>
-    </div>
-    <div class="ex">
-      <div class="ex-label">VP 생략 — 사라진 선행어 허용</div>
-      <span class="gram">I've never ridden a camel, but Ivan has Ø and he says it stank horribly.</span><br>
-      <span class="t">→ "it"의 선행어 "a camel"이 삭제된 VP 안에 존재 → 허용</span>
-    </div>
-    <div class="ex">
-      <div class="ex-label">VP 생략 — wh 적출 가능</div>
-      <span class="gram">I know which book Mary read t, and Peter knows which article Sally did Ø.</span>
-    </div>
-    <div class="kp">VP 생략, <em>do so</em> 대용화, 수문이 대표적인 표층대용어다. 영어 NCA는 화용적 선행어 허용 및 병행성 면제(심층대용화 특성)를 보이지만, 사라진 선행어 불허 및 적출 불가(표층대용화 특성)도 보임 → 저층대용화로 재분류됨.</div>
-  </div>
-</div>
-
-<!-- SYNTACTIC PARALLELISM -->
-<div class="entry" id="syn-par">
-  <div class="entry-meta">
-    <div class="entry-tag constraint">Constraint</div>
-    <div class="entry-term">통사적 병행성</div>
-    <div class="entry-term-en">Syntactic Parallelism</div>
-    <div class="entry-chapter">Ch. 8</div>
-  </div>
-  <div class="entry-body">
-    <div class="def-box">
-      생략 지점과 선행어가 <strong>동일(또는 충분히 유사)한 통사 구조</strong>를 공유해야 한다는 요건. 표층대용어는 의미적 동치만으로는 충분하지 않으며, 통사적 형태의 일치가 필요하다.
-    </div>
-    <div class="ex">
-      <div class="ex-label">VP 생략 — 통사적 병행성 필요</div>
-      A: The oats had to be taken to the bin. <span class="t">(수동태)</span><br>
-      <span class="ungram">*B: Bill did Ø.</span> <span class="t">← 선행어 수동태, VPE 지점은 능동태 → 구조 불일치 → 비문</span><br>
-      <span class="gram">B: Bill volunteered Ø.</span> <span class="t">← NCA — 병행성 불요 → 정문</span>
-    </div>
-    <div class="ex">
-      <div class="ex-label">do so — 통사적 병행성 엄격 요구</div>
-      A: John solved the problem carefully.<br>
-      <span class="gram">B: Mary did so too.</span> <span class="t">(동일 VP 구조)</span><br>
-      <span class="ungram">B: *Mary did so the puzzle.</span> <span class="t">(구조 불일치)</span>
-    </div>
-    <div class="sub-head">NCA는 통사적 병행성에서 면제</div>
-    <div class="ex">
-      <div class="ex-label">NCA — 병행성 불요</div>
-      A: The oats had to be taken to the bin.<br>
-      <span class="gram">B: Bill volunteered Ø.</span><br>
-      <span class="t">→ A의 통사 구조와 무관하게 NCA 허용</span><br>
-      <span class="t">→ 병행성 면제 = NCA가 표층대용어가 아니라는 증거</span>
-    </div>
-    <div class="kp"><strong>진단:</strong> 통사적 병행성 민감성은 표층대용화의 특성. 면제는 심층대용화의 특성. NCA의 병행성 면제가 Hankamer &amp; Sag(1976)가 NCA를 심층대용화로 분류한 원래 근거였으나, 이후 사라진 선행어 및 적출 불가 검사가 이를 복잡하게 만들었다.</div>
-  </div>
-</div>
-
-<!-- VP ELLIPSIS -->
-<div class="entry" id="vpe">
-  <div class="entry-meta">
-    <div class="entry-tag ellipsis">Ellipsis</div>
-    <div class="entry-term">VP 생략</div>
-    <div class="entry-term-en">VP Ellipsis (VPE)</div>
-    <div class="entry-chapter">Ch. 7</div>
-  </div>
-  <div class="entry-body">
-    <div class="def-box">
-      <strong>조동사(auxiliary)가 잔존</strong>하고 VP 전체가 삭제되는 생략 구문. 삭제된 VP는 담화에서 통사적으로 적절한 언어적 선행어를 반드시 가져야 한다 (표층대용어).
-    </div>
-    <div class="ex">
-      <div class="ex-label">기본 VP 생략 — 영어</div>
-      A: John eats apples.<br>
-      <span class="gram">B: Mary does Ø too.</span><br>
-      <span class="t">→ "does" = 조동사 잔존; VP "eats apples" 삭제</span>
-    </div>
-    <div class="ex">
-      <div class="ex-label">엄밀지시 / 이완지시 해석 모두 가능</div>
-      John washed his car. Bill did Ø too.<br>
-      <span class="gram">엄밀지시: Bill washed John's car.</span><br>
-      <span class="gram">이완지시: Bill washed Bill's car.</span>
-    </div>
-    <div class="ex">
-      <div class="ex-label">사라진 선행어 허용 (표층대용어)</div>
-      <span class="gram">I've never ridden a camel, but Ivan has Ø and he says it stank horribly.</span><br>
-      <span class="t">→ "it" = "a camel" (삭제된 VP 내부의 선행어) → 사라진 선행어 허용</span>
-    </div>
-    <div class="ex">
-      <div class="ex-label">화용적 선행어 불허 (표층대용어)</div>
-      [화자가 상자를 가리킴]<br>
-      <span class="ungram">*A: "Lift this?" B: "I already did Ø."</span><br>
-      <span class="t">→ 언어적 선행어 VP 없음 → VPE 불허</span>
-    </div>
-    <div class="sub-head">한국어 VP 생략</div>
-    <p>한국어에는 영어식 형태론적 조동사가 없다. 한국어 초점문에서 VP 생략 유사 구문은 계사 <em>'이'</em>가 최후수단으로 삽입되어 잔여성분을 지지한다. [+focus] 자질이 잔여성분을 Spec-FocP로 외현이동시키고, 이후 VP(또는 더 큰 범주)가 음성형태에서 삭제된다.</p>
-    <div class="kp"><strong>표층대용화 지위:</strong> VP 생략은 언어적 선행어 필요, 통사적 병행성 필요, 사라진 선행어 허용, wh-적출 가능 — 모두 표층대용화의 특성에 해당 (Ch. 8).</div>
-  </div>
-</div>
-
-<!-- WHY-STRIPPING -->
-<div class="entry" id="why-strip">
-  <div class="entry-meta">
-    <div class="entry-tag ellipsis">Ellipsis</div>
-    <div class="entry-term">Why-최소공백화</div>
-    <div class="entry-term-en">Why-Stripping</div>
-    <div class="entry-chapter">Ch. 9–10 · Yoshida et al. 2015</div>
-  </div>
-  <div class="entry-body">
-    <div class="def-box">
-      왼쪽 주변부에 <em>why</em>가 나타나고 단 하나의 XP 잔여성분이 발음되며, 나머지 절(TP)이 삭제되는 구문. 잔여성분은 선행 명제에서 화자가 이유를 묻는 요소다. Yoshida et al.(2015)이 기술하고 명명.
-    </div>
-    <div class="ex">
-      <div class="ex-label">기본 Why-최소공백화</div>
-      A: John was eating natto.<br>
-      <span class="gram">B: Why natto (and not sushi)?</span><br>
-      <span class="t">→ "why"는 C에 기저생성; "natto" = 잔여성분; TP "[John was eating t]" 삭제</span>
-    </div>
-    <div class="sub-head">세 가지 핵심 특성 (Yoshida et al. 2015)</div>
-    <div class="ex">
-      <div class="ex-label">① 연계성(Connectivity) 효과</div>
-      A: He is selling pictures of John.<br>
-      <span class="ungram">*B: Why pictures of John?</span><br>
-      <span class="t">→ Condition C 위반: 선행절의 "he"와 잔여성분의 "John"이 충돌</span><br>
-      <span class="t">→ 잔여성분이 선행 통사 구조와 연결되어 있다는 증거</span>
-    </div>
-    <div class="ex">
-      <div class="ex-label">② 전치사-좌초 일반화 (P-Stranding Generalization)</div>
-      A: John was talking to Mary.<br>
-      <span class="gram">B: Why (to) Mary?</span> <span class="t">[영어: P-좌초 허용 → P 선택적]</span><br>
-      <span class="t">독일어: *Warum Abel? → Warum mit Abel? [P-좌초 불허 → P 필수]</span>
-    </div>
-    <div class="ex">
-      <div class="ex-label">③ 섬제약 위반 구제</div>
-      A: No linguist recommended a book that contains one of his own articles.<br>
-      <span class="gram">B: Why his own articles?</span> <span class="t">← 섬제약 위반 구제 ✓</span><br>
-      <span class="ungram">B: *Not HIS OWN ARTICLES.</span> <span class="t">← Not-최소공백화 구제 ✗</span>
-    </div>
-    <div class="sub-head">Yoshida et al. vs. 저자 분석 비교</div>
-    <table class="contrast">
-      <thead><tr><th></th><th>Yoshida et al. (2015)</th><th>저자 (Ch. 9)</th></tr></thead>
-      <tbody>
-        <tr><td>잔여성분 이동</td><td>초점이동 → Spec-FocP</td><td>화제이동 → Spec-TopP</td></tr>
-        <tr><td>섬제약 구제 이유</td><td>*-표시 + PF 삭제 (Fox 1999, Merchant 2001)</td><td>D-연결 → 재생대명사 허용</td></tr>
-        <tr><td>잔여성분의 정보 지위</td><td>신정보 / 초점</td><td>구정보 (이미 언급된 화제)</td></tr>
-        <tr><td>문제점</td><td>두 종류 초점이동 필요</td><td>화제이동의 섬 비민감성 설명 필요</td></tr>
-      </tbody>
-    </table>
-    <div class="kp"><strong>저자의 핵심 논거:</strong> Why-최소공백화의 잔여성분은 선행 발화에서 이미 언급된 <em>구정보</em>(예: "natto"는 A가 먹고 있던 것으로 이미 언급됨)다. 새로운 정보가 아니므로 초점이동보다 화제이동이 더 적절하다. 화제이동은 D-연결을 허용하고, D-연결된 요소는 재생대명사를 남길 수 있어 섬제약을 구제할 수 있다.</div>
-    <div class="kp"><strong>유일성 전제:</strong> 잔여성분이 주어인 경우에만 유일성 전제("오직 한 명이 해당 사건에 관여했음을 전제")가 발생. 목적어 잔여성분에는 이 전제 없음.</div>
-    <div class="kp"><strong>한국어 '왜'-최소공백화의 추가 특성 (Ch. 10):</strong><br>
-    ① 후치사/격조사 탈락 허용<br>
-    ② 선행절의 부정 의미 보존됨 (영어 Why-최소공백화와 차이)<br>
-    ③ 장형부정어 '아니'만 허용; 단형 '안' 불허<br>
-    ④ '도대체', '아니', '굳이' 같은 강조 부가어 동반 가능<br>
-    ⑤ 영어와 달리 거의 모든 wh-구(언제, 누가, 어디서 등) 사용 가능
-    </div>
+    <div class="kp"><strong>이론적 함의:</strong> 처소 PP 잔여성분의 존재는 유사공백화의 잔여성분이 반드시 외현 DP 이동(Object Shift)의 결과일 필요는 없음을 시사한다. VP-내부 삭제 또는 대안적 접근이 필요하다.</div>
   </div>
 </div>
 
@@ -1196,3 +1337,8 @@ footer {
 
 </body>
 </html>
+
+
+
+
+
