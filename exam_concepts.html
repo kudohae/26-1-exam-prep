@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ellipsis & Anaphora — Exam Concepts</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1a1f;
+  --ink2: #3a3a45;
+  --ink3: #7a7a8a;
+  --paper: #f5f3ee;
+  --paper2: #ece9e2;
+  --paper3: #e0ddd5;
+  --rule: #ccc9c0;
+  --red: #b03020;
+  --blue: #1a4a7a;
+  --green: #1a5a2a;
+  --amber: #7a4a00;
+  --tag-bg: #1a1a1f;
+  --tag-fg: #f5f3ee;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+  font-size: 14.5px;
+  line-height: 1.75;
+}
+
+/* HEADER */
+.masthead {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 3.5rem 2rem 3rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.masthead::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: repeating-linear-gradient(90deg, var(--red) 0, var(--red) 40px, var(--paper) 40px, var(--paper) 44px);
+}
+
+.masthead h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2.6rem;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 0.6rem;
+}
+
+.masthead .sub {
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #999;
+  font-weight: 500;
+}
+
+/* NAV */
+.toc {
+  background: var(--paper2);
+  border-bottom: 1px solid var(--rule);
+  padding: 1rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1rem;
+  justify-content: center;
+}
+
+.toc a {
+  font-size: 0.72rem;
+  text-decoration: none;
+  color: var(--ink3);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  padding: 0.15rem 0;
+  border-bottom: 1px solid transparent;
+  transition: all 0.15s;
+  font-family: 'DM Mono', monospace;
+}
+.toc a:hover {
+  color: var(--red);
+  border-bottom-color: var(--red);
+}
+
+/* LAYOUT */
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+/* ENTRY */
+.entry {
+  margin-bottom: 3.5rem;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 0 2.5rem;
+  align-items: start;
+  padding-bottom: 3.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.entry:last-child {
+  border-bottom: none;
+}
+
+/* LEFT COL */
+.entry-meta {
+  position: sticky;
+  top: 2rem;
+}
+
+.entry-term {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.45rem;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.entry-tag {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 500;
+  padding: 0.2rem 0.5rem;
+  background: var(--tag-bg);
+  color: var(--tag-fg);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.entry-tag.ellipsis { background: var(--blue); }
+.entry-tag.anaphora { background: var(--green); }
+.entry-tag.semantics { background: var(--amber); }
+.entry-tag.constraint { background: var(--red); }
+.entry-tag.theory { background: #444; }
+
+.entry-chapter {
+  font-size: 0.7rem;
+  color: var(--ink3);
+  font-family: 'DM Mono', monospace;
+  margin-top: 0.6rem;
+}
+
+/* RIGHT COL */
+.entry-body {}
+
+.entry-body p {
+  margin-bottom: 0.8rem;
+  color: var(--ink2);
+  font-size: 0.9rem;
+}
+
+.entry-body strong { color: var(--ink); font-weight: 600; }
+
+/* DEFINITION BOX */
+.def-box {
+  background: var(--paper2);
+  border-left: 3px solid var(--ink);
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.88rem;
+  color: var(--ink);
+}
+
+/* EXAMPLE */
+.ex {
+  background: white;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  padding: 0.8rem 1rem;
+  margin: 0.6rem 0;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+  line-height: 1.9;
+}
+
+.ex-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink3);
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+
+.gram { color: var(--green); }
+.ungram { color: var(--red); }
+.t { color: var(--ink3); font-style: italic; } /* trace/gloss */
+.hi { background: #fff3b0; padding: 0 2px; } /* highlight */
+
+/* CONTRAST TABLE */
+.contrast {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  margin: 0.8rem 0;
+}
+.contrast th {
+  background: var(--paper3);
+  padding: 0.45rem 0.7rem;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid var(--rule);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink2);
+}
+.contrast td {
+  padding: 0.4rem 0.7rem;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink2);
+  vertical-align: top;
+}
+.contrast tr:last-child td { border-bottom: none; }
+
+/* KEY POINT */
+.kp {
+  font-size: 0.82rem;
+  color: var(--ink2);
+  padding: 0.5rem 0;
+  padding-left: 1rem;
+  border-left: 2px solid var(--ink3);
+  margin: 0.5rem 0;
+}
+.kp strong { color: var(--ink); }
+
+/* SECTION DIVIDER inside entry */
+.sub-head {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: var(--ink3);
+  margin: 1.2rem 0 0.5rem;
+  font-family: 'DM Mono', monospace;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--ink3);
+  padding: 2rem;
+  border-top: 1px solid var(--rule);
+  font-family: 'DM Mono', monospace;
+}
+
+@media (max-width: 680px) {
+  .entry { grid-template-columns: 1fr; }
+  .entry-meta { position: static; }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <h1>Ellipsis &amp; Anaphora</h1>
+  <div class="sub">Exam Concept Reference · Ch. 7–13</div>
+</header>
+
+<nav class="toc">
+  <a href="#anti-pun">Anti-Pun Ordinance</a>
+  <a href="#deep">Deep Anaphora</a>
+  <a href="#default-case">Default Case</a>
+  <a href="#gapping">Gapping</a>
+  <a href="#idiom">Idiom Spreading</a>
+  <a href="#lex-decomp">Lexical Decomposition</a>
+  <a href="#lf-par">LF Interpretive Parallelism</a>
+  <a href="#loc-inv">Locative Inversion</a>
+  <a href="#not-strip">Not-Stripping</a>
+  <a href="#nca">Null Complement Anaphora</a>
+  <a href="#pivot">Pivot</a>
+  <a href="#proximity">Proximity Effect</a>
+  <a href="#pseudo">Pseudogapping</a>
+  <a href="#rnr">Right-Node-Raising</a>
+  <a href="#rd">Right Dislocation</a>
+  <a href="#sloppy">Sloppy Reading</a>
+  <a href="#sluicing">Sluicing</a>
+  <a href="#strict">Strict Reading</a>
+  <a href="#stripping">Stripping</a>
+  <a href="#surface">Surface Anaphora</a>
+  <a href="#syn-par">Syntactic Parallelism</a>
+  <a href="#vpe">VP Ellipsis</a>
+  <a href="#why-strip">Why-Stripping</a>
+</nav>
+
+<div class="page">
+
+<!-- ANTI-PUN ORDINANCE -->
+<div class="entry" id="anti-pun">
+  <div class="entry-meta">
+    <div class="entry-tag constraint">Constraint</div>
+    <div class="entry-term">Anti-Pun Ordinance</div>
+    <div class="entry-chapter">Ch. 11 · RNR</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      A constraint that prohibits the pivot in Right-Node-Raising from being a <strong>homonym</strong> — i.e., a phonological form with two unrelated meanings. When the shared element in RNR has two distinct lexical meanings, the construction becomes unacceptable.
+    </div>
+    <p>The Anti-Pun Ordinance captures the intuition that RNR requires genuine semantic identity between the pivot and its correlate in the other conjunct, not merely phonological identity. Because RNR under the LF Copy Analysis involves copying semantic content from the pronounced conjunct into the silent one at LF, a homonymous pivot fails: there is no single semantic object to copy.</p>
+    <div class="sub-head">Examples</div>
+    <div class="ex">
+      <div class="ex-label">Homonym as pivot — unacceptable</div>
+      <span class="ungram">*John saw, and Mary sketched, the bank.</span><br>
+      <span class="t">→ "bank" = financial institution OR riverbank — two lexical meanings</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">Unambiguous pivot — acceptable</div>
+      <span class="gram">John bought, and Mary read, the book.</span>
+    </div>
+    <div class="kp"><strong>Diagnostic value:</strong> Because the Anti-Pun Ordinance targets semantic identity rather than phonological form, it constitutes direct evidence that RNR involves LF-level identity — supporting the <strong>LF Copy Analysis</strong> over purely phonological accounts.</div>
+  </div>
+</div>
+
+<!-- DEEP ANAPHORA -->
+<div class="entry" id="deep">
+  <div class="entry-meta">
+    <div class="entry-tag anaphora">Anaphora</div>
+    <div class="entry-term">Deep Anaphora</div>
+    <div class="entry-chapter">Ch. 8 · Hankamer &amp; Sag 1976</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      An anaphoric expression that is <strong>base-generated</strong> — it is not derived by a deletion transformation. Because no underlying syntactic structure is deleted, deep anaphors can be licensed by a <strong>pragmatic antecedent</strong> (a referent available in the non-linguistic situation) and do not require syntactic parallelism with a linguistic antecedent.
+    </div>
+    <div class="sub-head">Diagnostic Properties</div>
+    <table class="contrast">
+      <thead><tr><th>Property</th><th>Deep Anaphor</th><th>Surface Anaphor</th></tr></thead>
+      <tbody>
+        <tr><td>Pragmatic antecedent</td><td>✓ allowed</td><td>✗ requires linguistic antecedent</td></tr>
+        <tr><td>Syntactic parallelism</td><td>not required</td><td>required</td></tr>
+        <tr><td>Missing antecedent</td><td>✗ blocked</td><td>✓ allowed</td></tr>
+        <tr><td>Extraction from gap</td><td>✗ impossible</td><td>✓ possible</td></tr>
+      </tbody>
+    </table>
+    <div class="sub-head">Canonical Example</div>
+    <div class="ex">
+      <div class="ex-label">do it — deep anaphor, licensed by situational context</div>
+      [Speaker points at a heavy box]<br>
+      A: "Can you lift this?"<br>
+      B: <span class="gram">"I'll try to do it."</span><br>
+      <span class="t">→ No linguistic antecedent needed; the situation licenses "do it"</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">VP Ellipsis (surface anaphor) — pragmatic antecedent blocked</div>
+      [Same situation]<br>
+      <span class="ungram">*"I'll try to."</span><br>
+      <span class="t">→ VPE requires a linguistic antecedent VP; situation alone is insufficient</span>
+    </div>
+    <div class="kp"><strong>Status of NCA:</strong> English NCA superficially patterns as a deep anaphor (allows pragmatic antecedent, no syntactic parallelism required) but also shows surface-anaphoric properties (missing antecedent blocked, extraction impossible). The textbook author therefore classifies English NCA as <strong>shallow anaphora</strong> — a third category distinct from both.</div>
+  </div>
+</div>
+
+<!-- DEFAULT CASE -->
+<div class="entry" id="default-case">
+  <div class="entry-meta">
+    <div class="entry-tag theory">Theory</div>
+    <div class="entry-term">Default Case</div>
+    <div class="entry-chapter">Ch. 11 · RNR</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      A morphological case assigned to a nominal when no structural case (nominative, accusative) or inherent case (dative, genitive) is available — typically because the nominal is dislocated or stranded outside the clause that would normally license its case.
+    </div>
+    <p>Default Case is relevant to RNR because the pivot, having been extracted (or copied) from both conjuncts, may no longer be within the case-licensing domain of either conjunct's verb or functional head. Languages differ in which morphological form serves as the default.</p>
+    <div class="sub-head">In the Context of RNR</div>
+    <div class="ex">
+      <div class="ex-label">Case mismatch at the pivot — illustrating the problem</div>
+      <span class="t">Conjunct 1 expects accusative (direct object)</span><br>
+      <span class="t">Conjunct 2 expects dative (indirect object)</span><br>
+      <span class="gram">John gave __ and Mary sent __ [the package] to Bill.</span><br>
+      <span class="t">→ the pivot "the package" receives one surface form regardless</span>
+    </div>
+    <div class="kp"><strong>Theoretical relevance:</strong> Under movement-based analyses of RNR (Right-Node-Raising), the pivot escapes both conjuncts, so it cannot receive structural case from either. Default Case fills the gap. Under LF Copy Analysis, the pronounced conjunct assigns case normally; the silent copy at LF inherits case by identity — no default needed.</div>
+  </div>
+</div>
+
+<!-- GAPPING -->
+<div class="entry" id="gapping">
+  <div class="entry-meta">
+    <div class="entry-tag ellipsis">Ellipsis</div>
+    <div class="entry-term">Gapping</div>
+    <div class="entry-chapter">Ch. 7 · Ross 1970</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      A type of ellipsis in coordinate structures where the <strong>verb (or verb phrase) of the non-initial conjunct is deleted</strong>, leaving only the <strong>remnants</strong> (non-deleted constituents). Coined by Ross (1970).
+    </div>
+    <div class="sub-head">Core Properties</div>
+    <p>Gapping requires: (i) a linguistic antecedent in the preceding conjunct, (ii) at least two remnants flanking the gap, (iii) the gap occupying the position of the verb.</p>
+    <div class="ex">
+      <div class="ex-label">Basic Gapping — English</div>
+      <span class="gram">John eats apples, and Mary Ø bananas.</span><br>
+      <span class="t">→ "eats" deleted in second conjunct; "Mary" and "bananas" are remnants</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">Distinguishing Gapping from VP Ellipsis</div>
+      Gapping: <span class="gram">John ate apples and Mary Ø pears.</span> <span class="t">(no auxiliary survives)</span><br>
+      VPE:&nbsp;&nbsp;&nbsp;&nbsp; <span class="gram">John ate apples and Mary did Ø too.</span> <span class="t">(auxiliary "did" survives)</span>
+    </div>
+    <div class="sub-head">Relation to Korean Focus Ellipsis</div>
+    <p>Ch. 7 treats Korean focus constructions that resemble pseudogapping (remnant + focus auxiliary <em>i</em>) as distinct from canonical Gapping. In Korean, Gapping-like deletion is licensed by the [+focus] feature on the remnant, which moves to Spec-FocP before the ellipsis site is deleted at PF.</p>
+    <div class="kp"><strong>Key contrast with Pseudogapping:</strong> Gapping has no auxiliary; Pseudogapping has an auxiliary. Both have a post-gap remnant; VP Ellipsis has no remnant.</div>
+  </div>
+</div>
+
+<!-- IDIOM SPREADING -->
+<div class="entry" id="idiom">
+  <div class="entry-meta">
+    <div class="entry-tag semantics">Semantics</div>
+    <div class="entry-term">Idiom Spreading<br><span style="font-size:0.85rem;font-style:italic">= Idiom Substitution</span></div>
+    <div class="entry-chapter">Ch. 7–8 · Rottman &amp; Yoshida 2013</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      The phenomenon whereby an <strong>idiomatic reading is preserved</strong> even when part of the idiomatic string is deleted under ellipsis (or co-indexed with an anaphor). The idiom's meaning "spreads" into the ellipsis site or is "substituted" by the anaphoric expression without loss of the non-compositional meaning.
+    </div>
+    <p>Idioms must form a constituent at LF to receive their idiomatic interpretation. If ellipsis deletes part of an idiom yet the idiomatic reading survives, this constitutes evidence that the deleted material is structurally present at LF — i.e., the construction involves <strong>genuine ellipsis</strong> (with a syntactic structure that is merely unpronounced) rather than a base-generated zero element.</p>
+    <div class="sub-head">Diagnostic Use</div>
+    <div class="ex">
+      <div class="ex-label">Sluicing preserving idiomatic reading — Rottman &amp; Yoshida 2013</div>
+      <span class="gram">Someone kicked the bucket, but I don't know who Ø.</span><br>
+      <span class="t">→ "kick the bucket" = die (idiomatic). The sluiced gap preserves this reading.</span><br>
+      <span class="t">→ Proves the deleted TP contains [kicked the bucket], i.e., ellipsis has internal structure.</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">NCA preserving idiomatic reading — Ch. 8</div>
+      <span class="gram">A: Did you kick the bucket? B: I refused Ø.</span><br>
+      <span class="t">→ NCA preserving idiomatic interpretation of the complement</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">Contrast: overt pronoun blocks idiomatic reading</div>
+      <span class="ungram">*Someone kicked the bucket, but I don't know who did it.</span><br>
+      <span class="t">→ "it" forces a literal reading (no idiomatic reading available)</span>
+    </div>
+    <div class="kp"><strong>Core argument:</strong> Idiom spreading proves that the ellipsis site has the same syntactic structure as its antecedent at LF, even though that structure is phonologically silent at PF.</div>
+  </div>
+</div>
+
+<!-- LEXICAL DECOMPOSITION -->
+<div class="entry" id="lex-decomp">
+  <div class="entry-meta">
+    <div class="entry-tag semantics">Semantics</div>
+    <div class="entry-term">Lexical Decomposition</div>
+    <div class="entry-chapter">Ch. 8 · NCA</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      The analysis of a word's meaning into more primitive semantic components or sub-events. For example, <em>kill</em> = <em>cause to become dead</em>; <em>disapprove</em> = <em>not approve</em>. Relevant to NCA because it determines what counts as the semantic complement of a predicate.
+    </div>
+    <p>In Ch. 8, lexical decomposition is invoked to explain why certain predicates permit NCA while others do not. The complement that NCA targets is not always a syntactically overt CP or DP — it may be a propositional argument that is encoded in the predicate's lexical semantic structure.</p>
+    <div class="sub-head">Application to NCA</div>
+    <div class="ex">
+      <div class="ex-label">Approve — NCA licensed</div>
+      A: I eat meat and go to bed late.<br>
+      B: <span class="gram">My brother doesn't approve Ø.</span><br>
+      <span class="t">→ The null complement = the proposition described by A's utterance</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">Disapprove — NCA blocked despite similar meaning</div>
+      <span class="ungram">*My brother disapproves Ø.</span><br>
+      <span class="t">→ "disapprove" lexically decomposes as [not approve], but the resulting</span><br>
+      <span class="t">   syntactic frame does not license a null complement in the same way</span>
+    </div>
+    <div class="kp"><strong>Key point:</strong> NCA is <strong>lexically determined</strong>. It is not enough for two predicates to be semantically equivalent — the specific lexical item must independently license a null complement slot. Lexical decomposition explains why near-synonyms diverge in NCA-licensing.</div>
+  </div>
+</div>
+
+<!-- LF INTERPRETIVE PARALLELISM -->
+<div class="entry" id="lf-par">
+  <div class="entry-meta">
+    <div class="entry-tag theory">Theory</div>
+    <div class="entry-term">LF Interpretive Parallelism</div>
+    <div class="entry-chapter">Ch. 8, 11</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      The condition that ellipsis (and some forms of anaphora) requires the <strong>logical form of the ellipsis site to be identical</strong> (or sufficiently parallel) to the logical form of its antecedent. Syntactic surface identity is not required; what matters is identity at the level of semantic interpretation.
+    </div>
+    <p>LF Interpretive Parallelism underlies the <strong>LF Copy Analysis of RNR</strong> (Ch. 11): the silent conjunct's LF content is copied from the pronounced conjunct, ensuring interpretive identity. It also motivates the distinction between strict and sloppy readings in VP Ellipsis, since both are compatible with LF identity given different binding relations.</p>
+    <div class="sub-head">Strict vs. Sloppy in Terms of LF Parallelism</div>
+    <div class="ex">
+      <div class="ex-label">VP Ellipsis — both readings satisfy LF parallelism</div>
+      John washed his car, and Bill did Ø too.<br>
+      <span class="t">Strict: Bill washed John's car — LF of gap = [washed John's car]</span><br>
+      <span class="t">Sloppy: Bill washed Bill's car — LF of gap = [washed Bill's car]</span><br>
+      <span class="t">→ Both are valid LF copies of the antecedent VP under different binding</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">Anti-Pun Ordinance as a consequence of LF Interpretive Parallelism</div>
+      <span class="ungram">*John robbed, and Mary painted, the bank.</span><br>
+      <span class="t">→ No single LF can be copied: the two uses of "bank" have different LFs</span>
+    </div>
+    <div class="kp"><strong>Contrast with surface (phonological) identity:</strong> The LF Interpretive Parallelism condition allows vehicle change (e.g., pronoun ↔ reflexive alternations) and sloppy readings that pure phonological identity would rule out.</div>
+  </div>
+</div>
+
+<!-- LOCATIVE INVERSION -->
+<div class="entry" id="loc-inv">
+  <div class="entry-meta">
+    <div class="entry-tag theory">Theory</div>
+    <div class="entry-term">Locative Inversion</div>
+    <div class="entry-chapter">Ch. 7 · Pseudogapping</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      A construction in which a <strong>locative phrase fronts to subject position</strong> and the canonical subject moves postverbally. Relevant to pseudogapping because locative PPs can surface as remnants in pseudogapping contexts, which Lasnik's (1995) movement-based analysis struggles to accommodate.
+    </div>
+    <div class="ex">
+      <div class="ex-label">Canonical Locative Inversion</div>
+      <span class="gram">Into the room walked a stranger.</span><br>
+      <span class="t">→ PP "into the room" in subject position; "a stranger" postverbal</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">Locative PP as pseudogapping remnant — the problem</div>
+      A: John put the book on the shelf.<br>
+      <span class="gram">B: Mary did Ø on the table.</span><br>
+      <span class="t">→ The PP "on the table" is a locative remnant in pseudogapping</span><br>
+      <span class="t">→ Lasnik's Object Shift analysis predicts only DP objects can be remnants,</span><br>
+      <span class="t">   yet PP remnants are attested — a challenge to movement-based accounts</span>
+    </div>
+    <div class="kp"><strong>Theoretical relevance:</strong> The availability of locative PP remnants in pseudogapping suggests that the remnant is not necessarily the result of overt DP movement (Object Shift). Alternative analyses (e.g., VP-internal deletion) must be invoked to handle PP remnants.</div>
+  </div>
+</div>
+
+<!-- NOT-STRIPPING -->
+<div class="entry" id="not-strip">
+  <div class="entry-meta">
+    <div class="entry-tag ellipsis">Ellipsis</div>
+    <div class="entry-term">Not-Stripping</div>
+    <div class="entry-chapter">Ch. 9–10</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      A subtype of stripping in which the remnant is accompanied by <em>not</em> (or a negative particle), expressing <strong>contrastive negation</strong> — the remnant is contrasted with the antecedent by being negated.
+    </div>
+    <p>Not-stripping is the counterpart of Why-stripping: while Why-stripping asks <em>why</em> the antecedent proposition holds, Not-stripping denies it or contrasts the remnant with an element in the antecedent. The remnant in Not-stripping is a focus-moved element (moving to Spec-FocP), not a topic-moved one.</p>
+    <div class="sub-head">Core Examples</div>
+    <div class="ex">
+      <div class="ex-label">Not-Stripping</div>
+      A: John ate natto.<br>
+      <span class="gram">B: Not NATTO (but sushi).</span><br>
+      <span class="t">→ Contrastive: "what John ate was not natto (but something else)"</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">Island sensitivity — Not-Stripping cannot rescue island violations</div>
+      A: No linguist recommended a book that contains one of his own articles.<br>
+      <span class="ungram">*B: Not HIS OWN ARTICLES.</span><br>
+      <span class="t">→ The remnant inside an island cannot escape; island violation not rescued</span><br><br>
+      <span class="gram">B: Why his own articles?</span> <span class="t">← Why-stripping rescues the same island violation</span>
+    </div>
+    <div class="sub-head">Why Not-Stripping Cannot Rescue Islands</div>
+    <p>Under the author's analysis, Not-stripping remnants undergo <strong>focus movement</strong> (to Spec-FocP). Focus-moved elements are not D-linked; they introduce genuinely new information and therefore cannot leave a resumptive pronoun. Without resumption, the island violation is not rescued.</p>
+    <div class="kp"><strong>Contrast with Why-Stripping:</strong> Why-stripping remnants undergo <em>topic</em> movement (D-linked, old information) → island rescue possible. Not-stripping remnants undergo <em>focus</em> movement (non-D-linked) → island rescue impossible.</div>
+  </div>
+</div>
+
+<!-- NCA -->
+<div class="entry" id="nca">
+  <div class="entry-meta">
+    <div class="entry-tag anaphora">Anaphora</div>
+    <div class="entry-term">Null Complement Anaphora</div>
+    <div class="entry-chapter">Ch. 8</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      A construction in which a <strong>verb appears without its expected complement</strong>, yet the missing complement is interpreted via a contextually available antecedent. NCA is lexically restricted: only certain predicates (e.g., <em>approve, refuse, try, volunteer, forget, inquire</em>) license a null complement.
+    </div>
+    <div class="sub-head">Key Examples</div>
+    <div class="ex">
+      <div class="ex-label">NCA-licensing verbs</div>
+      A: I eat meat and go to bed late.<br>
+      <span class="gram">B: My brother doesn't approve Ø.</span> <span class="t">✓ approve licenses NCA</span><br>
+      <span class="gram">B: I've tried to stop Ø.</span> <span class="t">✓ try licenses NCA</span><br>
+      <span class="gram">B: I refused Ø.</span> <span class="t">✓ refuse licenses NCA</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">Non-NCA-licensing verb</div>
+      A: Mary believes that Anne is pregnant.<br>
+      <span class="ungram">B: *But I don't believe Ø.</span> <span class="t">✗ believe does not license NCA</span><br>
+      <span class="gram">B: But I don't believe it.</span> <span class="t">✓ overt pronoun required</span><br>
+      <span class="gram">B: But I don't believe so.</span> <span class="t">✓ propositional pro-form</span>
+    </div>
+    <div class="sub-head">Four Diagnostic Properties (Hankamer &amp; Sag 1976 / Depiante 2000)</div>
+    <table class="contrast">
+      <thead><tr><th>Property</th><th>English NCA</th><th>Prediction</th></tr></thead>
+      <tbody>
+        <tr><td>Pragmatic antecedent</td><td>✓ allowed</td><td>deep anaphor</td></tr>
+        <tr><td>Syntactic parallelism</td><td>not required</td><td>deep anaphor</td></tr>
+        <tr><td>Missing antecedent</td><td>✗ blocked</td><td>surface anaphor</td></tr>
+        <tr><td>Extraction from gap</td><td>✗ impossible</td><td>surface anaphor</td></tr>
+      </tbody>
+    </table>
+    <div class="sub-head">Missing Antecedent Test</div>
+    <div class="ex">
+      <div class="ex-label">VP Ellipsis — missing antecedent allowed (surface anaphor)</div>
+      <span class="gram">I've never ridden a camel, but Ivan has Ø and he says it stank horribly.</span><br>
+      <span class="t">→ "it" corefers with "a camel" inside the deleted VP — missing antecedent OK</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">NCA — missing antecedent blocked</div>
+      <span class="ungram">*Jack didn't cut Betty with a knife. Bill did it [NCA], and it was rusty.</span><br>
+      <span class="t">→ "it" cannot pick up "a knife" from inside NCA's null complement</span>
+    </div>
+    <div class="sub-head">Classification</div>
+    <div class="kp"><strong>English NCA = Shallow Anaphora</strong> (author's proposal): base-generated null pro-form, not derived by deletion. Patterns as deep anaphor in tests 1–2, as surface anaphor in tests 3–4. Not purely either.</div>
+    <div class="kp"><strong>Korean NCA = Deep Anaphora</strong>: realized as a null pro-form; allows both strict and sloppy readings regardless of whether the binder is a name [+α] or pronoun [+β] — the hallmark of deep anaphora under Hoji (2003).</div>
+  </div>
+</div>
+
+<!-- PIVOT -->
+<div class="entry" id="pivot">
+  <div class="entry-meta">
+    <div class="entry-tag ellipsis">Ellipsis</div>
+    <div class="entry-term">Pivot</div>
+    <div class="entry-chapter">Ch. 11–12 · RNR / LNS</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      The <strong>shared constituent</strong> in Right-Node-Raising (or Left-Node-Sharing) that is phonologically realized in only one of the conjuncts while being semantically interpreted in both.
+    </div>
+    <div class="ex">
+      <div class="ex-label">RNR — pivot pronounced in right conjunct</div>
+      <span class="gram">John bought, and Mary read, [<span class="hi">the book</span>].</span><br>
+      <span class="t">→ pivot = "the book"; silent in left conjunct, pronounced in right</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">LNS — pivot pronounced in left conjunct</div>
+      <span class="t">[<span class="hi">the sandwich</span>] John made, and Mary ate.</span><br>
+      <span class="t">→ pivot = "the sandwich"; pronounced in left conjunct, silent in right</span>
+    </div>
+    <div class="sub-head">Analytic Status of the Pivot</div>
+    <table class="contrast">
+      <thead><tr><th>Analysis</th><th>Status of silent pivot</th></tr></thead>
+      <tbody>
+        <tr><td>Right-Node-Raising (movement)</td><td>Trace / copy left behind after ATB movement</td></tr>
+        <tr><td>Multiple Dominance (Wilder 1999)</td><td>Same node dominated by two mothers</td></tr>
+        <tr><td>Backward Deletion</td><td>Deleted copy in left conjunct (base-generated in right)</td></tr>
+        <tr><td>LF Copy Analysis</td><td>Phonologically null; semantic content copied from pronounced conjunct at LF</td></tr>
+      </tbody>
+    </table>
+    <div class="kp"><strong>Anti-Pun Ordinance restricts the pivot:</strong> a pivot that is a homonym (two unrelated lexical meanings) is banned, since no single LF can be copied for both conjuncts.</div>
+  </div>
+</div>
+
+<!-- PROXIMITY EFFECT -->
+<div class="entry" id="proximity">
+  <div class="entry-meta">
+    <div class="entry-tag constraint">Constraint</div>
+    <div class="entry-term">Proximity Effect</div>
+    <div class="entry-chapter">Ch. 11 · RNR</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      The observation that in Right-Node-Raising, agreement (especially honorific agreement in Korean) on the pivot is determined by the <strong>nearest conjunct</strong> — i.e., the right conjunct — rather than by the left (gap) conjunct.
+    </div>
+    <p>In Korean RNR, the honorific morpheme <em>-si-</em> on the pivot verb reflects the subject of the right conjunct, not the subject of the left (elided) conjunct. This is the proximity effect: the pronounced element controls agreement because it is adjacent to (proximate to) the pivot.</p>
+    <div class="ex">
+      <div class="ex-label">Honorific agreement controlled by right conjunct</div>
+      <span class="t">Left conjunct subject: non-honorific referent</span><br>
+      <span class="t">Right conjunct subject: honorific referent (e.g., professor)</span><br>
+      <span class="gram">→ Pivot verb takes honorific -si- (right conjunct controls)</span><br><br>
+      <span class="t">Left conjunct subject: honorific referent</span><br>
+      <span class="t">Right conjunct subject: non-honorific</span><br>
+      <span class="ungram">→ Pivot verb without -si- is degraded</span>
+    </div>
+    <div class="kp"><strong>Theoretical import:</strong> The proximity effect supports the <strong>LF Copy Analysis</strong>: the pivot is base-generated in the right conjunct and its morphological features are determined there. The left conjunct contains a phonologically null copy whose LF content is imported from the right.</div>
+  </div>
+</div>
+
+<!-- PSEUDOGAPPING -->
+<div class="entry" id="pseudo">
+  <div class="entry-meta">
+    <div class="entry-tag ellipsis">Ellipsis</div>
+    <div class="entry-term">Pseudogapping</div>
+    <div class="entry-chapter">Ch. 7 · Levin 1978</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      An ellipsis construction combining properties of both VP Ellipsis and Gapping: an <strong>auxiliary survives</strong> (like VPE) and a <strong>post-auxiliary remnant</strong> remains (like Gapping). Named by Levin (1978).
+    </div>
+    <div class="ex">
+      <div class="ex-label">Pseudogapping</div>
+      A: John eats apples.<br>
+      <span class="gram">B: Mary does Ø bananas.</span><br>
+      <span class="t">→ "does" = auxiliary survives; "bananas" = remnant; VP deleted</span>
+    </div>
+    <div class="sub-head">Three-Way Contrast</div>
+    <table class="contrast">
+      <thead><tr><th>Construction</th><th>Auxiliary</th><th>Remnant</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>Gapping</td><td>✗</td><td>✓</td><td><em>John ate apples and Mary Ø pears.</em></td></tr>
+        <tr><td>VP Ellipsis</td><td>✓</td><td>✗</td><td><em>John ate apples and Mary did Ø too.</em></td></tr>
+        <tr><td>Pseudogapping</td><td>✓</td><td>✓</td><td><em>John ate apples and Mary did Ø pears.</em></td></tr>
+      </tbody>
+    </table>
+    <div class="sub-head">Lasnik's (1995) Analysis</div>
+    <p>Lasnik derives pseudogapping from <strong>Overt Object Shift</strong>: the remnant object moves out of VP before VP ellipsis applies. The auxiliary survives because it is outside the ellipsis domain; the remnant survives because it has already moved out.</p>
+    <div class="ex">
+      <div class="ex-label">Lasnik's derivation (simplified)</div>
+      <span class="t">Step 1: Object "bananas" undergoes Object Shift → moves above VP</span><br>
+      <span class="t">Step 2: VP (containing the trace of "bananas") is deleted</span><br>
+      <span class="t">Result: [TP Mary [does [bananas<sub>i</sub> [VP Ø]]]]</span>
+    </div>
+    <div class="kp"><strong>Problem for Lasnik:</strong> Locative PP remnants are also attested in pseudogapping contexts, but PPs do not undergo Object Shift. A purely movement-based account cannot straightforwardly handle PP remnants.</div>
+  </div>
+</div>
+
+<!-- RNR -->
+<div class="entry" id="rnr">
+  <div class="entry-meta">
+    <div class="entry-tag ellipsis">Ellipsis</div>
+    <div class="entry-term">Right-Node-Raising</div>
+    <div class="entry-chapter">Ch. 11</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      A coordinate construction in which a <strong>shared constituent (the pivot)</strong> is pronounced only in the <strong>rightmost conjunct</strong> while being semantically interpreted in all conjuncts. Also called Right-Node-Sharing (RNS).
+    </div>
+    <div class="ex">
+      <div class="ex-label">Basic RNR</div>
+      <span class="gram">John bought Ø, and Mary read, [the book].</span><br>
+      <span class="t">→ "the book" interpreted in both conjuncts; pronounced only in second</span>
+    </div>
+    <div class="sub-head">Competing Analyses</div>
+    <table class="contrast">
+      <thead><tr><th>Analysis</th><th>Core Claim</th><th>Main Problem</th></tr></thead>
+      <tbody>
+        <tr><td>Right-Node-Raising (movement)</td><td>Pivot undergoes ATB movement to the right</td><td>Island sensitivity not predicted; Case issues</td></tr>
+        <tr><td>Multiple Dominance (Wilder 1999)</td><td>Pivot dominated by two mother nodes</td><td>VP ellipsis–RNR parallelism; plurality morpheme not diagnostic</td></tr>
+        <tr><td>Backward Deletion</td><td>Pivot base-generated in right; deleted in left</td><td>Directionality unmotivated</td></tr>
+        <tr><td>LF Copy Analysis (Abe &amp; Hoshi)</td><td>Left conjunct phonologically null; LF content copied from right</td><td>Most consistent with Korean data</td></tr>
+      </tbody>
+    </table>
+    <div class="sub-head">Key Korean Evidence</div>
+    <div class="ex">
+      <div class="ex-label">Island sensitivity — when pivot is clearly extracted from an island</div>
+      <span class="t">When the pivot is extracted across a clear island boundary → unacceptable</span><br>
+      <span class="t">When adjacency makes island crossing unclear → acceptability maintained</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">Anti-Pun Ordinance — homonym pivot unacceptable</div>
+      <span class="ungram">*John saw, and Mary sketched, the bank.</span><br>
+      <span class="t">→ "bank" homonymous → no single LF to copy → Anti-Pun Ordinance violated</span>
+    </div>
+    <div class="kp"><strong>Author's conclusion:</strong> The LF Copy Analysis best accounts for Korean RNR data: Anti-Pun Ordinance violations, proximity effect in honorific agreement, and the behavior of the plurality-dependent morpheme <em>-tul</em>.</div>
+  </div>
+</div>
+
+<!-- RIGHT DISLOCATION -->
+<div class="entry" id="rd">
+  <div class="entry-meta">
+    <div class="entry-tag ellipsis">Syntax</div>
+    <div class="entry-term">Right Dislocation</div>
+    <div class="entry-chapter">Ch. 13</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      A construction consisting of a <strong>host clause</strong> containing a gap (or pronoun) and an <strong>appendix</strong> — a dislocated constituent at the right periphery — co-indexed with that gap/pronoun.
+    </div>
+    <div class="ex">
+      <div class="ex-label">English Right Dislocation — pronoun in host</div>
+      <span class="gram">She's a brilliant linguist, [Mary].</span><br>
+      <span class="t">→ host contains pronoun "she"; appendix = "Mary"</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">Korean Right Dislocation — gap in host</div>
+      <span class="t">Yesterday I met Ø, [Suni].</span><br>
+      <span class="t">→ host contains a gap (not a pronoun); appendix = "Suni"</span><br>
+      <span class="t">→ Key typological difference from English</span>
+    </div>
+    <div class="sub-head">Competing Analyses</div>
+    <table class="contrast">
+      <thead><tr><th>Analysis</th><th>Researchers</th><th>Key Claim</th></tr></thead>
+      <tbody>
+        <tr><td>Single-clause movement</td><td>Choi (1987)</td><td>Appendix moves rightward from host</td></tr>
+        <tr><td>Single-clause base-generation</td><td>Sells (1999), Lee</td><td>Event projection E licenses both</td></tr>
+        <tr><td>Double-clause base-generation</td><td>Lee (2009, 2010)</td><td>Two independent clauses; island effects = processing difficulty</td></tr>
+        <tr><td>Double-clause movement + deletion</td><td>Chung (2009)</td><td>Appendix moves left; TP deleted in appendix clause</td></tr>
+        <tr><td>Mixed analysis</td><td>Ko (2015)</td><td>Argument appendix: focus movement + topic movement; adverb appendix: concatenation/sideward movement</td></tr>
+      </tbody>
+    </table>
+    <div class="sub-head">Key Properties from Survey Data</div>
+    <div class="kp"><strong>Argument–Adjunct Asymmetry:</strong> Adjunct appendices yield higher acceptability than argument appendices — consistent with Ko (2015)'s mixed analysis.</div>
+    <div class="kp"><strong>Island sensitivity:</strong> Korean RD respects island constraints → movement is involved; double-clause base-generation analysis (which attributes island effects to processing) is undermined.</div>
+    <div class="kp"><strong>Resumptive pronoun:</strong> When a resumptive pronoun appears in the host gap position, acceptability <em>decreases</em> — the gap (not a pronoun) is the canonical form, unlike English.</div>
+    <div class="kp"><strong>Author's conclusion:</strong> Ko (2015)'s mixed analysis is most promising; Choi (1988)'s rightward movement analysis remains a viable alternative.</div>
+  </div>
+</div>
+
+<!-- SLOPPY READING -->
+<div class="entry" id="sloppy">
+  <div class="entry-meta">
+    <div class="entry-tag semantics">Semantics</div>
+    <div class="entry-term">Sloppy Reading</div>
+    <div class="entry-chapter">Ch. 8 · Fiengo &amp; May 1994</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      In VP Ellipsis (and related ellipsis constructions), the reading in which a pronoun inside the ellipsis site is interpreted as <strong>co-varying with the new subject</strong> of the ellipsis clause — i.e., the pronoun takes a new referent rather than the original one. Corresponds to a <strong>β-occurrence</strong> (dependent occurrence) in Fiengo &amp; May (1994).
+    </div>
+    <div class="ex">
+      <div class="ex-label">Sloppy reading in VP Ellipsis</div>
+      George claimed <span class="hi">he</span> won. Al did Ø too.<br>
+      <span class="gram">Sloppy: Al claimed Al won.</span> <span class="t">(pronoun = Al, not George)</span><br>
+      <span class="gram">Strict: Al claimed George won.</span> <span class="t">(pronoun = George)</span>
+    </div>
+    <div class="sub-head">Fiengo &amp; May (1994): α- vs. β-Occurrence</div>
+    <div class="ex">
+      <div class="ex-label">α-occurrence (independent) → strict reading only</div>
+      <span class="t">The pronoun's index is an independent token → copied as-is → strict only</span><br>
+      John washed John's car. Bill did Ø too.<br>
+      <span class="gram">Strict: Bill washed John's car.</span><br>
+      <span class="ungram">Sloppy: *Bill washed Bill's car.</span> <span class="t">(name = α-occurrence, no sloppy)</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">β-occurrence (dependent) → sloppy reading available</div>
+      <span class="t">The pronoun's index depends on the subject → copied as dependency → sloppy possible</span><br>
+      John washed <span class="hi">his</span> car. Bill did Ø too.<br>
+      <span class="gram">Strict: Bill washed John's car.</span><br>
+      <span class="gram">Sloppy: Bill washed Bill's car.</span>
+    </div>
+    <div class="sub-head">Relevance to NCA</div>
+    <p>Korean NCA allows sloppy readings even when the binder is a name (α-occurrence) — behavior inconsistent with surface anaphora and diagnostic of deep anaphora (Ch. 8).</p>
+  </div>
+</div>
+
+<!-- SLUICING -->
+<div class="entry" id="sluicing">
+  <div class="entry-meta">
+    <div class="entry-tag ellipsis">Ellipsis</div>
+    <div class="entry-term">Sluicing</div>
+    <div class="entry-chapter">Ch. 9 · Ross 1969</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      An ellipsis construction in which a <em>wh</em>-expression moves to the left periphery of an embedded clause and the remainder of that clause (TP) is deleted. The result is a bare <em>wh</em>-remnant. Coined by Ross (1969).
+    </div>
+    <div class="ex">
+      <div class="ex-label">Basic Sluicing</div>
+      A: Someone left early.<br>
+      <span class="gram">B: I wonder who Ø.</span><br>
+      <span class="t">→ "who" = wh-remnant; deleted TP = "who left early"</span>
+    </div>
+    <div class="sub-head">Merger Sluicing and Island Rescue</div>
+    <div class="ex">
+      <div class="ex-label">Island rescue via Sluicing (Merger Sluicing)</div>
+      A: She's dating someone, but I don't know who Ø.<br>
+      <span class="t">→ Antecedent "someone" is inside an island (existential NP)</span><br>
+      <span class="t">→ Sluicing rescues the island violation: *-marked trace deleted by TP deletion</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">Idiom Spreading in Sluicing — Rottman &amp; Yoshida (2013)</div>
+      <span class="gram">Someone kicked the bucket, but I don't know who Ø.</span><br>
+      <span class="t">→ Idiomatic reading ("die") preserved in sluice → proves TP has full structure at LF</span>
+    </div>
+    <div class="sub-head">P-Stranding Generalization (Merchant 2001)</div>
+    <div class="ex">
+      <div class="ex-label">English — P-stranding allowed → sluicing without P also allowed</div>
+      <span class="gram">She's talking to someone, but I don't know who Ø.</span> <span class="t">(P stranded)</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">German — P-stranding not allowed → sluicing requires P pied-piping</div>
+      <span class="gram">Sie spricht mit jemandem, aber ich weiß nicht mit wem Ø.</span><br>
+      <span class="t">"She's talking with someone, but I don't know with whom Ø."</span>
+    </div>
+    <div class="kp"><strong>Relation to Why-Stripping:</strong> Both involve wh-movement + TP deletion. Why-Stripping is a non-interrogative counterpart where <em>why</em> is generated in C and the remnant undergoes topic (not wh-) movement.</div>
+  </div>
+</div>
+
+<!-- STRICT READING -->
+<div class="entry" id="strict">
+  <div class="entry-meta">
+    <div class="entry-tag semantics">Semantics</div>
+    <div class="entry-term">Strict Reading</div>
+    <div class="entry-chapter">Ch. 8 · Fiengo &amp; May 1994</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      In VP Ellipsis (and related ellipsis constructions), the reading in which a pronoun inside the ellipsis site is interpreted as <strong>co-referring with the same individual as in the antecedent clause</strong> — the pronoun retains its original referent. Corresponds to an <strong>α-occurrence</strong> (independent occurrence) in Fiengo &amp; May (1994).
+    </div>
+    <div class="ex">
+      <div class="ex-label">Strict reading in VP Ellipsis</div>
+      John washed <span class="hi">his</span> car. Bill did Ø too.<br>
+      <span class="gram">Strict: Bill washed John's car.</span> <span class="t">(his = John)</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">Only strict reading available — name as binder (α-occurrence)</div>
+      John washed <span class="hi">John's</span> car. Bill did Ø too.<br>
+      <span class="gram">Strict only: Bill washed John's car.</span><br>
+      <span class="ungram">*Sloppy: Bill washed Bill's car.</span><br>
+      <span class="t">→ "John's" = α-occurrence; sloppy reading unavailable</span>
+    </div>
+    <div class="sub-head">Relevance to NCA Classification</div>
+    <div class="ex">
+      <div class="ex-label">English NCA — strict reading available (as expected for deep anaphor)</div>
+      Mary voted for her husband. Susan refused Ø.<br>
+      <span class="gram">Strict: Susan refused to vote for Mary's husband.</span><br>
+      <span class="gram">Sloppy: Susan refused to vote for Susan's husband.</span><br>
+      <span class="t">→ Both available → NCA patterning as deep anaphor here</span>
+    </div>
+    <div class="kp"><strong>Key distinction:</strong> Strict reading is available for both surface and deep anaphors. The critical diagnostic is whether the <em>sloppy</em> reading is available when the binder is a name — only deep anaphors allow this.</div>
+  </div>
+</div>
+
+<!-- STRIPPING -->
+<div class="entry" id="stripping">
+  <div class="entry-meta">
+    <div class="entry-tag ellipsis">Ellipsis</div>
+    <div class="entry-term">Stripping</div>
+    <div class="entry-chapter">Ch. 7, 9, 10 · Hankamer &amp; Sag 1976</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      An ellipsis construction in which <strong>all of the non-initial conjunct is deleted except for a single remnant</strong>. Structurally, stripping = TP deletion with one element (the remnant) having escaped deletion, typically by movement to the left periphery.
+    </div>
+    <div class="ex">
+      <div class="ex-label">Basic Stripping (= Bare Argument Ellipsis)</div>
+      A: John left early.<br>
+      <span class="gram">B: Mary too Ø.</span> / <span class="gram">B: Not John Ø.</span><br>
+      <span class="t">→ Single remnant + TP deletion</span>
+    </div>
+    <div class="sub-head">Subtypes</div>
+    <table class="contrast">
+      <thead><tr><th>Subtype</th><th>Remnant Type</th><th>Movement of Remnant</th></tr></thead>
+      <tbody>
+        <tr><td>Plain Stripping</td><td>Focus XP (+ <em>too / either</em>)</td><td>Focus movement (Spec-FocP)</td></tr>
+        <tr><td>Not-Stripping</td><td>Focus XP + <em>not</em></td><td>Focus movement</td></tr>
+        <tr><td>Why-Stripping</td><td>XP + <em>why</em></td><td>Topic movement (Spec-TopP) — author's claim</td></tr>
+      </tbody>
+    </table>
+    <div class="ex">
+      <div class="ex-label">Stripping in Korean — maximization of ellipsis</div>
+      A: Chulsoo ate apples.<br>
+      <span class="gram">B: Younghee too Ø.</span> <span class="t">[z = 1.15] — TP stripping, highest preference</span><br>
+      <span class="t">→ Maximization principle: larger ellipsis preferred over smaller</span><br>
+      <span class="t">   TP deletion &gt; NegP deletion &gt; AgrSP deletion &gt; VP deletion</span>
+    </div>
+    <div class="kp"><strong>Structural analysis:</strong> The remnant moves to Spec-FocP (or Spec-TopP for Why-Stripping) before the TP is deleted at PF. The [+focus] feature on the remnant forces its movement, satisfying the Recoverability Condition (Pesetsky 1997).</div>
+  </div>
+</div>
+
+<!-- SURFACE ANAPHORA -->
+<div class="entry" id="surface">
+  <div class="entry-meta">
+    <div class="entry-tag anaphora">Anaphora</div>
+    <div class="entry-term">Surface Anaphora</div>
+    <div class="entry-chapter">Ch. 8 · Hankamer &amp; Sag 1976</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      An anaphoric expression <strong>derived by a deletion transformation</strong>. The deleted material must have a syntactically appropriate linguistic antecedent; a pragmatic antecedent alone is insufficient. Surface anaphors are sensitive to syntactic parallelism.
+    </div>
+    <div class="sub-head">Diagnostic Properties</div>
+    <table class="contrast">
+      <thead><tr><th>Property</th><th>Surface Anaphor</th><th>Deep Anaphor</th></tr></thead>
+      <tbody>
+        <tr><td>Pragmatic antecedent</td><td>✗ blocked</td><td>✓ allowed</td></tr>
+        <tr><td>Syntactic parallelism</td><td>required</td><td>not required</td></tr>
+        <tr><td>Missing antecedent</td><td>✓ allowed</td><td>✗ blocked</td></tr>
+        <tr><td>Extraction from gap</td><td>✓ possible</td><td>✗ impossible</td></tr>
+      </tbody>
+    </table>
+    <div class="sub-head">Canonical Examples</div>
+    <div class="ex">
+      <div class="ex-label">VP Ellipsis — surface anaphor, pragmatic antecedent blocked</div>
+      [Speaker lifts a heavy box without being asked]<br>
+      <span class="ungram">*A: "Can you lift this?" B: "I already did Ø."</span><br>
+      <span class="t">→ VPE requires prior linguistic antecedent VP, not situational context alone</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">VP Ellipsis — missing antecedent allowed</div>
+      <span class="gram">I've never ridden a camel, but Ivan has Ø and he says it stank horribly.</span><br>
+      <span class="t">→ "it" co-refers with "a camel" inside the deleted VP — missing antecedent OK</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">VP Ellipsis — extraction possible (surface anaphor)</div>
+      <span class="gram">I know which book Mary read t, and Peter knows which article Sally did Ø.</span><br>
+      <span class="t">→ Extracting from within the elided VP is grammatical</span>
+    </div>
+    <div class="kp">VP Ellipsis, <em>do so</em> anaphora, and sluicing are the canonical surface anaphors. English NCA, despite sharing some deep-anaphoric properties, behaves as a surface anaphor in the missing-antecedent and extraction tests.</div>
+  </div>
+</div>
+
+<!-- SYNTACTIC PARALLELISM -->
+<div class="entry" id="syn-par">
+  <div class="entry-meta">
+    <div class="entry-tag constraint">Constraint</div>
+    <div class="entry-term">Syntactic Parallelism</div>
+    <div class="entry-chapter">Ch. 8</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      The requirement that the ellipsis site and its antecedent share the same (or sufficiently similar) <strong>syntactic structure</strong>. A surface anaphor is licensed only when the antecedent VP/TP has a matching syntactic form — paraphrase or semantic equivalence alone is insufficient.
+    </div>
+    <div class="ex">
+      <div class="ex-label">VP Ellipsis — syntactic parallelism required</div>
+      A: The oats had to be taken to the bin.<br>
+      <span class="ungram">*B: Bill did Ø.</span> <span class="t">(antecedent is passive; VPE site expects active)</span><br>
+      <span class="gram">B: Bill volunteered Ø.</span> <span class="t">(NCA — parallelism not required)</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">Do so — strict syntactic parallelism</div>
+      A: John solved the problem carefully.<br>
+      <span class="gram">B: Mary did so too.</span> <span class="t">(identical VP structure)</span><br>
+      <span class="ungram">B: *Mary did so the puzzle.</span> <span class="t">(structure mismatch)</span>
+    </div>
+    <div class="sub-head">NCA is Exempt</div>
+    <div class="ex">
+      <div class="ex-label">NCA — syntactic parallelism not required</div>
+      A: The oats had to be taken to the bin.<br>
+      <span class="gram">B: Bill volunteered Ø.</span><br>
+      <span class="t">→ "volunteered" takes a null complement regardless of A's syntactic structure</span><br>
+      <span class="t">→ Parallelism exemption = evidence that NCA is not a surface anaphor</span>
+    </div>
+    <div class="kp"><strong>Diagnostic:</strong> Sensitivity to syntactic parallelism is the hallmark of surface anaphora. Immunity to it is the hallmark of deep anaphora. NCA's immunity to parallelism was Hankamer &amp; Sag's original motivation for classifying NCA as deep anaphora — though later tests (missing antecedent, extraction) complicate this.</div>
+  </div>
+</div>
+
+<!-- VP ELLIPSIS -->
+<div class="entry" id="vpe">
+  <div class="entry-meta">
+    <div class="entry-tag ellipsis">Ellipsis</div>
+    <div class="entry-term">VP Ellipsis</div>
+    <div class="entry-chapter">Ch. 7</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      An ellipsis construction in which the entire VP is deleted while the <strong>auxiliary survives</strong>. The deleted VP must have a syntactically appropriate antecedent in the discourse (surface anaphor).
+    </div>
+    <div class="ex">
+      <div class="ex-label">Basic VP Ellipsis — English</div>
+      A: John eats apples.<br>
+      <span class="gram">B: Mary does Ø too.</span><br>
+      <span class="t">→ "does" = auxiliary survives; VP "eats apples" deleted</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">Strict and sloppy readings</div>
+      John washed his car. Bill did Ø too.<br>
+      <span class="gram">Strict: Bill washed John's car.</span><br>
+      <span class="gram">Sloppy: Bill washed Bill's car.</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">Missing antecedent — VPE allows it (surface anaphor)</div>
+      <span class="gram">I've never ridden a camel, but Ivan has Ø and he says it stank horribly.</span><br>
+      <span class="t">→ "it" = "a camel" inside the deleted VP — missing antecedent rescued</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">Pragmatic antecedent — VPE blocks it</div>
+      [Speaker gestures at a box]<br>
+      <span class="ungram">*A: "Lift this?" B: "I already did Ø."</span><br>
+      <span class="t">→ No linguistic antecedent VP; VPE requires one</span>
+    </div>
+    <div class="sub-head">In Korean</div>
+    <p>Korean lacks a morphological auxiliary of the English type. Korean VPE-like constructions in focus sentences require insertion of the focus copula <em>i</em> as a last resort — e.g., <em>-do ya</em> constructions where VP is deleted under focus. The [+focus] feature drives the remnant to Spec-FocP, and the copula <em>i</em> is inserted to support the surviving TP.</p>
+    <div class="kp"><strong>Surface anaphor status:</strong> VPE requires a linguistic antecedent, is sensitive to syntactic parallelism, allows missing antecedents, and allows wh-extraction from the gap — all hallmarks of surface anaphora (Ch. 8).</div>
+  </div>
+</div>
+
+<!-- WHY-STRIPPING -->
+<div class="entry" id="why-strip">
+  <div class="entry-meta">
+    <div class="entry-tag ellipsis">Ellipsis</div>
+    <div class="entry-term">Why-Stripping</div>
+    <div class="entry-chapter">Ch. 9–10 · Yoshida et al. 2015</div>
+  </div>
+  <div class="entry-body">
+    <div class="def-box">
+      A construction in which <em>why</em> appears at the left periphery and a single XP remnant is pronounced, with the rest of the clause (TP) deleted. The remnant is an element from the antecedent proposition that the speaker questions the reason for. Described and named by Yoshida et al. (2015).
+    </div>
+    <div class="ex">
+      <div class="ex-label">Basic Why-Stripping</div>
+      A: John was eating natto.<br>
+      <span class="gram">B: Why natto (and not sushi)?</span><br>
+      <span class="t">→ "why" in C; "natto" = remnant; TP "[John was eating t]" deleted</span>
+    </div>
+    <div class="sub-head">Three Key Properties (Yoshida et al. 2015)</div>
+    <div class="ex">
+      <div class="ex-label">1. Connectivity effect</div>
+      A: He is selling pictures of John.<br>
+      <span class="ungram">*B: Why pictures of John?</span><br>
+      <span class="t">→ Condition C violation: "John" bound by "he" in antecedent carries into remnant</span><br>
+      <span class="t">→ Proves the remnant is syntactically connected to the antecedent structure</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">2. P-Stranding Generalization</div>
+      A: John was talking to Mary.<br>
+      <span class="gram">B: Why (to) Mary?</span> <span class="t">[English — P-stranding language → P optional]</span><br>
+      <span class="t">German: *Warum Abel? → Warum mit Abel? [P-stranding blocked → P obligatory]</span>
+    </div>
+    <div class="ex">
+      <div class="ex-label">3. Island rescue</div>
+      A: No linguist recommended a book that contains one of his own articles.<br>
+      <span class="gram">B: Why his own articles?</span> <span class="t">← island violation rescued</span><br>
+      <span class="ungram">B: *Not HIS OWN ARTICLES.</span> <span class="t">← Not-Stripping does not rescue</span>
+    </div>
+    <div class="sub-head">Yoshida et al. vs. Author's Analysis</div>
+    <table class="contrast">
+      <thead><tr><th></th><th>Yoshida et al. (2015)</th><th>Author (Ch. 9)</th></tr></thead>
+      <tbody>
+        <tr><td>Remnant movement</td><td>Focus movement → Spec-FocP</td><td>Topic movement → Spec-TopP</td></tr>
+        <tr><td>Island rescue</td><td>*-marking + PF deletion (Fox 1999, Merchant 2001)</td><td>D-linking → resumptive pronoun allowed</td></tr>
+        <tr><td>Remnant information status</td><td>New / focused</td><td>Given / old (previously mentioned)</td></tr>
+        <tr><td>Problem</td><td>Requires two types of focus movement</td><td>Requires topic movement to be island-insensitive</td></tr>
+      </tbody>
+    </table>
+    <div class="kp"><strong>Contrast with Not-Stripping:</strong> Why-Stripping rescues island violations (topic movement → D-linked → resumption possible). Not-Stripping does not rescue island violations (focus movement → non-D-linked → no resumption).</div>
+    <div class="kp"><strong>Uniqueness Presupposition:</strong> When the remnant is a subject (not an object), Why-Stripping carries a uniqueness presupposition — the implication that only one individual fits the role. Object remnants do not trigger this presupposition.</div>
+  </div>
+</div>
+
+</div><!-- end .page -->
+
+<footer>
+  Ellipsis &amp; Anaphora · Exam Concept Reference · Ch. 7–13 &nbsp;·&nbsp; 23 concepts
+</footer>
+
+</body>
+</html>
